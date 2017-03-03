@@ -147,6 +147,10 @@
     <Compile Include="Migrations\201703021529541_File.Designer.cs">
       <DependentUpon>201703021529541_File.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703030452586_LocationId_in_AbstractActivity.cs" />
+    <Compile Include="Migrations\201703030452586_LocationId_in_AbstractActivity.Designer.cs">
+      <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="UniTimeDataModule.cs" />
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703021529541_File.resx">
       <DependentUpon>201703021529541_File.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703030452586_LocationId_in_AbstractActivity.resx">
+      <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

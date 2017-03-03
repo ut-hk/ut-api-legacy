@@ -20,7 +20,7 @@ namespace UniTime.Activities
         [ForeignKey(nameof(LocationId))]
         public virtual AbstractActivityLocation Location { get; set; }
 
-        public virtual Guid LocationId { get; set; }
+        public virtual Guid? LocationId { get; set; }
 
         public virtual ICollection<AbstractActivityTag> Tags { get; set; }
 
