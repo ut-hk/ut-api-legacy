@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
+using UniTime.Activities.Dtos;
 
 namespace UniTime.Activities
 {
-    public interface IActivityAppService : IDomainService
+    public interface IActivityAppService : IApplicationService
     {
-        Task<GetActivitiesOutput> GetActivities();
+        Task<GetMyActivitiesOutput> GetMyActivities();
 
-        Task<EntityDto<Guid>> CreateActivities(CreateActivitiesInput input);
-    }
-
-    public class CreateActivitiesInput
-    {
-    }
-
-    public class GetActivitiesOutput
-    {
+        Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);
     }
 }

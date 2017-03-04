@@ -151,6 +151,14 @@
     <Compile Include="Migrations\201703030452586_LocationId_in_AbstractActivity.Designer.cs">
       <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703040006349_Name_in_ChatRoom.cs" />
+    <Compile Include="Migrations\201703040006349_Name_in_ChatRoom.Designer.cs">
+      <DependentUpon>201703040006349_Name_in_ChatRoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703040050528_Types_in_TPH.cs" />
+    <Compile Include="Migrations\201703040050528_Types_in_TPH.Designer.cs">
+      <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="UniTimeDataModule.cs" />
@@ -185,6 +193,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703030452586_LocationId_in_AbstractActivity.resx">
       <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703040006349_Name_in_ChatRoom.resx">
+      <DependentUpon>201703040006349_Name_in_ChatRoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703040050528_Types_in_TPH.resx">
+      <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

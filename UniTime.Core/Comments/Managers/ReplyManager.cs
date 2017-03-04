@@ -14,7 +14,7 @@ namespace UniTime.Comments.Managers
             _replyRepository = replyRepository;
         }
 
-        public async Task<Reply> GetReplyAsync(long id)
+        public async Task<Reply> GetAsync(long id)
         {
             var reply = await _replyRepository.FirstOrDefaultAsync(id);
 
@@ -23,7 +23,7 @@ namespace UniTime.Comments.Managers
             return reply;
         }
 
-        public async Task<Reply> CreateReplyAsync(Reply reply)
+        public async Task<Reply> CreateAsync(Reply reply)
         {
             reply.Id = await _replyRepository.InsertAndGetIdAsync(reply);
 

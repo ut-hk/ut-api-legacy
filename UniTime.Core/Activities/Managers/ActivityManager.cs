@@ -15,7 +15,7 @@ namespace UniTime.Activities.Managers
             _abstractActivityRepository = abstractActivityRepository;
         }
 
-        public async Task<Activity> GetActivityAsync(Guid id)
+        public async Task<Activity> GetAsync(Guid id)
         {
             var activity = await _abstractActivityRepository.FirstOrDefaultAsync(id) as Activity;
 
@@ -24,7 +24,7 @@ namespace UniTime.Activities.Managers
             return activity;
         }
 
-        public async Task<Activity> CreateActivityAsync(Activity activity)
+        public async Task<Activity> CreateAsync(Activity activity)
         {
             activity.Id =  await _abstractActivityRepository.InsertAndGetIdAsync(activity);
 

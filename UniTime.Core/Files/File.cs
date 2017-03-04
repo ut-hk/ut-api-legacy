@@ -20,6 +20,7 @@ namespace UniTime.Files
             {".png", "image/png"}
         };
 
+        [NotMapped]
         public virtual FileType Type { get; }
 
         public virtual string FileName { get; set; }

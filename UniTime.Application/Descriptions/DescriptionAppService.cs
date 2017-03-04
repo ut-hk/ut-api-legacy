@@ -31,9 +31,9 @@ namespace UniTime.Descriptions
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var activityPlan = await _activityPlanManager.GetActivityPlanAsync(input.ActivityPlanId);
+            var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
 
-            var textDescription = await _descriptionManager.CreateDescriptionAsync(new TextActivityPlanDescription
+            var textDescription = await _descriptionManager.CreateAsync(new TextActivityPlanDescription
             {
                 ActivityPlan = activityPlan,
                 ActivityPlanId = activityPlan.Id
@@ -46,7 +46,7 @@ namespace UniTime.Descriptions
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var textDescription = await _descriptionManager.GetDescriptionAsync(input.Id) as TextActivityPlanDescription;
+            var textDescription = await _descriptionManager.GetAsync(input.Id) as TextActivityPlanDescription;
 
             if (textDescription == null) throw new UserFriendlyException("The text description with id = " + input.Id + " does not exist.");
 

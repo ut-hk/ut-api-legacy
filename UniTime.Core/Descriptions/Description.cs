@@ -7,9 +7,10 @@ namespace UniTime.Descriptions
     public abstract class Description : Entity<long>
     {
         [NotMapped]
-        public virtual string Content { get; set; }
+        public virtual DescriptionType Type { get; }
 
-        public virtual DescriptionType Type { get; set; }
+        [NotMapped]
+        public virtual string Content { get; set; }
 
         public virtual int Priority { get; set; }
     }

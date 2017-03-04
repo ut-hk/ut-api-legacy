@@ -5,7 +5,7 @@ namespace UniTime.ChatRooms.Managers
 {
     public interface IChatRoomMessageManager : IDomainService
     {
-        Task<ChatRoomMessage> GetChatRoomMessageAsync(long id);
-        Task<ChatRoomMessage> CreateChatRoomMessageAsync(ChatRoomMessage chatRoomMessage);
+        Task<ChatRoomMessage> GetAsync(long id);
+        Task<ChatRoomMessage> CreateAsync(ChatRoomMessage chatRoomMessage);
     }
 }

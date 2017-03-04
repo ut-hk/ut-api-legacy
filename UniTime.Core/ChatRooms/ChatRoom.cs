@@ -7,6 +7,8 @@ namespace UniTime.ChatRooms
 {
     public class ChatRoom : AuditedEntity<Guid>
     {
+        public virtual string Name { get; set; }
+
         public virtual ICollection<User> Participants { get; set; }
 
         public virtual ICollection<ChatRoomMessage> Messages { get; set; }

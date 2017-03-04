@@ -58,7 +58,7 @@ namespace UniTime.Comments
             {
                 var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
 
-                comment = await _commentManager.CreateCommentAsync(new AbstractActivityComment
+                comment = await _commentManager.CreateAsync(new AbstractActivityComment
                 {
                     Content = input.Content,
                     AbstractActivity = abstractActivity,
@@ -71,7 +71,7 @@ namespace UniTime.Comments
             {
                 var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
 
-                comment = await _commentManager.CreateCommentAsync(new ActivityPlanComment
+                comment = await _commentManager.CreateAsync(new ActivityPlanComment
                 {
                     Content = input.Content,
                     ActivityPlan = activityPlan,

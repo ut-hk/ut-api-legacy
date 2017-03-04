@@ -10,9 +10,10 @@ namespace UniTime.ChatRooms
     public class ChatRoomMessage : CreationAuditedEntity<long>, IHasOwner
     {
         [NotMapped]
-        public virtual string Message { get; set; }
+        public virtual ChatRoomMessageType Type { get; }
 
-        public virtual ChatRoomMessageType Type { get; set; }
+        [NotMapped]
+        public virtual string Message { get; set; }
 
         [ForeignKey(nameof(ChatRoomId))]
         public virtual ChatRoom ChatRoom { get; set; }

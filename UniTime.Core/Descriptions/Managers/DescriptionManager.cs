@@ -14,7 +14,7 @@ namespace UniTime.Descriptions.Managers
             _descriptionRepository = descriptionRepository;
         }
 
-        public async Task<Description> GetDescriptionAsync(long id)
+        public async Task<Description> GetAsync(long id)
         {
             var description = await _descriptionRepository.FirstOrDefaultAsync(id);
 
@@ -23,7 +23,7 @@ namespace UniTime.Descriptions.Managers
             return description;
         }
 
-        public async Task<Description> CreateDescriptionAsync(Description description)
+        public async Task<Description> CreateAsync(Description description)
         {
             description.Id = await _descriptionRepository.InsertAndGetIdAsync(description);
 

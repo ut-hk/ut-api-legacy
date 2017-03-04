@@ -10,7 +10,6 @@ using UniTime.Activities.Managers;
 
 namespace UniTime.Activities
 {
-    [AbpAuthorize]
     public class ActivityPlanAppService : UniTimeAppServiceBase, IActivityPlanAppService
     {
         private readonly IActivityPlanManager _activityPlanManager;
@@ -34,11 +33,12 @@ namespace UniTime.Activities
             };
         }
 
+        [AbpAuthorize]
         public async Task<EntityDto<Guid>> CreateActivityPlan(CreateActivityPlanInput input)
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var activityPlan = await _activityPlanManager.CreateActivityPlanAsync(new ActivityPlan
+            var activityPlan = await _activityPlanManager.CreateAsync(new ActivityPlan
             {
                 Name = input.Name,
                 Owner = currentUser,

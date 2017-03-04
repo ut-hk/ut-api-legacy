@@ -4,10 +4,7 @@ namespace UniTime.ChatRooms
 {
     public class TextChatRoomMessage : ChatRoomMessage
     {
-        public TextChatRoomMessage()
-        {
-            Type = ChatRoomMessageType.Text;
-        }
+        public override ChatRoomMessageType Type => ChatRoomMessageType.Text;
 
         public override string Message => Text;
 

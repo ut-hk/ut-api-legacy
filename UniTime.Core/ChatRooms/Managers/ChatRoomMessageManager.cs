@@ -14,7 +14,7 @@ namespace UniTime.ChatRooms.Managers
             _chatRoomMessageRepository = chatRoomMessageRepository;
         }
 
-        public async Task<ChatRoomMessage> GetChatRoomMessageAsync(long id)
+        public async Task<ChatRoomMessage> GetAsync(long id)
         {
             var chatRoomMessage = await _chatRoomMessageRepository.FirstOrDefaultAsync(id);
 
@@ -23,7 +23,7 @@ namespace UniTime.ChatRooms.Managers
             return chatRoomMessage;
         }
 
-        public async Task<ChatRoomMessage> CreateChatRoomMessageAsync(ChatRoomMessage chatRoomMessage)
+        public async Task<ChatRoomMessage> CreateAsync(ChatRoomMessage chatRoomMessage)
         {
             chatRoomMessage.Id = await _chatRoomMessageRepository.InsertAndGetIdAsync(chatRoomMessage);
 

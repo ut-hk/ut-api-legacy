@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Activities.Dtos;
@@ -13,8 +14,8 @@ namespace UniTime.Activities
 {
     public class ActivityTemplateAppService : UniTimeAppServiceBase, IActivityTemplateAppService
     {
-        private readonly IActivityTemplateManager _activityTemplateManager;
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
+        private readonly IActivityTemplateManager _activityTemplateManager;
 
         public ActivityTemplateAppService(
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
@@ -34,11 +35,12 @@ namespace UniTime.Activities
             };
         }
 
+        [AbpAuthorize]
         public async Task<EntityDto<Guid>> CreateActivityTemplate(CreateActivityTemplateInput input)
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var activityTemplate = await _activityTemplateManager.CreateActivityTemplateAsync(new ActivityTemplate
+            var activityTemplate = await _activityTemplateManager.CreateAsync(new ActivityTemplate
             {
                 Name = input.Name,
                 Description = input.Description,

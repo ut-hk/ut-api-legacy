@@ -116,9 +116,11 @@
     <Compile Include="Activities\ActivityParticipant.cs" />
     <Compile Include="Activities\Managers\ActivityManager.cs" />
     <Compile Include="Activities\Managers\ActivityPlanManager.cs" />
+    <Compile Include="Activities\Managers\ActivityPlanTimeSlotManager.cs" />
     <Compile Include="Activities\Managers\ActivityTemplateManager.cs" />
     <Compile Include="Activities\Managers\IActivityManager.cs" />
     <Compile Include="Activities\Managers\IActivityPlanManager.cs" />
+    <Compile Include="Activities\Managers\IActivityPlanTimeSlotManager.cs" />
     <Compile Include="Activities\Managers\IActivityTemplateManager.cs" />
     <Compile Include="Activities\ActivityPlanTimeSlot.cs" />
     <Compile Include="ChatRooms\ChatRoom.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Ratings\ActivityPlanRating.cs" />
     <Compile Include="Ratings\AbstractActivityRating.cs" />
     <Compile Include="Ratings\Managers\IRatingManager.cs" />
+    <Compile Include="Ratings\Managers\RatingManager.cs" />
     <Compile Include="Ratings\Rating.cs" />
     <Compile Include="Ratings\Enums\RatingStatus.cs" />
     <Compile Include="Tags\AbstractActivityTag.cs" />

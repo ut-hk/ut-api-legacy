@@ -6,7 +6,8 @@ namespace UniTime.Activities.Managers
 {
     public interface IActivityTemplateManager : IDomainService
     {
-        Task<ActivityTemplate> GetActivityTemplateAsync(Guid id);
-        Task<ActivityTemplate> CreateActivityTemplateAsync(ActivityTemplate activityTemplate);
+        Task<ActivityTemplate> GetAsync(Guid id);
+
+        Task<ActivityTemplate> CreateAsync(ActivityTemplate activityTemplate);
     }
 }

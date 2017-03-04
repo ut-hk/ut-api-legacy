@@ -5,7 +5,7 @@ namespace UniTime.Descriptions.Managers
 {
     public interface IDescriptionManager : IDomainService
     {
-        Task<Description> GetDescriptionAsync(long id);
-        Task<Description> CreateDescriptionAsync(Description description);
+        Task<Description> GetAsync(long id);
+        Task<Description> CreateAsync(Description description);
     }
 }

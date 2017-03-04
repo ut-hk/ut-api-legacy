@@ -5,8 +5,8 @@ namespace UniTime.Comments.Managers
 {
     public interface ICommentManager : IDomainService
     {
-        Task<Comment> GetCommentAsync(long id);
+        Task<Comment> GetAsync(long id);
 
-        Task<Comment> CreateCommentAsync(Comment comment);
+        Task<Comment> CreateAsync(Comment comment);
     }
 }

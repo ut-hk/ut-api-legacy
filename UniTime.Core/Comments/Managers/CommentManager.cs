@@ -14,7 +14,7 @@ namespace UniTime.Comments.Managers
             _commentRepository = commentRepository;
         }
 
-        public async Task<Comment> GetCommentAsync(long id)
+        public async Task<Comment> GetAsync(long id)
         {
             var comment = await _commentRepository.FirstOrDefaultAsync(id);
 
@@ -23,7 +23,7 @@ namespace UniTime.Comments.Managers
             return comment;
         }
 
-        public async Task<Comment> CreateCommentAsync(Comment comment)
+        public async Task<Comment> CreateAsync(Comment comment)
         {
             comment.Id = await _commentRepository.InsertAndGetIdAsync(comment);
 

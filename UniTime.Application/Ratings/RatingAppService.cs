@@ -50,7 +50,7 @@ namespace UniTime.Ratings
             {
                 var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
 
-                rating = await _ratingManager.CreateRatingAsync(new AbstractActivityRating
+                rating = await _ratingManager.CreateAsync(new AbstractActivityRating
                 {
                     RatingStatus = input.RatingStatus,
                     AbstractActivity = abstractActivity,
@@ -63,7 +63,7 @@ namespace UniTime.Ratings
             {
                 var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
 
-                rating = await _ratingManager.CreateRatingAsync(new ActivityPlanRating
+                rating = await _ratingManager.CreateAsync(new ActivityPlanRating
                 {
                     RatingStatus = input.RatingStatus,
                     ActivityPlan = activityPlan,

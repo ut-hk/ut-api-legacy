@@ -5,8 +5,8 @@ namespace UniTime.Comments.Managers
 {
     public interface IReplyManager : IDomainService
     {
-        Task<Reply> GetReplyAsync(long id);
+        Task<Reply> GetAsync(long id);
 
-        Task<Reply> CreateReplyAsync(Reply reply);
+        Task<Reply> CreateAsync(Reply reply);
     }
 }

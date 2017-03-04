@@ -7,10 +7,7 @@ namespace UniTime.ChatRooms
 {
     public class InternalImageChatRoomMessage : ChatRoomMessage
     {
-        public InternalImageChatRoomMessage()
-        {
-            Type = ChatRoomMessageType.InternalImage;
-        }
+        public override ChatRoomMessageType Type => ChatRoomMessageType.InternalImage;
 
         public override string Message => Image.Id.ToString();
 

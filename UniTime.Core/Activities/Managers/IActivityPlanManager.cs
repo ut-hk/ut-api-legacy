@@ -6,7 +6,8 @@ namespace UniTime.Activities.Managers
 {
     public interface IActivityPlanManager : IDomainService
     {
-        Task<ActivityPlan> GetActivityPlanAsync(Guid id);
-        Task<ActivityPlan> CreateActivityPlanAsync(ActivityPlan activityPlan);
+        Task<ActivityPlan> GetAsync(Guid id);
+
+        Task<ActivityPlan> CreateAsync(ActivityPlan activityPlan);
     }
 }

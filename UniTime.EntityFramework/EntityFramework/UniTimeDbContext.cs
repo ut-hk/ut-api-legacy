@@ -47,7 +47,11 @@ namespace UniTime.EntityFramework
 
         public IDbSet<AbstractActivity> AbstractActivities { get; set; }
 
+        public IDbSet<ActivityParticipant> ActivityParticipants { get; set; }
+
         public IDbSet<ActivityPlan> ActivityPlans { get; set; }
+
+        public IDbSet<ActivityPlanTimeSlot> ActivityPlanTimeSlots { get; set; }
 
         public IDbSet<ChatRoom> ChatRooms { get; set; }
 

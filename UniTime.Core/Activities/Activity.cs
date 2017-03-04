@@ -18,7 +18,7 @@ namespace UniTime.Activities
         [ForeignKey(nameof(ActivityTemplateId))]
         public virtual ActivityTemplate ActivityTemplate { get; set; }
 
-        public virtual Guid ActivityTemplateId { get; set; }
+        public virtual Guid? ActivityTemplateId { get; set; }
 
         public virtual ActivityTemplate ConvertToActivityTemplate()
         {

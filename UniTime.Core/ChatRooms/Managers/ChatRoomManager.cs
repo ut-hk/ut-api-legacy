@@ -15,7 +15,7 @@ namespace UniTime.ChatRooms.Managers
             _chatRoomRepository = chatRoomRepository;
         }
 
-        public async Task<ChatRoom> GetChatRoomAsync(Guid id)
+        public async Task<ChatRoom> GetAsync(Guid id)
         {
             var chatRoom = await _chatRoomRepository.FirstOrDefaultAsync(id);
 
@@ -24,7 +24,7 @@ namespace UniTime.ChatRooms.Managers
             return chatRoom;
         }
 
-        public async Task<ChatRoom> CreateChatRoomAsync(ChatRoom chatRoom)
+        public async Task<ChatRoom> CreateAsync(ChatRoom chatRoom)
         {
             chatRoom.Id = await _chatRoomRepository.InsertAndGetIdAsync(chatRoom);
 

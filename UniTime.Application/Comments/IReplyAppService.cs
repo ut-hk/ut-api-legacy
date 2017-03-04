@@ -58,9 +58,9 @@ namespace UniTime.Comments
         public async Task<EntityDto<long>> CreateReply(CreateReplyInput input)
         {
             var currentUser = await GetCurrentUserAsync();
-            var comment = await _commentManager.GetCommentAsync(input.CommentId);
+            var comment = await _commentManager.GetAsync(input.CommentId);
 
-            var reply = await _replyManager.CreateReplyAsync(new Reply
+            var reply = await _replyManager.CreateAsync(new Reply
             {
                 Content = input.Content,
                 Comment = comment,
