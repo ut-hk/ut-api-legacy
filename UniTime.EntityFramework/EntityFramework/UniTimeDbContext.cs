@@ -2,7 +2,9 @@
 using System.Data.Entity;
 using Abp.Zero.EntityFramework;
 using UniTime.Activities;
+using UniTime.Analysis;
 using UniTime.Authorization.Roles;
+using UniTime.Categories;
 using UniTime.ChatRooms;
 using UniTime.Comments;
 using UniTime.Descriptions;
@@ -52,6 +54,12 @@ namespace UniTime.EntityFramework
         public IDbSet<ActivityPlan> ActivityPlans { get; set; }
 
         public IDbSet<ActivityPlanTimeSlot> ActivityPlanTimeSlots { get; set; }
+
+        public IDbSet<Guest> Guests { get; set; }
+
+        public IDbSet<RouteHistory> RouteHistories { get; set; }
+
+        public IDbSet<Category> Categories { get; set; }
 
         public IDbSet<ChatRoom> ChatRooms { get; set; }
 

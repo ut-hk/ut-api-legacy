@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using UniTime.Invitations;
+using UniTime.Users;
 
 namespace UniTime.Activities
 {
     public class Activity : AbstractActivity
     {
+        protected Activity()
+        {
+        }
+
         public virtual DateTime? StarTime { get; set; }
 
         public virtual DateTime? EndTime { get; set; }
@@ -20,9 +25,18 @@ namespace UniTime.Activities
 
         public virtual Guid? ActivityTemplateId { get; set; }
 
-        public virtual ActivityTemplate ConvertToActivityTemplate()
+        public static Activity Create(string name, string description, DateTime? startTime, DateTime? endTime, User owner)
         {
-            return new ActivityTemplate();
+            var activity = new Activity
+            {
+                Name = name,
+                Description = description,
+                StarTime = startTime,
+                EndTime = endTime,
+                Owner = owner,
+                OwnerId = owner.Id
+            };
+            return activity;
         }
     }
 }

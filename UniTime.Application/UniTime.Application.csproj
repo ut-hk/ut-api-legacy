@@ -144,6 +144,9 @@
     <Compile Include="Activities\IActivityPlanTimeSlotAppService.cs" />
     <Compile Include="Activities\IActivityTemplateAppService.cs" />
     <Compile Include="Activities\Dtos\UpdateActivityPlanTimeSlotInput.cs" />
+    <Compile Include="Analysis\AnalysisAppService.cs" />
+    <Compile Include="Analysis\Dtos\CreateRouteHistoryInput.cs" />
+    <Compile Include="Analysis\IAnalysisAppService.cs" />
     <Compile Include="ChatRooms\ChatRoomAppService.cs" />
     <Compile Include="ChatRooms\ChatRoomMessageAppService.cs" />
     <Compile Include="ChatRooms\Dtos\CreateTextChatRoomMessageInput.cs" />
@@ -155,8 +158,14 @@
     <Compile Include="ChatRooms\Dtos\GetChatRoomMessagesOutput.cs" />
     <Compile Include="ChatRooms\IChatRoomAppService.cs" />
     <Compile Include="ChatRooms\IChatRoomMessageAppService.cs" />
+    <Compile Include="Comments\CommentAppService.cs" />
+    <Compile Include="Comments\Dtos\CreateCommentInput.cs" />
+    <Compile Include="Comments\Dtos\CreateReplyInput.cs" />
     <Compile Include="Comments\Dtos\CommentDto.cs" />
     <Compile Include="Activities\Dtos\CreateActivityPlanInput.cs" />
+    <Compile Include="Comments\Dtos\GetRepliesOutput.cs" />
+    <Compile Include="Comments\Dtos\GetCommentsOutput.cs" />
+    <Compile Include="Comments\ReplyAppService.cs" />
     <Compile Include="Descriptions\Dtos\DescriptionDto.cs" />
     <Compile Include="Activities\Dtos\GetActivityPlansOutput.cs" />
     <Compile Include="Activities\IActivityPlanAppService.cs" />

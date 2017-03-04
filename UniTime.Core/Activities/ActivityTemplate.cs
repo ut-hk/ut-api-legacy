@@ -12,10 +12,5 @@ namespace UniTime.Activities
         public virtual ICollection<Activity> TemplatedActivities { get; set; }
 
         public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; set; }
-
-        public virtual Activity ConvertToActivity()
-        {
-            return new Activity();
-        }
     }
 }

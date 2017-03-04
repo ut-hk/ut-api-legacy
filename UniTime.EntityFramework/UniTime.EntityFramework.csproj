@@ -83,6 +83,10 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
@@ -159,8 +163,25 @@
     <Compile Include="Migrations\201703040050528_Types_in_TPH.Designer.cs">
       <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703041232314_RouteHistory.cs" />
+    <Compile Include="Migrations\201703041232314_RouteHistory.Designer.cs">
+      <DependentUpon>201703041232314_RouteHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041351315_Guest.cs" />
+    <Compile Include="Migrations\201703041351315_Guest.Designer.cs">
+      <DependentUpon>201703041351315_Guest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041354114_Guest_CreationTime.cs" />
+    <Compile Include="Migrations\201703041354114_Guest_CreationTime.Designer.cs">
+      <DependentUpon>201703041354114_Guest_CreationTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041526567_Location.cs" />
+    <Compile Include="Migrations\201703041526567_Location.Designer.cs">
+      <DependentUpon>201703041526567_Location.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="UniTimeDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsCreator.cs" />
     <Compile Include="Migrations\SeedData\DefaultLanguagesCreator.cs" />
@@ -200,6 +221,33 @@
     <EmbeddedResource Include="Migrations\201703040050528_Types_in_TPH.resx">
       <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041232314_RouteHistory.resx">
+      <DependentUpon>201703041232314_RouteHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041351315_Guest.resx">
+      <DependentUpon>201703041351315_Guest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041354114_Guest_CreationTime.resx">
+      <DependentUpon>201703041354114_Guest_CreationTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041526567_Location.resx">
+      <DependentUpon>201703041526567_Location.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

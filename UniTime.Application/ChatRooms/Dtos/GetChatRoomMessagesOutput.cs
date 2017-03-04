@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using UniTime.ChatRooms.Dtos;
 
-namespace UniTime.ChatRooms
+namespace UniTime.ChatRooms.Dtos
 {
     public class GetChatRoomMessagesOutput
     {

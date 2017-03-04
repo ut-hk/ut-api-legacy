@@ -46,7 +46,7 @@ namespace UniTime.Api.Controllers
 
             var currentUtc = new SystemClock().UtcNow;
             ticket.Properties.IssuedUtc = currentUtc;
-            ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromMinutes(30));
+            ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromDays(7));
 
             return new AjaxResponse(OAuthBearerOptions.AccessTokenFormat.Protect(ticket));
         }

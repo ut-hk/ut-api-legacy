@@ -51,15 +51,13 @@ namespace UniTime.Activities
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var activity = await _activityManager.CreateAsync(new Activity
-            {
-                Name = input.Name,
-                Description = input.Description,
-                StarTime = input.StartTime,
-                EndTime = input.EndTime,
-                Owner = currentUser,
-                OwnerId = currentUser.Id
-            });
+            var activity = await _activityManager.CreateAsync(Activity.Create(
+                name: input.Name,
+                description: input.Description,
+                startTime: input.StartTime,
+                endTime: input.EndTime,
+                owner: currentUser
+            ));
 
             return new EntityDto<Guid>(activity.Id);
         }

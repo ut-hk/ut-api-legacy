@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.ChatRooms.Dtos;
@@ -11,6 +12,7 @@ using UniTime.Users;
 
 namespace UniTime.ChatRooms
 {
+    [AbpAuthorize]
     public class ChatRoomAppService : UniTimeAppServiceBase, IChatRoomAppService
     {
         private readonly IChatRoomManager _chatRoomManager;

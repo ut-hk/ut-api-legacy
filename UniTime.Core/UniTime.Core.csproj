@@ -55,6 +55,14 @@
       <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +131,13 @@
     <Compile Include="Activities\Managers\IActivityPlanTimeSlotManager.cs" />
     <Compile Include="Activities\Managers\IActivityTemplateManager.cs" />
     <Compile Include="Activities\ActivityPlanTimeSlot.cs" />
+    <Compile Include="Analysis\Guest.cs" />
+    <Compile Include="Analysis\Managers\GuestManager.cs" />
+    <Compile Include="Analysis\Managers\IGuestManager.cs" />
+    <Compile Include="Analysis\Managers\IRouteHistoryManager.cs" />
+    <Compile Include="Analysis\Managers\RouteHistoryManager.cs" />
+    <Compile Include="Analysis\RouteHistory.cs" />
+    <Compile Include="Categories\Category.cs" />
     <Compile Include="ChatRooms\ChatRoom.cs" />
     <Compile Include="ChatRooms\ChatRoomMessage.cs" />
     <Compile Include="ChatRooms\Enums\ChatRoomMessageType.cs" />
@@ -225,6 +240,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Localization\Source\UniTime-nl-NL.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

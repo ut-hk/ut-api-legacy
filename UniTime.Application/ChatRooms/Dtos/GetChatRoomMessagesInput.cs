@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UniTime.ChatRooms
+namespace UniTime.ChatRooms.Dtos
 {
     public class GetChatRoomMessagesInput
     {
