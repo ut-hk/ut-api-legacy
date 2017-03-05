@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.UI;
@@ -11,6 +12,7 @@ using UniTime.Ratings.Managers;
 
 namespace UniTime.Ratings
 {
+    [AbpAuthorize]
     public class RatingAppService : UniTimeAppServiceBase, IRatingAppService
     {
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;

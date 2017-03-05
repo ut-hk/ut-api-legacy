@@ -166,9 +166,12 @@
     <Compile Include="Comments\Dtos\GetRepliesOutput.cs" />
     <Compile Include="Comments\Dtos\GetCommentsOutput.cs" />
     <Compile Include="Comments\ReplyAppService.cs" />
+    <Compile Include="Descriptions\Dtos\CreateTextDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\DescriptionDto.cs" />
     <Compile Include="Activities\Dtos\GetActivityPlansOutput.cs" />
     <Compile Include="Activities\IActivityPlanAppService.cs" />
+    <Compile Include="Descriptions\IDescriptionAppService.cs" />
+    <Compile Include="Descriptions\Dtos\UpdateTextDescriptionInput.cs" />
     <Compile Include="Files\Dtos\FileDto.cs" />
     <Compile Include="Locations\Dtos\CreateLocationInput.cs" />
     <Compile Include="Locations\Dtos\LocationDto.cs" />
@@ -183,7 +186,6 @@
     <Compile Include="Tags\ITagAppService.cs" />
     <Compile Include="Tags\TagAppService.cs" />
     <Compile Include="Tags\Dtos\TagDto.cs" />
-    <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Comments\ICommentAppService.cs" />
     <Compile Include="Comments\IReplyAppService.cs" />
     <Compile Include="Descriptions\DescriptionAppService.cs" />
@@ -198,15 +200,12 @@
     <Compile Include="MultiTenancy\Dtos\TenantListDto.cs" />
     <Compile Include="MultiTenancy\TenantAppService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Users\Dtos\CreateUserInput.cs" />
-    <Compile Include="Users\IUserAppService.cs" />
     <Compile Include="Sessions\Dtos\GetCurrentLoginInformationsOutput.cs" />
     <Compile Include="Sessions\Dtos\TenantLoginInfoDto.cs" />
     <Compile Include="Sessions\Dtos\UserLoginInfoDto.cs" />
     <Compile Include="Sessions\ISessionAppService.cs" />
     <Compile Include="Sessions\SessionAppService.cs" />
-    <Compile Include="Users\Dtos\ProhibitPermissionInput.cs" />
-    <Compile Include="Users\UserAppService.cs" />
+    <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Users\Dtos\UserListDto.cs" />
   </ItemGroup>
   <ItemGroup>

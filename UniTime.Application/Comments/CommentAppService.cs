@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.UI;
@@ -11,6 +12,7 @@ using UniTime.Comments.Managers;
 
 namespace UniTime.Comments
 {
+    [AbpAuthorize]
     public class CommentAppService : UniTimeAppServiceBase, ICommentAppService
     {
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;

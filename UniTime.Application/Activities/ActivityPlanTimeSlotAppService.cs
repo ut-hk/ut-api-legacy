@@ -7,6 +7,7 @@ using UniTime.Activities.Managers;
 
 namespace UniTime.Activities
 {
+    [AbpAuthorize]
     public class ActivityPlanTimeSlotAppService : UniTimeAppServiceBase, IActivityPlanTimeSlotAppService
     {
         private readonly IActivityPlanManager _activityPlanManager;
@@ -23,7 +24,6 @@ namespace UniTime.Activities
             _activityPlanTimeSlotManager = activityPlanTimeSlotManager;
         }
 
-        [AbpAuthorize]
         public async Task<EntityDto<long>> CreateActivityPlanTimeSlot(CreateActivityPlanTimeSlotInput input)
         {
             var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
@@ -42,7 +42,6 @@ namespace UniTime.Activities
             return new EntityDto<long>(activityPlanTimeSlot.Id);
         }
 
-        [AbpAuthorize]
         public async Task UpdateActivityPlanTimeSlot(UpdateActivityPlanTimeSlotInput input)
         {
             var currentUser = await GetCurrentUserAsync();
@@ -54,7 +53,6 @@ namespace UniTime.Activities
             _activityPlanTimeSlotManager.UpdateTimes(activityPlanTimeSlot, input.StartTime, input.EndTime);
         }
 
-        [AbpAuthorize]
         public async Task RemoveActivityPlanTimeSlot(EntityDto<long> input)
         {
             var currentUser = await GetCurrentUserAsync();

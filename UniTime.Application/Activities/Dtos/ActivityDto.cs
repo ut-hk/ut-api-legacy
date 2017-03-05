@@ -4,7 +4,7 @@ using Abp.AutoMapper;
 namespace UniTime.Activities.Dtos
 {
     [AutoMapFrom(typeof(Activity))]
-    public class ActivityDto : AbstractActivity
+    public class ActivityDto : AbstractActivityDto
     {
         public DateTime StartTime { get; set; }
 

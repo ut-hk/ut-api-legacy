@@ -5,6 +5,7 @@ using Abp.AutoMapper;
 using UniTime.Comments.Dtos;
 using UniTime.Descriptions.Dtos;
 using UniTime.Ratings.Dtos;
+using UniTime.Tags.Dtos;
 using UniTime.Users.Dtos;
 
 namespace UniTime.Activities.Dtos
@@ -15,6 +16,8 @@ namespace UniTime.Activities.Dtos
         public string Name { get; set; }
 
         public ICollection<DescriptionDto> Descriptions { get; set; }
+
+        public ICollection<TagDto> Tags { get; set; }
 
         public ICollection<ActivityPlanTimeSlotDto> TimeSlots { get; set; }
 

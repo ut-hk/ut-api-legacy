@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Tags.Dtos;
@@ -21,6 +22,7 @@ namespace UniTime.Tags
             _tagRepository = tagRepository;
         }
 
+        [AbpAuthorize]
         public async Task<EntityDto<long>> GetTag(GetTagInput input)
         {
             var tag = await _tagManager.GetAsync(input.Text.Replace(" ", string.Empty));

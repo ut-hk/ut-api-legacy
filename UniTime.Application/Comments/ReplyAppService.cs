@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Comments.Dtos;
@@ -8,6 +9,7 @@ using UniTime.Comments.Managers;
 
 namespace UniTime.Comments
 {
+    [AbpAuthorize]
     public class ReplyAppService : UniTimeAppServiceBase, IReplyAppService
     {
         private readonly ICommentManager _commentManager;
