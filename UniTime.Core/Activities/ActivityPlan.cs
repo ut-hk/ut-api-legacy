@@ -18,7 +18,7 @@ namespace UniTime.Activities
 
         public virtual ICollection<ActivityPlanDescription> Descriptions { get; set; }
 
-        public virtual ICollection<ActivityPlanTag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
 
         public virtual ICollection<ActivityPlanTimeSlot> TimeSlots { get; set; }
 

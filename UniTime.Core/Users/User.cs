@@ -30,7 +30,7 @@ namespace UniTime.Users
 
         public virtual ICollection<Reply> Replies { get; set; }
 
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<File> Files { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
 

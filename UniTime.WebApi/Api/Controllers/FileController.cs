@@ -32,9 +32,6 @@ namespace UniTime.Api.Controllers
         [HttpGet]
         public virtual async Task<HttpResponseMessage> GetFile(Guid id)
         {
-            if (AbpSession.UserId == null)
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
-
             var file = await _fileManager.GetAsync(id);
             var stream = _fileManager.GetStream(file);
 
@@ -47,10 +44,10 @@ namespace UniTime.Api.Controllers
             // Content headers
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = file.FileName
+                FileName = file.OriginalFileName
             };
             response.Content.Headers.ContentLength = stream.Length;
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(File.ContentTypes[Path.GetExtension(file.FileName)]);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue(File.ContentTypes[Path.GetExtension(file.OriginalFileName)]);
 
             // Response headers
             response.Headers.CacheControl = new CacheControlHeaderValue
@@ -96,9 +93,10 @@ namespace UniTime.Api.Controllers
                         {
                             var image = await _fileManager.CreateImageAsync(new Image
                             {
+                                Id = Guid.NewGuid(),
+                                OriginalFileName = fileName,
                                 Owner = currentUser,
-                                OwnerId = currentUser.Id,
-                                FileName = fileName
+                                OwnerId = currentUser.Id
                             }, fileStream, currentUser);
 
                             files.Add(image);

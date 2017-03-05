@@ -185,8 +185,8 @@
     <Compile Include="Ratings\Managers\RatingManager.cs" />
     <Compile Include="Ratings\Rating.cs" />
     <Compile Include="Ratings\Enums\RatingStatus.cs" />
-    <Compile Include="Tags\AbstractActivityTag.cs" />
-    <Compile Include="Tags\ActivityPlanTag.cs" />
+    <Compile Include="Tags\Managers\ITagManager.cs" />
+    <Compile Include="Tags\Managers\TagManager.cs" />
     <Compile Include="Tags\Tag.cs" />
     <Compile Include="UniTimeConsts.cs" />
     <Compile Include="UniTimeCoreModule.cs" />

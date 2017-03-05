@@ -71,7 +71,7 @@ namespace UniTime.EntityFramework
 
         public IDbSet<Description> Descriptions { get; set; }
 
-        public IDbSet<Image> Images { get; set; }
+        public IDbSet<File> Files { get; set; }
 
         public IDbSet<Invitation> Invitations { get; set; }
 
@@ -134,9 +134,9 @@ namespace UniTime.EntityFramework
                 .WithMany(user => user.Replies)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Image>()
-                .HasRequired(image => image.Owner)
-                .WithMany(user => user.Images)
+            modelBuilder.Entity<File>()
+                .HasRequired(file => file.Owner)
+                .WithMany(user => user.Files)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Rating>()

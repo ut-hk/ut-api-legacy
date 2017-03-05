@@ -15,7 +15,7 @@ namespace UniTime.Users
 
         public virtual Gender Gender { get; set; } = Gender.NotProvided;
 
-        public virtual DateTime Birthday { get; set; }
+        public virtual DateTime? Birthday { get; set; }
 
         [ForeignKey(nameof(CoverId))]
         public virtual Image Cover { get; set; }

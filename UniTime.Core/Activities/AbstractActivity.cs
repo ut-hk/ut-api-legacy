@@ -22,7 +22,7 @@ namespace UniTime.Activities
 
         public virtual Guid? LocationId { get; set; }
 
-        public virtual ICollection<AbstractActivityTag> Tags { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
 
         public virtual ICollection<AbstractActivityRating> Ratings { get; set; }
 

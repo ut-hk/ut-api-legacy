@@ -179,6 +179,22 @@
     <Compile Include="Migrations\201703041526567_Location.Designer.cs">
       <DependentUpon>201703041526567_Location.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.cs" />
+    <Compile Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.Designer.cs">
+      <DependentUpon>201703050245292_Images_to_File_And_Optional_Birthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703050401485_Tags.cs" />
+    <Compile Include="Migrations\201703050401485_Tags.Designer.cs">
+      <DependentUpon>201703050401485_Tags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703050404570_Mergerd_Tags.cs" />
+    <Compile Include="Migrations\201703050404570_Mergerd_Tags.Designer.cs">
+      <DependentUpon>201703050404570_Mergerd_Tags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703050437543_Tag_Length.cs" />
+    <Compile Include="Migrations\201703050437543_Tag_Length.Designer.cs">
+      <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
@@ -232,6 +248,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703041526567_Location.resx">
       <DependentUpon>201703041526567_Location.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.resx">
+      <DependentUpon>201703050245292_Images_to_File_And_Optional_Birthday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703050401485_Tags.resx">
+      <DependentUpon>201703050401485_Tags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703050404570_Mergerd_Tags.resx">
+      <DependentUpon>201703050404570_Mergerd_Tags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703050437543_Tag_Length.resx">
+      <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

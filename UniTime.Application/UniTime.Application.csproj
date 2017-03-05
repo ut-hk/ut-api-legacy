@@ -177,6 +177,12 @@
     <Compile Include="Locations\LocationAppService.cs" />
     <Compile Include="Ratings\Dtos\RatingDto.cs" />
     <Compile Include="Comments\Dtos\ReplyDto.cs" />
+    <Compile Include="Tags\Dtos\GetTagInput.cs" />
+    <Compile Include="Tags\Dtos\GetTagsInput.cs" />
+    <Compile Include="Tags\Dtos\GetTagsOutput.cs" />
+    <Compile Include="Tags\ITagAppService.cs" />
+    <Compile Include="Tags\TagAppService.cs" />
+    <Compile Include="Tags\Dtos\TagDto.cs" />
     <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Comments\ICommentAppService.cs" />
     <Compile Include="Comments\IReplyAppService.cs" />
