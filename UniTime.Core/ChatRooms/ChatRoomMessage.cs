@@ -7,7 +7,7 @@ using UniTime.Users;
 
 namespace UniTime.ChatRooms
 {
-    public class ChatRoomMessage : CreationAuditedEntity<long>, IHasOwner
+    public abstract class ChatRoomMessage : CreationAuditedEntity<long>, IHasOwner
     {
         [NotMapped]
         public virtual ChatRoomMessageType Type { get; }

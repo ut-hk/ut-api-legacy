@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Activities;
@@ -32,16 +30,6 @@ namespace UniTime.Comments
             _activityPlanRepository = activityPlanRepository;
         }
 
-        public async Task<GetCommentsOutput> GetComments()
-        {
-            var comments = await _commentRepository.GetAllListAsync();
-
-            return new GetCommentsOutput
-            {
-                Comments = comments.MapTo<List<CommentDto>>()
-            };
-        }
-
         public async Task<EntityDto<long>> CreateComment(CreateCommentInput input)
         {
             var currentUser = await GetCurrentUserAsync();
@@ -52,27 +40,13 @@ namespace UniTime.Comments
             {
                 var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
 
-                comment = await _commentManager.CreateAsync(new AbstractActivityComment
-                {
-                    Content = input.Content,
-                    AbstractActivity = abstractActivity,
-                    AbstractActivityId = abstractActivity.Id,
-                    Owner = currentUser,
-                    OwnerId = currentUser.Id
-                });
+                comment = await _commentManager.CreateAsync(AbstractActivityComment.Create(input.Content, abstractActivity, currentUser));
             }
             if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
 
-                comment = await _commentManager.CreateAsync(new ActivityPlanComment
-                {
-                    Content = input.Content,
-                    ActivityPlan = activityPlan,
-                    ActivityPlanId = activityPlan.Id,
-                    Owner = currentUser,
-                    OwnerId = currentUser.Id
-                });
+                comment = await _commentManager.CreateAsync(ActivityPlanComment.Create(input.Content, activityPlan, currentUser));
             }
 
             if (comment == null) throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");

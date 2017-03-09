@@ -33,10 +33,7 @@ namespace UniTime.Analysis.Managers
 
         public async Task<Guest> CreateAsync(long? userId = null)
         {
-            var guest = new Guest
-            {
-                OwnerId = userId
-            };
+            var guest = Guest.Create(userId);
 
             guest.Id = await _guestRepository.InsertAndGetIdAsync(guest);
 

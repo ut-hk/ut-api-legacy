@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
 using Abp.UI;
 using UniTime.Activities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniTime.Tags
 {
@@ -16,6 +17,7 @@ namespace UniTime.Tags
         }
 
         [Required]
+        [Index]
         [StringLength(MaxTextLength, MinimumLength = MinTextLength)]
         public virtual string Text { get; protected set; }
 

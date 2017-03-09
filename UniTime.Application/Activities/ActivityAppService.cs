@@ -7,6 +7,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 
@@ -52,14 +53,25 @@ namespace UniTime.Activities
             var currentUser = await GetCurrentUserAsync();
 
             var activity = await _activityManager.CreateAsync(Activity.Create(
-                name: input.Name,
-                description: input.Description,
-                startTime: input.StartTime,
-                endTime: input.EndTime,
-                owner: currentUser
+                input.Name,
+                input.Description,
+                input.StartTime,
+                input.EndTime,
+                currentUser
             ));
 
             return new EntityDto<Guid>(activity.Id);
+        }
+
+        public async Task UpdateActivity(UpdateAbstractActivityInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activity = await _activityManager.GetAsync(input.Id);
+
+            if (activity.OwnerId != currentUserId) throw new UserFriendlyException("You are not allowed to update this activity.");
+
+            activity.Name = input.Name;
+            activity.Description = input.Description;
         }
     }
 }

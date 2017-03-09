@@ -7,6 +7,10 @@ namespace UniTime.Analysis
 {
     public class RouteHistory : Entity<long>, IHasCreationTime
     {
+        protected RouteHistory()
+        {
+        }
+
         [Required]
         public virtual string RouteName { get; set; }
 
@@ -20,5 +24,17 @@ namespace UniTime.Analysis
         public virtual Guid GuestId { get; set; }
 
         public virtual DateTime CreationTime { get; set; }
+
+        public static RouteHistory Create(string routeName, string parameters, string referer, Guest guest)
+        {
+            return new RouteHistory
+            {
+                RouteName = routeName,
+                Parameters = parameters,
+                Referer = referer,
+                Guest = guest,
+                GuestId = guest.Id
+            };
+        }
     }
 }

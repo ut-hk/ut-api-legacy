@@ -5,7 +5,6 @@ using UniTime.Comments.Dtos;
 using UniTime.Locations.Dtos;
 using UniTime.Ratings.Dtos;
 using UniTime.Tags.Dtos;
-using UniTime.Users.Dtos;
 
 namespace UniTime.Activities.Dtos
 {
@@ -23,6 +22,6 @@ namespace UniTime.Activities.Dtos
 
         public ICollection<CommentDto> Comments { get; set; }
 
-        public UserDto Owner { get; set; }
+        public long OwnerId { get; set; }
     }
 }

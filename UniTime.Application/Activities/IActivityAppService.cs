@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using Abp.Domain.Services;
 using UniTime.Activities.Dtos;
 
 namespace UniTime.Activities
@@ -12,5 +11,7 @@ namespace UniTime.Activities
         Task<GetMyActivitiesOutput> GetMyActivities();
 
         Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);
+
+        Task UpdateActivity(UpdateAbstractActivityInput input);
     }
 }

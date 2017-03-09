@@ -6,6 +6,10 @@ namespace UniTime.Categories
 {
     public class Category : FullAuditedEntity<long>
     {
+        protected Category()
+        {
+        }
+
         public virtual string Name { get; set; }
 
         public virtual ICollection<ActivityPlan> ActivityPlans { get; set; }

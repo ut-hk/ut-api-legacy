@@ -8,8 +8,6 @@ namespace UniTime.Comments
 {
     public interface IReplyAppService : IApplicationService
     {
-        Task<GetRepliesOutput> GetReplies();
-
         Task<EntityDto<long>> CreateReply(CreateReplyInput input);
     }
 }

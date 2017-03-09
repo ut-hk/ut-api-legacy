@@ -7,8 +7,6 @@ namespace UniTime.Comments
 {
     public interface ICommentAppService : IApplicationService
     {
-        Task<GetCommentsOutput> GetComments();
-
         Task<EntityDto<long>> CreateComment(CreateCommentInput input);
     }
 }

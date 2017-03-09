@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.IdentityFramework;
 using Abp.Runtime.Session;
+using Abp.UI;
 using Microsoft.AspNet.Identity;
 using UniTime.MultiTenancy;
 using UniTime.MultiTenancy.Managers;
@@ -25,11 +25,20 @@ namespace UniTime
 
         public UserManager UserManager { get; set; }
 
+        protected virtual long GetCurrentUserId()
+        {
+            var userId = AbpSession.UserId;
+
+            if (!userId.HasValue) throw new UserFriendlyException("Please log in again.");
+
+            return userId.Value;
+        }
+
         protected virtual Task<User> GetCurrentUserAsync()
         {
             var user = UserManager.FindByIdAsync(AbpSession.GetUserId());
-            if (user == null)
-                throw new ApplicationException("Please log in again.");
+
+            if (user == null) throw new UserFriendlyException("Please log in again.");
 
             return user;
         }

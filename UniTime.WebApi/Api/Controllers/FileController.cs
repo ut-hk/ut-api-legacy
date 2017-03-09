@@ -91,13 +91,7 @@ namespace UniTime.Api.Controllers
                     if (Image.AllowedExtensions.Contains(Path.GetExtension(fileName)))
                         using (var fileStream = await fileContent.ReadAsStreamAsync())
                         {
-                            var image = await _fileManager.CreateImageAsync(new Image
-                            {
-                                Id = Guid.NewGuid(),
-                                OriginalFileName = fileName,
-                                Owner = currentUser,
-                                OwnerId = currentUser.Id
-                            }, fileStream, currentUser);
+                            var image = await _fileManager.CreateImageAsync(Image.Create(fileName, currentUser), fileStream, currentUser);
 
                             files.Add(image);
                         }

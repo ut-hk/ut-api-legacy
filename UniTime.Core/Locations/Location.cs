@@ -6,7 +6,9 @@ namespace UniTime.Locations
 {
     public class Location : CreationAuditedEntity<Guid>
     {
-        protected Location() { }
+        protected Location()
+        {
+        }
 
         public virtual string Name { get; set; }
 
@@ -14,7 +16,7 @@ namespace UniTime.Locations
 
         public static Location Create(string name, double longitude, double latitude)
         {
-            var location = new Location()
+            var location = new Location
             {
                 Name = name,
                 Coordinate = DbGeography.FromText($"POINT({longitude} {latitude})")

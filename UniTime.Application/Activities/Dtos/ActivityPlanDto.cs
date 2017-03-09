@@ -25,6 +25,6 @@ namespace UniTime.Activities.Dtos
 
         public ICollection<RatingDto> Ratings { get; set; }
 
-        public UserDto Owner { get; set; }
+        public long OwnerId { get; set; }
     }
 }

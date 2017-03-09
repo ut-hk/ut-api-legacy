@@ -1,9 +1,7 @@
 using System;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using UniTime.Activities.Dtos;
 using UniTime.Ratings.Enums;
-using UniTime.Users.Dtos;
 
 namespace UniTime.Ratings.Dtos
 {
@@ -12,6 +10,6 @@ namespace UniTime.Ratings.Dtos
     {
         public RatingStatus RatingStatus { get; set; }
 
-        public UserDto Owner { get; set; }
+        public long OwnerId { get; set; }
     }
 }

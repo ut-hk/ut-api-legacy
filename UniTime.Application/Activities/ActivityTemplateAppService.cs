@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
+using Abp.UI;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 
@@ -25,9 +28,20 @@ namespace UniTime.Activities
             _activityTemplateManager = activityTemplateManager;
         }
 
-        public async Task<GetActivityTemplatesOutput> GetActivityTemplates()
+        public async Task<GetActivityTemplatesOutput> GetActivityTemplates(GetActivityTemplatesInput input)
         {
-            var activityTemplates = await _abstractActivityRepository.GetAll().OfType<ActivityTemplate>().ToListAsync();
+            var selectedGeographyPoint = $"POINT({input.Longitude} {input.Latitude})";
+            var targetRadiusInStandardDistance = ConvertToStandardDistance(100);
+
+            var activityTemplates = await _abstractActivityRepository.GetAll()
+                .OfType<ActivityTemplate>()
+                .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
+                    activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
+                .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
+                    activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
+                .WhereIf(input.StartTime.HasValue, activityTempalte => activityTempalte.ReferenceStarTime > input.StartTime)
+                .WhereIf(input.EndTime.HasValue, activityTempalte => input.EndTime > activityTempalte.ReferenceEndTime)
+                .ToListAsync();
 
             return new GetActivityTemplatesOutput
             {
@@ -40,17 +54,31 @@ namespace UniTime.Activities
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var activityTemplate = await _activityTemplateManager.CreateAsync(new ActivityTemplate
-            {
-                Name = input.Name,
-                Description = input.Description,
-                ReferenceStarTime = input.ReferenceStarTime,
-                ReferenceEndTime = input.ReferenceEndTime,
-                Owner = currentUser,
-                OwnerId = currentUser.Id
-            });
+            var activityTemplate = await _activityTemplateManager.CreateAsync(ActivityTemplate.Create(
+                input.Name,
+                input.Description,
+                input.ReferenceStarTime,
+                input.ReferenceEndTime,
+                currentUser
+            ));
 
             return new EntityDto<Guid>(activityTemplate.Id);
+        }
+
+        public async Task UpdateActivityTemplate(UpdateAbstractActivityInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activity = await _activityTemplateManager.GetAsync(input.Id);
+
+            if (activity.OwnerId != currentUserId) throw new UserFriendlyException("You are not allowed to update this activity template.");
+
+            activity.Name = input.Name;
+            activity.Description = input.Description;
+        }
+
+        private static double ConvertToStandardDistance(double distanceInMile)
+        {
+            return distanceInMile / 1609.344;
         }
     }
 }

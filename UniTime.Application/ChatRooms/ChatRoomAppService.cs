@@ -46,14 +46,7 @@ namespace UniTime.ChatRooms
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var chatRoom = await _chatRoomManager.CreateAsync(new ChatRoom
-            {
-                Name = input.Name,
-                Participants = new List<User>
-                {
-                    currentUser
-                }
-            });
+            var chatRoom = await _chatRoomManager.CreateAsync(ChatRoom.Create(input.Name, currentUser, new List<User>()));
 
             return new EntityDto<Guid>(chatRoom.Id);
         }

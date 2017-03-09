@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
-using UniTime.Categories;
 using UniTime.Comments;
 using UniTime.Descriptions;
 using UniTime.Interfaces;
@@ -14,6 +13,10 @@ namespace UniTime.Activities
 {
     public class ActivityPlan : AuditedEntity<Guid>, IHasOwner
     {
+        protected ActivityPlan()
+        {
+        }
+
         public virtual string Name { get; set; }
 
         public virtual ICollection<ActivityPlanDescription> Descriptions { get; set; }
@@ -30,5 +33,15 @@ namespace UniTime.Activities
         public virtual User Owner { get; set; }
 
         public virtual long OwnerId { get; set; }
+
+        public static ActivityPlan Create(string name, User owner)
+        {
+            return new ActivityPlan
+            {
+                Name = name,
+                Owner = owner,
+                OwnerId = owner.Id
+            };
+        }
     }
 }

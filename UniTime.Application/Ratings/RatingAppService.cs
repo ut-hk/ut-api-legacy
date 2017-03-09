@@ -52,27 +52,13 @@ namespace UniTime.Ratings
             {
                 var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
 
-                rating = await _ratingManager.CreateAsync(new AbstractActivityRating
-                {
-                    RatingStatus = input.RatingStatus,
-                    AbstractActivity = abstractActivity,
-                    AbstractActivityId = abstractActivity.Id,
-                    Owner = currentUser,
-                    OwnerId = currentUser.Id
-                });
+                rating = await _ratingManager.CreateAsync(AbstractActivityRating.Create(input.RatingStatus, abstractActivity, currentUser));
             }
             if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
 
-                rating = await _ratingManager.CreateAsync(new ActivityPlanRating
-                {
-                    RatingStatus = input.RatingStatus,
-                    ActivityPlan = activityPlan,
-                    ActivityPlanId = activityPlan.Id,
-                    Owner = currentUser,
-                    OwnerId = currentUser.Id
-                });
+                rating = await _ratingManager.CreateAsync(ActivityPlanRating.Create(input.RatingStatus, activityPlan, currentUser));
             }
 
             if (rating == null) throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");

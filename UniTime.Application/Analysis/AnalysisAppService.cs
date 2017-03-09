@@ -23,13 +23,7 @@ namespace UniTime.Analysis
         {
             var guest = await _guestManager.GetAsync(input.GuestId);
 
-            var routeHistory = await _routeHistoryManager.CreateAsync(new RouteHistory
-            {
-                RouteName = input.RouteName,
-                Parameters = input.Parameters,
-                Referer = input.Referer,
-                GuestId = guest.Id
-            });
+            var routeHistory = await _routeHistoryManager.CreateAsync(RouteHistory.Create(input.RouteName, input.Parameters, input.Referer, guest));
 
             return new EntityDto<long>(routeHistory.Id);
         }

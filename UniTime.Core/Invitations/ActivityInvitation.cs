@@ -6,6 +6,10 @@ namespace UniTime.Invitations
 {
     public class ActivityInvitation : Invitation
     {
+        protected ActivityInvitation()
+        {
+        }
+
         [ForeignKey(nameof(ActivityId))]
         public virtual Activity Activity { get; set; }
 

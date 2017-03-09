@@ -10,5 +10,7 @@ namespace UniTime.Descriptions
         Task<EntityDto<long>> CreateTextDescription(CreateTextDescriptionInput input);
 
         Task UpdateTextDescription(UpdateTextDescriptionInput input);
+
+        Task RemoveDescription(EntityDto<long> input);
     }
 }

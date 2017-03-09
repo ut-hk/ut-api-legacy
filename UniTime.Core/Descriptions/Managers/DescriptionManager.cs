@@ -29,5 +29,10 @@ namespace UniTime.Descriptions.Managers
 
             return description;
         }
+
+        public async Task RemoveAsync(Description description)
+        {
+            await _descriptionRepository.DeleteAsync(description);
+        }
     }
 }
