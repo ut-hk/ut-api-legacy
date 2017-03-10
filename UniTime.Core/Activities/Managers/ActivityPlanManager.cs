@@ -30,5 +30,18 @@ namespace UniTime.Activities.Managers
 
             return activityPlan;
         }
+
+        public void EditDescriptions(ActivityPlan activityPlan, long[] descriptionIds, long editUserId)
+        {
+            if (activityPlan.OwnerId != editUserId)
+                throw new UserFriendlyException($"You are not allowed to update this activity plan with id = {activityPlan.Id}.");
+
+            var activityPlanDescriptions = activityPlan.Descriptions;
+
+            foreach (var activityPlanDescription in activityPlanDescriptions)
+                for (var i = 0; i < descriptionIds.Length; i++)
+                    if (descriptionIds[i] == activityPlanDescription.Id)
+                        activityPlanDescription.EditPriority(i);
+        }
     }
 }

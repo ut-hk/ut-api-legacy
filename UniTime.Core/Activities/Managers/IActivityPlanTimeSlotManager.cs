@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Domain.Services;
 
 namespace UniTime.Activities.Managers
@@ -9,8 +8,6 @@ namespace UniTime.Activities.Managers
         Task<ActivityPlanTimeSlot> GetAsync(long id);
 
         Task<ActivityPlanTimeSlot> CreateAsync(ActivityPlanTimeSlot activityPlanTimeSlot);
-
-        void UpdateTimes(ActivityPlanTimeSlot activityPlanTimeSlot, DateTime startTime, DateTime endTime);
 
         Task RemoveAsync(ActivityPlanTimeSlot activityPlanTimeSlot);
     }

@@ -9,18 +9,18 @@ namespace UniTime.Invitations
 {
     public abstract class Invitation : AuditedEntity<Guid>, IHasOwner
     {
-        public virtual string Content { get; set; }
+        public virtual string Content { get; protected set; }
 
-        public virtual InvitationStatus Status { get; set; }
+        public virtual InvitationStatus Status { get; protected set; }
 
         [ForeignKey(nameof(InviteeId))]
-        public virtual User Invitee { get; set; }
+        public virtual User Invitee { get; protected set; }
 
-        public virtual long InviteeId { get; set; }
+        public virtual long InviteeId { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public virtual long OwnerId { get; set; }
+        public virtual long OwnerId { get; protected set; }
     }
 }

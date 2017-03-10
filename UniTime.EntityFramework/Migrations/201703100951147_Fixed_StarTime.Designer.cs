@@ -7,13 +7,13 @@ namespace UniTime.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChatRoom_Owner : IMigrationMetadata
+    public sealed partial class Fixed_StarTime : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChatRoom_Owner));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Fixed_StarTime));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703081830406_ChatRoom_Owner"; }
+            get { return "201703100951147_Fixed_StarTime"; }
         }
         
         string IMigrationMetadata.Source

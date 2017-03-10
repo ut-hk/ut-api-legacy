@@ -28,33 +28,30 @@ namespace UniTime.Descriptions
 
             var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
 
-            if (activityPlan.OwnerId != currentUserId) throw new UserFriendlyException($"You are not allowed to create a text description in this description with id = {activityPlan.Id}.");
-
-            var textDescription = await _descriptionManager.CreateAsync(TextActivityPlanDescription.Create(activityPlan));
+            var textDescription = await _descriptionManager.CreateAsync(TextActivityPlanDescription.Create(activityPlan, currentUserId));
 
             return new EntityDto<long>(textDescription.Id);
         }
 
         public async Task UpdateTextDescription(UpdateTextDescriptionInput input)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId = GetCurrentUserId();
 
             var textActivityPlanDescription = await _descriptionManager.GetAsync(input.Id) as TextActivityPlanDescription;
 
-            if (textActivityPlanDescription == null) throw new UserFriendlyException("The text activity plan description with id = " + input.Id + " does not exist.");
-            if (textActivityPlanDescription.ActivityPlan.OwnerId != currentUser.Id) throw new UserFriendlyException($"You are not allowed to update this description with id = {input.Id}.");
+            if (textActivityPlanDescription == null) throw new UserFriendlyException($"The text activity plan description with id = {input.Id} does not exist.");
 
-            textActivityPlanDescription.Text = input.Text;
+            textActivityPlanDescription.EditText(input.Text, currentUserId);
         }
 
         public async Task RemoveDescription(EntityDto<long> input)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId = GetCurrentUserId();
 
             var activityPlanDescription = await _descriptionManager.GetAsync(input.Id) as ActivityPlanDescription;
 
-            if (activityPlanDescription == null) throw new UserFriendlyException("The activity plan description with id = {input.Id} does not exist.");
-            if (currentUser.Id != activityPlanDescription.ActivityPlan.OwnerId) throw new UserFriendlyException("You are not alloed to remove this description");
+            if (activityPlanDescription == null) throw new UserFriendlyException($"The activity plan description with id = {input.Id} does not exist.");
+            if (currentUserId != activityPlanDescription.ActivityPlan.OwnerId) throw new UserFriendlyException($"You are not alloed to remove this description with id = {input.Id}.");
 
             await _descriptionManager.RemoveAsync(activityPlanDescription);
         }

@@ -10,10 +10,10 @@ namespace UniTime.Categories
         {
         }
 
-        public virtual string Name { get; set; }
+        public virtual string Name { get; protected set; }
 
-        public virtual ICollection<ActivityPlan> ActivityPlans { get; set; }
+        public virtual ICollection<ActivityPlan> ActivityPlans { get; protected set; }
 
-        public virtual ICollection<ActivityTemplate> ActivityTemplates { get; set; }
+        public virtual ICollection<ActivityTemplate> ActivityTemplates { get; protected set; }
     }
 }

@@ -8,13 +8,13 @@ namespace UniTime.Comments
 {
     public abstract class Comment : FullAuditedEntity<long>, IHasOwner
     {
-        public virtual string Content { get; set; }
+        public virtual string Content { get; protected set; }
 
-        public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<Reply> Replies { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public long OwnerId { get; set; }
+        public long OwnerId { get; protected set; }
     }
 }

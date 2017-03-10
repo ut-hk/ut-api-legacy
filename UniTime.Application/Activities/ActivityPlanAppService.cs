@@ -8,9 +8,9 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using Abp.UI;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
+using UniTime.Tags;
 
 namespace UniTime.Activities
 {
@@ -18,12 +18,15 @@ namespace UniTime.Activities
     {
         private readonly IActivityPlanManager _activityPlanManager;
         private readonly IRepository<ActivityPlan, Guid> _activityPlanRepository;
+        private readonly IRepository<Tag, long> _tagRepository;
 
         public ActivityPlanAppService(
             IRepository<ActivityPlan, Guid> activityPlanRepository,
+            IRepository<Tag, long> tagRepository,
             IActivityPlanManager activityPlanManager)
         {
             _activityPlanRepository = activityPlanRepository;
+            _tagRepository = tagRepository;
             _activityPlanManager = activityPlanManager;
         }
 
@@ -60,19 +63,10 @@ namespace UniTime.Activities
         {
             var currentUserId = GetCurrentUserId();
             var activityPlan = await _activityPlanManager.GetAsync(input.Id);
+            var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
 
-            if (activityPlan.OwnerId != currentUserId)
-                throw new UserFriendlyException("You are not allowed to update this activity plan.");
-
-            activityPlan.Name = input.Name;
-
-            var activityPlanDescriptions = activityPlan.Descriptions;
-
-            foreach (var activityPlanDescription in activityPlanDescriptions)
-                for (var i = 0; i < input.DescriptionIds.Length; i++)
-                    // Give priority by the input array.
-                    if (input.DescriptionIds[i] == activityPlanDescription.Id)
-                        activityPlanDescription.Priority = i;
+            activityPlan.Edit(input.Name, tags, currentUserId);
+            _activityPlanManager.EditDescriptions(activityPlan, input.DescriptionIds, currentUserId);
         }
     }
 }

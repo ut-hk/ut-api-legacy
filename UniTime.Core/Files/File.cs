@@ -22,16 +22,16 @@ namespace UniTime.Files
         [NotMapped]
         public virtual FileType Type { get; }
 
-        public virtual string OriginalFileName { get; set; }
+        public virtual string OriginalFileName { get; protected set; }
 
         [NotMapped]
         public virtual string RemoteFileName => Id + Path.GetExtension(OriginalFileName);
 
-        public virtual string Description { get; set; }
+        public virtual string Description { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public virtual long OwnerId { get; set; }
+        public virtual long OwnerId { get; protected set; }
     }
 }

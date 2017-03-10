@@ -17,24 +17,24 @@ namespace UniTime.ChatRooms
     {
         private readonly IChatRoomManager _chatRoomManager;
         private readonly IRepository<ChatRoom, Guid> _chatRoomRepository;
+        private readonly IRepository<User, long> _userRepository;
 
         public ChatRoomAppService(
             IRepository<ChatRoom, Guid> chatRoomRepository,
+            IRepository<User, long> userRepository,
             IChatRoomManager chatRoomManager)
         {
             _chatRoomRepository = chatRoomRepository;
+            _userRepository = userRepository;
             _chatRoomManager = chatRoomManager;
         }
 
-        /// <summary>
-        ///     My Chat Rooms are the participated chat rooms.
-        /// </summary>
-        /// <returns></returns>
         public async Task<GetMyChatRoomsOutput> GetMyChatRooms()
         {
             var currentUser = await GetCurrentUserAsync();
 
-            var chatRooms = await _chatRoomRepository.GetAllListAsync(chatRoom => chatRoom.Participants.Select(participant => participant.Id).Contains(currentUser.Id));
+            var chatRooms = await _chatRoomRepository.GetAllListAsync(chatRoom =>
+                chatRoom.Participants.Select(participant => participant.Id).Contains(currentUser.Id));
 
             return new GetMyChatRoomsOutput
             {
@@ -49,6 +49,17 @@ namespace UniTime.ChatRooms
             var chatRoom = await _chatRoomManager.CreateAsync(ChatRoom.Create(input.Name, currentUser, new List<User>()));
 
             return new EntityDto<Guid>(chatRoom.Id);
+        }
+
+        public async Task UpdateChatRoom(UpdateChatRoomInput input)
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            var chatRoom = await _chatRoomManager.GetAsync(input.Id);
+            var participants = await _userRepository.GetAllListAsync(user => input.ParticipantIds.Contains(user.Id));
+
+            chatRoom.EditName(input.Name, currentUser);
+            chatRoom.EditParticipants(participants, currentUser);
         }
     }
 }

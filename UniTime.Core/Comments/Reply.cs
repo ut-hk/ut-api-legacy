@@ -11,17 +11,17 @@ namespace UniTime.Comments
         {
         }
 
-        public virtual string Content { get; set; }
+        public virtual string Content { get; protected set; }
 
         [ForeignKey(nameof(CommentId))]
-        public virtual Comment Comment { get; set; }
+        public virtual Comment Comment { get; protected set; }
 
-        public virtual long CommentId { get; set; }
+        public virtual long CommentId { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public virtual long OwnerId { get; set; }
+        public virtual long OwnerId { get; protected set; }
 
         public static Reply Create(string content, Comment comment, User owner)
         {

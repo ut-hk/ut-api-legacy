@@ -176,6 +176,8 @@
     <Compile Include="Invitations\FriendInvitation.cs" />
     <Compile Include="Invitations\Invitation.cs" />
     <Compile Include="Invitations\Enums\InvitationStatus.cs" />
+    <Compile Include="Invitations\Managers\IInvitationManager.cs" />
+    <Compile Include="Invitations\Managers\InvitationManager.cs" />
     <Compile Include="Locations\AbstractActivityLocation.cs" />
     <Compile Include="Locations\Managers\ILocationManager.cs" />
     <Compile Include="Locations\Location.cs" />
@@ -241,6 +243,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Localization\Source\UniTime-nl-NL.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

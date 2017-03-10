@@ -9,7 +9,6 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using Abp.UI;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 
@@ -33,13 +32,12 @@ namespace UniTime.Activities
             var selectedGeographyPoint = $"POINT({input.Longitude} {input.Latitude})";
             var targetRadiusInStandardDistance = ConvertToStandardDistance(100);
 
-            var activityTemplates = await _abstractActivityRepository.GetAll()
-                .OfType<ActivityTemplate>()
+            var activityTemplates = await _abstractActivityRepository.GetAll().OfType<ActivityTemplate>()
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
                     activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
-                .WhereIf(input.StartTime.HasValue, activityTempalte => activityTempalte.ReferenceStarTime > input.StartTime)
+                .WhereIf(input.StartTime.HasValue, activityTempalte => activityTempalte.ReferenceStartTime > input.StartTime)
                 .WhereIf(input.EndTime.HasValue, activityTempalte => input.EndTime > activityTempalte.ReferenceEndTime)
                 .ToListAsync();
 
@@ -70,10 +68,7 @@ namespace UniTime.Activities
             var currentUserId = GetCurrentUserId();
             var activity = await _activityTemplateManager.GetAsync(input.Id);
 
-            if (activity.OwnerId != currentUserId) throw new UserFriendlyException("You are not allowed to update this activity template.");
-
-            activity.Name = input.Name;
-            activity.Description = input.Description;
+            activity.Edit(input.Name, input.Description, currentUserId);
         }
 
         private static double ConvertToStandardDistance(double distanceInMile)

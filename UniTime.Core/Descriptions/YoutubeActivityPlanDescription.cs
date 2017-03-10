@@ -12,6 +12,6 @@ namespace UniTime.Descriptions
 
         public override string Content => YoutubeId;
 
-        public virtual string YoutubeId { get; set; }
+        public virtual string YoutubeId { get; protected set; }
     }
 }

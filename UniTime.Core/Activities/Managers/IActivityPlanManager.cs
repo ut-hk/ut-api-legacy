@@ -9,5 +9,7 @@ namespace UniTime.Activities.Managers
         Task<ActivityPlan> GetAsync(Guid id);
 
         Task<ActivityPlan> CreateAsync(ActivityPlan activityPlan);
+
+        void EditDescriptions(ActivityPlan activityPlan, long[] descriptionIds, long editUserId);
     }
 }

@@ -10,9 +10,9 @@ namespace UniTime.Locations
         {
         }
 
-        public virtual string Name { get; set; }
+        public virtual string Name { get; protected set; }
 
-        public virtual DbGeography Coordinate { get; set; }
+        public virtual DbGeography Coordinate { get; protected set; }
 
         public static Location Create(string name, double longitude, double latitude)
         {

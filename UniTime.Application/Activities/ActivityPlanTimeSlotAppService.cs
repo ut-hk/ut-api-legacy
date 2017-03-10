@@ -29,28 +29,22 @@ namespace UniTime.Activities
             var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
             var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId);
 
-            var activityPlanTimeSlot = await _activityPlanTimeSlotManager.CreateAsync(new ActivityPlanTimeSlot
-            {
-                ActivityPlan = activityPlan,
-                ActivityPlanId = activityPlan.Id,
-                ActivityTemplate = activityTemplate,
-                ActivityTemplateId = activityTemplate.Id,
-                StartTime = input.StartTime,
-                EndTime = input.EndTime
-            });
+            var activityPlanTimeSlot = await _activityPlanTimeSlotManager.CreateAsync(ActivityPlanTimeSlot.Create(
+                activityPlan,
+                activityTemplate,
+                input.StartTime,
+                input.EndTime
+            ));
 
             return new EntityDto<long>(activityPlanTimeSlot.Id);
         }
 
         public async Task UpdateActivityPlanTimeSlot(UpdateActivityPlanTimeSlotInput input)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId = GetCurrentUserId();
             var activityPlanTimeSlot = await _activityPlanTimeSlotManager.GetAsync(input.Id);
 
-            if (activityPlanTimeSlot.ActivityPlan.OwnerId != currentUser.Id)
-                throw new UserFriendlyException("You are not allowed to change this activity plan.");
-
-            _activityPlanTimeSlotManager.UpdateTimes(activityPlanTimeSlot, input.StartTime, input.EndTime);
+            activityPlanTimeSlot.EditTimes(input.StartTime, input.EndTime, currentUserId);
         }
 
         public async Task RemoveActivityPlanTimeSlot(EntityDto<long> input)

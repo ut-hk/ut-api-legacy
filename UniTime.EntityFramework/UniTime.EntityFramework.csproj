@@ -192,9 +192,13 @@
     <Compile Include="Migrations\201703050437543_Tag_Length.Designer.cs">
       <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703081830406_ChatRoom_Owner.cs" />
-    <Compile Include="Migrations\201703081830406_ChatRoom_Owner.Designer.cs">
-      <DependentUpon>201703081830406_ChatRoom_Owner.cs</DependentUpon>
+    <Compile Include="Migrations\201703090654081_ChatRoom_Owner.cs" />
+    <Compile Include="Migrations\201703090654081_ChatRoom_Owner.Designer.cs">
+      <DependentUpon>201703090654081_ChatRoom_Owner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703100951147_Fixed_StarTime.cs" />
+    <Compile Include="Migrations\201703100951147_Fixed_StarTime.Designer.cs">
+      <DependentUpon>201703100951147_Fixed_StarTime.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -262,8 +266,11 @@
     <EmbeddedResource Include="Migrations\201703050437543_Tag_Length.resx">
       <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703081830406_ChatRoom_Owner.resx">
-      <DependentUpon>201703081830406_ChatRoom_Owner.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703090654081_ChatRoom_Owner.resx">
+      <DependentUpon>201703090654081_ChatRoom_Owner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703100951147_Fixed_StarTime.resx">
+      <DependentUpon>201703100951147_Fixed_StarTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

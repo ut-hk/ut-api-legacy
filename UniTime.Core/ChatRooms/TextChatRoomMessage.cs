@@ -13,7 +13,7 @@ namespace UniTime.ChatRooms
 
         public override string Message => Text;
 
-        public virtual string Text { get; set; }
+        public virtual string Text { get; protected set; }
 
         public static TextChatRoomMessage Create(string text, ChatRoom chatRoom, User owner)
         {

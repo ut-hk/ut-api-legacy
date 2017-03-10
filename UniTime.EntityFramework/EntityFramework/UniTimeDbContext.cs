@@ -119,6 +119,11 @@ namespace UniTime.EntityFramework
                 .WithMany(user => user.ActivityPlans)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ChatRoom>()
+                .HasRequired(chatRoom => chatRoom.Owner)
+                .WithMany(user => user.ChatRooms)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<ChatRoomMessage>()
                 .HasRequired(chatRoomMessage => chatRoomMessage.Owner)
                 .WithMany(user => user.ChatRoomMessages)

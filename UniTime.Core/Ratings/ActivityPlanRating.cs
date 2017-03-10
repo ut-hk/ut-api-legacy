@@ -13,9 +13,9 @@ namespace UniTime.Ratings
         }
 
         [ForeignKey(nameof(ActivityPlanId))]
-        public virtual ActivityPlan ActivityPlan { get; set; }
+        public virtual ActivityPlan ActivityPlan { get; protected set; }
 
-        public virtual Guid ActivityPlanId { get; set; }
+        public virtual Guid ActivityPlanId { get; protected set; }
 
         public static ActivityPlanRating Create(RatingStatus ratingStatus, ActivityPlan activityPlan, User owner)
         {

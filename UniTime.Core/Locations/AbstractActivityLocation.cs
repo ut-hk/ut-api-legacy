@@ -9,6 +9,6 @@ namespace UniTime.Locations
         {
         }
 
-        public virtual ICollection<AbstractActivity> Activities { get; set; }
+        public virtual ICollection<AbstractActivity> Activities { get; protected set; }
     }
 }

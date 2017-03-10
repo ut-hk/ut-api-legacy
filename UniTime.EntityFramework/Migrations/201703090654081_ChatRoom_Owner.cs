@@ -10,7 +10,7 @@ namespace UniTime.Migrations
             AddColumn("dbo.ChatRooms", "OwnerId", c => c.Long(nullable: false));
             CreateIndex("dbo.Tags", "Text");
             CreateIndex("dbo.ChatRooms", "OwnerId");
-            AddForeignKey("dbo.ChatRooms", "OwnerId", "dbo.AbpUsers", "Id", cascadeDelete: true);
+            AddForeignKey("dbo.ChatRooms", "OwnerId", "dbo.AbpUsers", "Id");
         }
         
         public override void Down()

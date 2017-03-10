@@ -34,7 +34,7 @@ namespace UniTime.ChatRooms
             var chatRoom = await _chatRoomManager.GetAsync(input.ChatRoomId);
 
             if (!chatRoom.Participants.Select(participant => participant.Id).Contains(currentUserId))
-                throw new UserFriendlyException("You are not allowed to view this chat room.");
+                throw new UserFriendlyException($"You are not allowed to view this chat room with id = {input.ChatRoomId}.");
 
             var chatRoomMessages = await _chatRoomMessageRepository.GetAllListAsync(chatRoomMessage =>
                 chatRoomMessage.ChatRoomId == input.ChatRoomId &&
@@ -51,8 +51,8 @@ namespace UniTime.ChatRooms
             var currentUser = await GetCurrentUserAsync();
             var chatRoom = await _chatRoomManager.GetAsync(input.ChatRoomId);
 
-            if (!chatRoom.Participants.Contains(currentUser))
-                throw new UserFriendlyException("You are not allowed to create message in this chat room.");
+            if (!chatRoom.Participants.Select(participant => participant.Id).Contains(currentUser.Id))
+                throw new UserFriendlyException($"You are not allowed to create message in this chat room with id = {input.ChatRoomId}.");
 
             var chatRoomMessage = await _chatRoomMessageManager.CreateAsync(TextChatRoomMessage.Create(input.Text, chatRoom, currentUser));
 

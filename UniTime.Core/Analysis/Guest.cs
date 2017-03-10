@@ -12,11 +12,11 @@ namespace UniTime.Analysis
         {
         }
 
-        public virtual ICollection<RouteHistory> RouteHistories { get; set; }
+        public virtual ICollection<RouteHistory> RouteHistories { get; protected set; }
 
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public virtual long? OwnerId { get; set; }
+        public virtual long? OwnerId { get; protected set; }
 
         public virtual DateTime CreationTime { get; set; }
 

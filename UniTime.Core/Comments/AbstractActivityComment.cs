@@ -12,9 +12,9 @@ namespace UniTime.Comments
         }
 
         [ForeignKey(nameof(AbstractActivityId))]
-        public virtual AbstractActivity AbstractActivity { get; set; }
+        public virtual AbstractActivity AbstractActivity { get; protected set; }
 
-        public virtual Guid AbstractActivityId { get; set; }
+        public virtual Guid AbstractActivityId { get; protected set; }
 
         public static AbstractActivityComment Create(string content, AbstractActivity abstractActivity, User owner)
         {

@@ -10,13 +10,13 @@ namespace UniTime.Activities
         {
         }
 
-        public virtual DateTime? ReferenceStarTime { get; set; }
+        public virtual DateTime? ReferenceStartTime { get; protected set; }
 
-        public virtual DateTime? ReferenceEndTime { get; set; }
+        public virtual DateTime? ReferenceEndTime { get; protected set; }
 
-        public virtual ICollection<Activity> TemplatedActivities { get; set; }
+        public virtual ICollection<Activity> TemplatedActivities { get; protected set; }
 
-        public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; set; }
+        public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; protected set; }
 
         public static ActivityTemplate Create(string name, string description, DateTime? referenceStartTime, DateTime? referenceEndTime, User owner)
         {
@@ -24,7 +24,7 @@ namespace UniTime.Activities
             {
                 Name = name,
                 Description = description,
-                ReferenceStarTime = referenceStartTime,
+                ReferenceStartTime = referenceStartTime,
                 ReferenceEndTime = referenceEndTime,
                 Owner = owner,
                 OwnerId = owner.Id

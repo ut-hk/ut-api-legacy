@@ -21,14 +21,14 @@ namespace UniTime.Tags
         [StringLength(MaxTextLength, MinimumLength = MinTextLength)]
         public virtual string Text { get; protected set; }
 
-        public virtual ICollection<AbstractActivity> Activities { get; set; }
+        public virtual ICollection<AbstractActivity> Activities { get; protected set; }
 
-        public virtual ICollection<ActivityPlan> ActivityPlans { get; set; }
+        public virtual ICollection<ActivityPlan> ActivityPlans { get; protected set; }
 
         public static Tag Create(string text)
         {
             if (text.Contains(" "))
-                throw new UserFriendlyException("A tag should not contain a space.");
+                throw new UserFriendlyException("A tag must not contain a space.");
 
             return new Tag
             {

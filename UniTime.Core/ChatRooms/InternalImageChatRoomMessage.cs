@@ -16,8 +16,8 @@ namespace UniTime.ChatRooms
         public override string Message => Image.Id.ToString();
 
         [ForeignKey(nameof(ImageId))]
-        public virtual Image Image { get; set; }
+        public virtual Image Image { get; protected set; }
 
-        public virtual Guid ImageId { get; set; }
+        public virtual Guid ImageId { get; protected set; }
     }
 }

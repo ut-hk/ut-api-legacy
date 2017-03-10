@@ -12,18 +12,18 @@ namespace UniTime.Activities
         {
         }
 
-        public virtual DateTime? StarTime { get; set; }
+        public virtual DateTime? StartTime { get; protected set; }
 
-        public virtual DateTime? EndTime { get; set; }
+        public virtual DateTime? EndTime { get; protected set; }
 
-        public virtual ICollection<ActivityParticipant> Participants { get; set; }
+        public virtual ICollection<ActivityParticipant> Participants { get; protected set; }
 
-        public virtual ICollection<ActivityInvitation> Invitations { get; set; }
+        public virtual ICollection<ActivityInvitation> Invitations { get; protected set; }
 
         [ForeignKey(nameof(ActivityTemplateId))]
-        public virtual ActivityTemplate ActivityTemplate { get; set; }
+        public virtual ActivityTemplate ActivityTemplate { get; protected set; }
 
-        public virtual Guid? ActivityTemplateId { get; set; }
+        public virtual Guid? ActivityTemplateId { get; protected set; }
 
         public static Activity Create(string name, string description, DateTime? startTime, DateTime? endTime, User owner)
         {
@@ -31,7 +31,7 @@ namespace UniTime.Activities
             {
                 Name = name,
                 Description = description,
-                StarTime = startTime,
+                StartTime = startTime,
                 EndTime = endTime,
                 Owner = owner,
                 OwnerId = owner.Id

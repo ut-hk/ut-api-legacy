@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
@@ -29,12 +28,6 @@ namespace UniTime.Activities.Managers
             activityPlanTimeSlot.Id = await _activityPlanTimeSlotRepository.InsertAndGetIdAsync(activityPlanTimeSlot);
 
             return activityPlanTimeSlot;
-        }
-
-        public void UpdateTimes(ActivityPlanTimeSlot activityPlanTimeSlot, DateTime startTime, DateTime endTime)
-        {
-            activityPlanTimeSlot.StartTime = startTime;
-            activityPlanTimeSlot.EndTime = endTime;
         }
 
         public async Task RemoveAsync(ActivityPlanTimeSlot activityPlanTimeSlot)

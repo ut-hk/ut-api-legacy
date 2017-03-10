@@ -8,6 +8,10 @@ namespace UniTime.Activities
 {
     public interface IActivityAppService : IApplicationService
     {
+        /// <summary>
+        ///     My Activities are the owned activities and the participated activities.
+        /// </summary>
+        /// <returns></returns>
         Task<GetMyActivitiesOutput> GetMyActivities();
 
         Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);

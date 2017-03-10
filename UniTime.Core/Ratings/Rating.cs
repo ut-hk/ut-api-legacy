@@ -8,10 +8,10 @@ namespace UniTime.Ratings
 {
     public abstract class Rating : AuditedEntity<Guid>, IHasOwner
     {
-        public virtual RatingStatus RatingStatus { get; set; }
+        public virtual RatingStatus RatingStatus { get; protected set; }
 
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public virtual long OwnerId { get; set; }
+        public virtual long OwnerId { get; protected set; }
     }
 }

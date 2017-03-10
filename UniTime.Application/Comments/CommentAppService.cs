@@ -16,15 +16,12 @@ namespace UniTime.Comments
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
         private readonly IRepository<ActivityPlan, Guid> _activityPlanRepository;
         private readonly ICommentManager _commentManager;
-        private readonly IRepository<Comment, long> _commentRepository;
 
         public CommentAppService(
-            IRepository<Comment, long> commentRepository,
             ICommentManager commentManager,
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
             IRepository<ActivityPlan, Guid> activityPlanRepository)
         {
-            _commentRepository = commentRepository;
             _commentManager = commentManager;
             _abstractActivityRepository = abstractActivityRepository;
             _activityPlanRepository = activityPlanRepository;

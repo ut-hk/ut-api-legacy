@@ -13,16 +13,16 @@ namespace UniTime.ChatRooms
         public virtual ChatRoomMessageType Type { get; }
 
         [NotMapped]
-        public virtual string Message { get; set; }
+        public virtual string Message { get; }
 
         [ForeignKey(nameof(ChatRoomId))]
-        public virtual ChatRoom ChatRoom { get; set; }
+        public virtual ChatRoom ChatRoom { get; protected set; }
 
-        public virtual Guid ChatRoomId { get; set; }
+        public virtual Guid ChatRoomId { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual User Owner { get; set; }
+        public virtual User Owner { get; protected set; }
 
-        public long OwnerId { get; set; }
+        public long OwnerId { get; protected set; }
     }
 }

@@ -10,8 +10,13 @@ namespace UniTime.Descriptions
         public virtual DescriptionType Type { get; }
 
         [NotMapped]
-        public virtual string Content { get; set; }
+        public virtual string Content { get; }
 
-        public virtual int Priority { get; set; }
+        public virtual int Priority { get; protected set; }
+
+        public virtual void EditPriority(int priority)
+        {
+            Priority = priority;
+        }
     }
 }

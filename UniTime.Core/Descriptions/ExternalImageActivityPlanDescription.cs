@@ -12,6 +12,6 @@ namespace UniTime.Descriptions
 
         public override string Content => Path;
 
-        public virtual string Path { get; set; }
+        public virtual string Path { get; protected set; }
     }
 }

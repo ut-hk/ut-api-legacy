@@ -7,7 +7,6 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
-using Abp.UI;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 
@@ -27,10 +26,6 @@ namespace UniTime.Activities
             _activityManager = activityManager;
         }
 
-        /// <summary>
-        ///     My Activities are the owned activities and the participated activities.
-        /// </summary>
-        /// <returns></returns>
         public async Task<GetMyActivitiesOutput> GetMyActivities()
         {
             var currentUser = await GetCurrentUserAsync();
@@ -68,10 +63,7 @@ namespace UniTime.Activities
             var currentUserId = GetCurrentUserId();
             var activity = await _activityManager.GetAsync(input.Id);
 
-            if (activity.OwnerId != currentUserId) throw new UserFriendlyException("You are not allowed to update this activity.");
-
-            activity.Name = input.Name;
-            activity.Description = input.Description;
+            activity.Edit(input.Name, input.Description, currentUserId);
         }
     }
 }

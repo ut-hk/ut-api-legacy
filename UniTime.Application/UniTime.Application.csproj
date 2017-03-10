@@ -162,6 +162,7 @@
     <Compile Include="ChatRooms\Dtos\GetChatRoomMessagesOutput.cs" />
     <Compile Include="ChatRooms\IChatRoomAppService.cs" />
     <Compile Include="ChatRooms\IChatRoomMessageAppService.cs" />
+    <Compile Include="ChatRooms\Dtos\UpdateChatRoomInput.cs" />
     <Compile Include="Comments\CommentAppService.cs" />
     <Compile Include="Comments\Dtos\CreateCommentInput.cs" />
     <Compile Include="Comments\Dtos\CreateReplyInput.cs" />
@@ -177,6 +178,17 @@
     <Compile Include="Descriptions\IDescriptionAppService.cs" />
     <Compile Include="Descriptions\Dtos\UpdateTextDescriptionInput.cs" />
     <Compile Include="Files\Dtos\FileDto.cs" />
+    <Compile Include="Invitations\ActivityInvitationAppService.cs" />
+    <Compile Include="Invitations\Dtos\ActivityInvitationDto.cs" />
+    <Compile Include="Invitations\Dtos\CreateActivityInvitationInput.cs" />
+    <Compile Include="Invitations\Dtos\CreateFriendInvitationInput.cs" />
+    <Compile Include="Invitations\FriendInvitationAppService.cs" />
+    <Compile Include="Invitations\Dtos\FriendInvitationDto.cs" />
+    <Compile Include="Invitations\Dtos\GetActivityInvitationsOutput.cs" />
+    <Compile Include="Invitations\Dtos\GetFriendInvitationsOutput.cs" />
+    <Compile Include="Invitations\IActivityInvitationAppService.cs" />
+    <Compile Include="Invitations\IFriendInvitationAppService.cs" />
+    <Compile Include="Invitations\Dtos\InvitationDto.cs" />
     <Compile Include="Locations\Dtos\CreateLocationInput.cs" />
     <Compile Include="Locations\Dtos\LocationDto.cs" />
     <Compile Include="Locations\Dtos\GetLocationsOutput.cs" />
@@ -211,6 +223,9 @@
     <Compile Include="Sessions\SessionAppService.cs" />
     <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Users\Dtos\UserListDto.cs" />
+    <Compile Include="Users\Dtos\GetMyUserOutput.cs" />
+    <Compile Include="Users\IUserAppService.cs" />
+    <Compile Include="Users\UserAppService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

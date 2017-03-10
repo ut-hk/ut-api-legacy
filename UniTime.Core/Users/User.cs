@@ -18,26 +18,27 @@ namespace UniTime.Users
 
         public virtual UserProfile Profile { get; set; }
 
-        public virtual ICollection<AbstractActivity> AbstractActivities { get; set; }
+        public virtual ICollection<AbstractActivity> AbstractActivities { get; protected set; }
 
-        public virtual ICollection<ActivityParticipant> Participants { get; set; }
+        public virtual ICollection<ActivityParticipant> Participants { get; protected set; }
 
-        public virtual ICollection<ActivityPlan> ActivityPlans { get; set; }
+        public virtual ICollection<ActivityPlan> ActivityPlans { get; protected set; }
 
-        public virtual ICollection<ChatRoomMessage> ChatRoomMessages { get; set; }
+        public virtual ICollection<ChatRoom> ChatRooms { get; protected set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<ChatRoomMessage> ChatRoomMessages { get; protected set; }
 
-        public virtual ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<Comment> Comments { get; protected set; }
 
-        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<Reply> Replies { get; protected set; }
 
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<File> Files { get; protected set; }
 
-        public virtual ICollection<Invitation> SentInvitations { get; set; }
+        public virtual ICollection<Rating> Ratings { get; protected set; }
 
-        public virtual ICollection<Invitation> ReceivedInvitations { get; set; }
+        public virtual ICollection<Invitation> SentInvitations { get; protected set; }
 
+        public virtual ICollection<Invitation> ReceivedInvitations { get; protected set; }
 
         public static string CreateRandomPassword()
         {
