@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
@@ -20,7 +19,8 @@ namespace UniTime.ChatRooms.Managers
         {
             var chatRoom = await _chatRoomRepository.FirstOrDefaultAsync(id);
 
-            if (chatRoom == null) throw new UserFriendlyException("The chat room with id = " + id + " does not exist.");
+            if (chatRoom == null)
+                throw new UserFriendlyException("The chat room with id = " + id + " does not exist.");
 
             return chatRoom;
         }

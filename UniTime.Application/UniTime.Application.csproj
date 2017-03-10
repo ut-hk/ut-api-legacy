@@ -142,6 +142,8 @@
     <Compile Include="Activities\Dtos\GetActivityTemplatesOutput.cs" />
     <Compile Include="Activities\Dtos\GetMyActivitiesOutput.cs" />
     <Compile Include="Activities\Dtos\GetActivityTemplatesInput.cs" />
+    <Compile Include="Activities\Dtos\GetActivityPlanOutput.cs" />
+    <Compile Include="Activities\Dtos\GetActivityTemplateOutput.cs" />
     <Compile Include="Activities\IActivityAppService.cs" />
     <Compile Include="Activities\IActivityPlanTimeSlotAppService.cs" />
     <Compile Include="Activities\IActivityTemplateAppService.cs" />

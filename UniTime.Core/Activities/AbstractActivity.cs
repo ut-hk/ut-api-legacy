@@ -32,11 +32,12 @@ namespace UniTime.Activities
         [ForeignKey(nameof(OwnerId))]
         public virtual User Owner { get; protected set; }
 
-        public long OwnerId { get; protected set; }
+        public virtual long OwnerId { get; protected set; }
 
         public virtual void Edit(string name, string description, long editUserId)
         {
-            if (OwnerId != editUserId) throw new UserFriendlyException($"You are not allowed to update this activity with id = {Id}.");
+            if (OwnerId != editUserId)
+                throw new UserFriendlyException($"You are not allowed to update this activity with id = {Id}.");
 
             Name = name;
             Description = description;

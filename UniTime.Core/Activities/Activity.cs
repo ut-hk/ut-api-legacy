@@ -27,7 +27,7 @@ namespace UniTime.Activities
 
         public static Activity Create(string name, string description, DateTime? startTime, DateTime? endTime, User owner)
         {
-            var activity = new Activity
+            return new Activity
             {
                 Name = name,
                 Description = description,
@@ -36,7 +36,6 @@ namespace UniTime.Activities
                 Owner = owner,
                 OwnerId = owner.Id
             };
-            return activity;
         }
     }
 }

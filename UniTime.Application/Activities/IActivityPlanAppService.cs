@@ -8,6 +8,7 @@ namespace UniTime.Activities
 {
     public interface IActivityPlanAppService : IApplicationService
     {
+        Task<GetActivityPlanOutput> GetActivityPlan(EntityDto<Guid> input);
         Task<GetActivityPlansOutput> GetActivityPlans(GetActivityPlansInput input);
 
         Task<EntityDto<Guid>> CreateActivityPlan(CreateActivityPlanInput input);

@@ -2,9 +2,9 @@
 
 namespace UniTime.Descriptions
 {
-    public class YoutubeActivityPlanDescription : ActivityPlanDescription
+    public class YoutubeDescription : Description
     {
-        protected YoutubeActivityPlanDescription()
+        protected YoutubeDescription()
         {
         }
 

@@ -18,7 +18,8 @@ namespace UniTime.Descriptions.Managers
         {
             var description = await _descriptionRepository.FirstOrDefaultAsync(id);
 
-            if (description == null) throw new UserFriendlyException("The description with id = " + id + " does not exist.");
+            if (description == null)
+                throw new UserFriendlyException("The description with id = " + id + " does not exist.");
 
             return description;
         }
@@ -28,6 +29,11 @@ namespace UniTime.Descriptions.Managers
             description.Id = await _descriptionRepository.InsertAndGetIdAsync(description);
 
             return description;
+        }
+
+        public void EditTextDescription(TextDescription textDescription, string text, long editUserId)
+        {
+            textDescription.EditText(text, editUserId);
         }
 
         public async Task RemoveAsync(Description description)

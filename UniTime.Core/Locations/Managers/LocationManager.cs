@@ -19,7 +19,8 @@ namespace UniTime.Locations.Managers
         {
             var location = _locationRepository.FirstOrDefaultAsync(id);
 
-            if (location == null) throw new UserFriendlyException("The location with id = " + id + " does not exist.");
+            if (location == null)
+                throw new UserFriendlyException("The location with id = " + id + " does not exist.");
 
             return location;
         }

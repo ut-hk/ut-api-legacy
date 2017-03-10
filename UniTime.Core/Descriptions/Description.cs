@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
+using UniTime.Activities;
 using UniTime.Descriptions.Enums;
 
 namespace UniTime.Descriptions
@@ -13,6 +15,12 @@ namespace UniTime.Descriptions
         public virtual string Content { get; }
 
         public virtual int Priority { get; protected set; }
+
+        [ForeignKey(nameof(ActivityPlanId))]
+        public virtual ActivityPlan ActivityPlan { get; protected set; }
+
+        public virtual Guid? ActivityPlanId { get; protected set; }
+
 
         public virtual void EditPriority(int priority)
         {

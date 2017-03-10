@@ -9,5 +9,7 @@ namespace UniTime.Activities.Managers
         Task<ActivityTemplate> GetAsync(Guid id);
 
         Task<ActivityTemplate> CreateAsync(ActivityTemplate activityTemplate);
+
+        void EditActivityTemplate(ActivityTemplate activityTemplate, string name, string description, long editUserId);
     }
 }

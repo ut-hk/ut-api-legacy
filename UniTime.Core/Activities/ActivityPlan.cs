@@ -20,7 +20,7 @@ namespace UniTime.Activities
 
         public virtual string Name { get; protected set; }
 
-        public virtual ICollection<ActivityPlanDescription> Descriptions { get; protected set; }
+        public virtual ICollection<Description> Descriptions { get; protected set; }
 
         public virtual ICollection<Tag> Tags { get; protected set; }
 

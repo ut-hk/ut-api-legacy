@@ -27,6 +27,16 @@ namespace UniTime.Activities
             _activityTemplateManager = activityTemplateManager;
         }
 
+        public async Task<GetActivityTemplateOutput> GetActivityTemplate(EntityDto<Guid> input)
+        {
+            var activityTemplate = await _activityTemplateManager.GetAsync(input.Id);
+
+            return new GetActivityTemplateOutput
+            {
+                ActivityTemplate = activityTemplate.MapTo<ActivityTemplateDto>()
+            };
+        }
+
         public async Task<GetActivityTemplatesOutput> GetActivityTemplates(GetActivityTemplatesInput input)
         {
             var selectedGeographyPoint = $"POINT({input.Longitude} {input.Latitude})";
@@ -37,8 +47,8 @@ namespace UniTime.Activities
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
                     activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
-                .WhereIf(input.StartTime.HasValue, activityTempalte => activityTempalte.ReferenceStartTime > input.StartTime)
-                .WhereIf(input.EndTime.HasValue, activityTempalte => input.EndTime > activityTempalte.ReferenceEndTime)
+                .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceStartTime > input.StartTime)
+                .WhereIf(input.EndTime.HasValue, activityTemplate => input.EndTime > activityTemplate.ReferenceEndTime)
                 .ToListAsync();
 
             return new GetActivityTemplatesOutput
@@ -55,7 +65,7 @@ namespace UniTime.Activities
             var activityTemplate = await _activityTemplateManager.CreateAsync(ActivityTemplate.Create(
                 input.Name,
                 input.Description,
-                input.ReferenceStarTime,
+                input.ReferenceStartTime,
                 input.ReferenceEndTime,
                 currentUser
             ));
@@ -66,9 +76,9 @@ namespace UniTime.Activities
         public async Task UpdateActivityTemplate(UpdateAbstractActivityInput input)
         {
             var currentUserId = GetCurrentUserId();
-            var activity = await _activityTemplateManager.GetAsync(input.Id);
+            var activityTemplate = await _activityTemplateManager.GetAsync(input.Id);
 
-            activity.Edit(input.Name, input.Description, currentUserId);
+            _activityTemplateManager.EditActivityTemplate(activityTemplate, input.Name, input.Description, currentUserId);
         }
 
         private static double ConvertToStandardDistance(double distanceInMile)

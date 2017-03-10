@@ -25,7 +25,8 @@ namespace UniTime.Files.Managers
         {
             var file = await _fileRepository.GetAsync(id);
 
-            if (file == null) throw new UserFriendlyException($"The file with id = {id} does not exist.");
+            if (file == null)
+                throw new UserFriendlyException($"The file with id = {id} does not exist.");
 
             return file;
         }
@@ -34,7 +35,8 @@ namespace UniTime.Files.Managers
         {
             var files = await _fileRepository.GetAllListAsync(file => ids.Contains(file.Id));
 
-            if (files.Distinct().Count() != ids.Count) throw new UserFriendlyException("Some files does not exist.");
+            if (files.Distinct().Count() != ids.Count)
+                throw new UserFriendlyException("Some files does not exist.");
 
             return files;
         }

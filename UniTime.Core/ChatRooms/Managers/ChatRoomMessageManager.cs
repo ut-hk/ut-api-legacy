@@ -18,7 +18,8 @@ namespace UniTime.ChatRooms.Managers
         {
             var chatRoomMessage = await _chatRoomMessageRepository.FirstOrDefaultAsync(id);
 
-            if (chatRoomMessage == null) throw new UserFriendlyException("The chat room message with id = " + id + " does not exist.");
+            if (chatRoomMessage == null)
+                throw new UserFriendlyException("The chat room message with id = " + id + " does not exist.");
 
             return chatRoomMessage;
         }

@@ -4,6 +4,7 @@ using Abp.Authorization.Users;
 using Abp.Extensions;
 using Microsoft.AspNet.Identity;
 using UniTime.Activities;
+using UniTime.Analysis;
 using UniTime.ChatRooms;
 using UniTime.Comments;
 using UniTime.Files;
@@ -23,6 +24,8 @@ namespace UniTime.Users
         public virtual ICollection<ActivityParticipant> Participants { get; protected set; }
 
         public virtual ICollection<ActivityPlan> ActivityPlans { get; protected set; }
+
+        public virtual ICollection<Guest> Guests { get; set; }
 
         public virtual ICollection<ChatRoom> ChatRooms { get; protected set; }
 

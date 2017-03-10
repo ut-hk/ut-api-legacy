@@ -44,7 +44,7 @@ namespace UniTime.Activities
             var currentUserId = GetCurrentUserId();
             var activityPlanTimeSlot = await _activityPlanTimeSlotManager.GetAsync(input.Id);
 
-            activityPlanTimeSlot.EditTimes(input.StartTime, input.EndTime, currentUserId);
+            activityPlanTimeSlot.Edit(input.StartTime, input.EndTime, currentUserId);
         }
 
         public async Task RemoveActivityPlanTimeSlot(EntityDto<long> input)

@@ -8,7 +8,7 @@ namespace UniTime.Ratings
 {
     public interface IRatingAppService : IApplicationService
     {
-        Task<GetRatingsOutput> GetRatings();
+        Task<GetRatingsOutput> GetMyRatings();
 
         Task<EntityDto<Guid>> CreateRating(CreateRatingInput input);
     }

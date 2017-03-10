@@ -19,7 +19,8 @@ namespace UniTime.Activities.Managers
         {
             var activityTemplate = await _abstractActivityRepository.FirstOrDefaultAsync(id) as ActivityTemplate;
 
-            if (activityTemplate == null) throw new UserFriendlyException("The activity template with id = " + id + " does not exist.");
+            if (activityTemplate == null)
+                throw new UserFriendlyException("The activity template with id = " + id + " does not exist.");
 
             return activityTemplate;
         }
@@ -29,6 +30,11 @@ namespace UniTime.Activities.Managers
             activityTemplate.Id = await _abstractActivityRepository.InsertAndGetIdAsync(activityTemplate);
 
             return activityTemplate;
+        }
+
+        public void EditActivityTemplate(ActivityTemplate activityTemplate, string name, string description, long editUserId)
+        {
+            activityTemplate.Edit(name, description, editUserId);
         }
     }
 }

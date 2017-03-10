@@ -28,12 +28,12 @@ namespace UniTime.Activities
 
         public async Task<GetMyActivitiesOutput> GetMyActivities()
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId = GetCurrentUserId();
 
             var myActivities = await _abstractActivityRepository.GetAll().OfType<Activity>()
                 .Where(activity =>
-                    activity.OwnerId == currentUser.Id ||
-                    activity.Participants.Select(participant => participant.OwnerId).Contains(currentUser.Id)
+                    activity.OwnerId == currentUserId ||
+                    activity.Participants.Select(participant => participant.OwnerId).Contains(currentUserId)
                 )
                 .ToListAsync();
 
@@ -63,7 +63,7 @@ namespace UniTime.Activities
             var currentUserId = GetCurrentUserId();
             var activity = await _activityManager.GetAsync(input.Id);
 
-            activity.Edit(input.Name, input.Description, currentUserId);
+            _activityManager.EditActivity(activity, input.Name, input.Description, currentUserId);
         }
     }
 }

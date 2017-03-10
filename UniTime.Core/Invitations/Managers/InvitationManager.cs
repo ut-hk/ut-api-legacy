@@ -19,7 +19,8 @@ namespace UniTime.Invitations.Managers
         {
             var invitation = await _invitationRepository.FirstOrDefaultAsync(id);
 
-            if (invitation == null) throw new UserFriendlyException("The invitation with id = " + id + " does not exist.");
+            if (invitation == null)
+                throw new UserFriendlyException("The invitation with id = " + id + " does not exist.");
 
             return invitation;
         }

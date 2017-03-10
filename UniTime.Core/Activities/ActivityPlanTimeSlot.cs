@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
 using Abp.Domain.Entities;
 using Abp.UI;
 
@@ -42,10 +41,10 @@ namespace UniTime.Activities
             };
         }
 
-        public void EditTimes(DateTime startTime, DateTime endTime, long editUserId)
+        public void Edit(DateTime startTime, DateTime endTime, long editUserId)
         {
             if (ActivityPlan.OwnerId != editUserId)
-                throw new UserFriendlyException($"You are not allowed to change this activity plan with id = {editUserId}.");
+                throw new UserFriendlyException($"You are not allowed to change this activity plan time slot with id = {editUserId}.");
 
             StartTime = startTime;
             EndTime = endTime;

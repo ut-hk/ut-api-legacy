@@ -2,9 +2,9 @@
 
 namespace UniTime.Descriptions
 {
-    public class ExternalImageActivityPlanDescription : ActivityPlanDescription
+    public class ExternalImageDescription : Description
     {
-        protected ExternalImageActivityPlanDescription()
+        protected ExternalImageDescription()
         {
         }
 

@@ -19,7 +19,8 @@ namespace UniTime.Ratings.Managers
         {
             var rating = await _ratingRepository.FirstOrDefaultAsync(id);
 
-            if (rating == null) throw new UserFriendlyException("The rating with id = " + id + " does not exist.");
+            if (rating == null)
+                throw new UserFriendlyException("The rating with id = " + id + " does not exist.");
 
             return rating;
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
@@ -18,7 +19,8 @@ namespace UniTime.Activities.Managers
         {
             var activityPlanTimeSlot = await _activityPlanTimeSlotRepository.FirstOrDefaultAsync(id);
 
-            if (activityPlanTimeSlot == null) throw new UserFriendlyException($"The activity plan time slot with id = {id} does not exist.");
+            if (activityPlanTimeSlot == null)
+                throw new UserFriendlyException($"The activity plan time slot with id = {id} does not exist.");
 
             return activityPlanTimeSlot;
         }
@@ -28,6 +30,11 @@ namespace UniTime.Activities.Managers
             activityPlanTimeSlot.Id = await _activityPlanTimeSlotRepository.InsertAndGetIdAsync(activityPlanTimeSlot);
 
             return activityPlanTimeSlot;
+        }
+
+        public void EditActivityPlanTimeSlot(ActivityPlanTimeSlot activityPlanTimeSlot, DateTime startTime, DateTime endTime, long editUserId)
+        {
+            activityPlanTimeSlot.Edit(startTime, endTime, editUserId);
         }
 
         public async Task RemoveAsync(ActivityPlanTimeSlot activityPlanTimeSlot)

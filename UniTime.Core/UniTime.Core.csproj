@@ -156,14 +156,13 @@
     <Compile Include="Comments\Managers\IReplyManager.cs" />
     <Compile Include="Comments\Managers\ReplyManager.cs" />
     <Compile Include="Comments\Reply.cs" />
-    <Compile Include="Descriptions\ActivityPlanDescription.cs" />
     <Compile Include="Descriptions\Description.cs" />
     <Compile Include="Descriptions\Enums\DescriptionType.cs" />
-    <Compile Include="Descriptions\ExternalImageActivityPlanDescription.cs" />
+    <Compile Include="Descriptions\ExternalImageDescription.cs" />
     <Compile Include="Descriptions\Managers\DescriptionManager.cs" />
     <Compile Include="Descriptions\Managers\IDescriptionManager.cs" />
-    <Compile Include="Descriptions\TextActivityPlanDescription.cs" />
-    <Compile Include="Descriptions\YoutubeActivityPlanDescription.cs" />
+    <Compile Include="Descriptions\TextDescription.cs" />
+    <Compile Include="Descriptions\YoutubeDescription.cs" />
     <Compile Include="Files\File.cs" />
     <Compile Include="Files\Managers\FileManager.cs" />
     <Compile Include="Files\Enums\FileType.cs" />

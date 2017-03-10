@@ -30,13 +30,26 @@ namespace UniTime.Activities
             _activityPlanManager = activityPlanManager;
         }
 
+        public async Task<GetActivityPlanOutput> GetActivityPlan(EntityDto<Guid> input)
+        {
+            var activityPlan = await _activityPlanManager.GetAsync(input.Id);
+
+            return new GetActivityPlanOutput
+            {
+                ActivityPlan = activityPlan.MapTo<ActivityPlanDto>()
+            };
+        }
+
+
         public async Task<GetActivityPlansOutput> GetActivityPlans(GetActivityPlansInput input)
         {
             var queryKeywords = input.QueryKeywords?.Split(' ').Where(queryKeyword => queryKeyword.Length > 0).ToArray();
 
             var activityPlans = await _activityPlanRepository.GetAll()
-                .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0, activityPlan => input.TagTexts.Any(tagText => activityPlan.Tags.Select(tag => tag.Text).Contains(tagText)))
-                .WhereIf(queryKeywords != null && queryKeywords.Length > 0, activityPlan => queryKeywords.Any(queryKeyword => activityPlan.Name.Contains(queryKeyword)))
+                .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
+                    activityPlan => input.TagTexts.Any(tagText => activityPlan.Tags.Select(tag => tag.Text).Contains(tagText)))
+                .WhereIf(queryKeywords != null && queryKeywords.Length > 0,
+                    activityPlan => queryKeywords.Any(queryKeyword => activityPlan.Name.Contains(queryKeyword)))
                 .ToListAsync();
 
             return new GetActivityPlansOutput
@@ -65,7 +78,7 @@ namespace UniTime.Activities
             var activityPlan = await _activityPlanManager.GetAsync(input.Id);
             var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
 
-            activityPlan.Edit(input.Name, tags, currentUserId);
+            _activityPlanManager.EditActivityPlan(activityPlan, input.Name, tags, currentUserId);
             _activityPlanManager.EditDescriptions(activityPlan, input.DescriptionIds, currentUserId);
         }
     }

@@ -4,9 +4,9 @@ using UniTime.Descriptions.Enums;
 
 namespace UniTime.Descriptions
 {
-    public class TextActivityPlanDescription : ActivityPlanDescription
+    public class TextDescription : Description
     {
-        protected TextActivityPlanDescription()
+        protected TextDescription()
         {
         }
 
@@ -16,13 +16,13 @@ namespace UniTime.Descriptions
 
         public virtual string Text { get; protected set; }
 
-        public static TextActivityPlanDescription Create(ActivityPlan activityPlan, long createUserId)
+        public static TextDescription Create(ActivityPlan activityPlan, long createUserId)
         {
             if (createUserId != activityPlan.OwnerId)
                 throw new UserFriendlyException($"You are not allowed to create a text description in this description with id = {activityPlan.Id}.");
 
 
-            return new TextActivityPlanDescription
+            return new TextDescription
             {
                 ActivityPlan = activityPlan,
                 ActivityPlanId = activityPlan.Id

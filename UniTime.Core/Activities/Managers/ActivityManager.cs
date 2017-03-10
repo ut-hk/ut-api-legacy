@@ -19,16 +19,22 @@ namespace UniTime.Activities.Managers
         {
             var activity = await _abstractActivityRepository.FirstOrDefaultAsync(id) as Activity;
 
-            if (activity == null) throw new UserFriendlyException("The activity with id = " + id + " does not exist.");
+            if (activity == null)
+                throw new UserFriendlyException("The activity with id = " + id + " does not exist.");
 
             return activity;
         }
 
         public async Task<Activity> CreateAsync(Activity activity)
         {
-            activity.Id =  await _abstractActivityRepository.InsertAndGetIdAsync(activity);
+            activity.Id = await _abstractActivityRepository.InsertAndGetIdAsync(activity);
 
             return activity;
+        }
+
+        public void EditActivity(Activity activity, string name, string description, long editUserId)
+        {
+            activity.Edit(name, description, editUserId);
         }
     }
 }

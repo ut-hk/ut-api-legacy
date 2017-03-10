@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using UniTime.Interfaces;
 using UniTime.Users;
 
 namespace UniTime.Analysis

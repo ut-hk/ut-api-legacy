@@ -32,9 +32,10 @@ namespace UniTime.Ratings
             _ratingManager = ratingManager;
         }
 
-        public async Task<GetRatingsOutput> GetRatings()
+        public async Task<GetRatingsOutput> GetMyRatings()
         {
-            var ratings = await _ratingRepository.GetAllListAsync();
+            var currentUserId = GetCurrentUserId();
+            var ratings = await _ratingRepository.GetAllListAsync(rating => rating.OwnerId == currentUserId);
 
             return new GetRatingsOutput
             {
@@ -61,7 +62,8 @@ namespace UniTime.Ratings
                 rating = await _ratingManager.CreateAsync(ActivityPlanRating.Create(input.RatingStatus, activityPlan, currentUser));
             }
 
-            if (rating == null) throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
+            if (rating == null)
+                throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
 
             return new EntityDto<Guid>(rating.Id);
         }

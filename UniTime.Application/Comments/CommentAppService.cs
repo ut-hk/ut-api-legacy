@@ -46,7 +46,8 @@ namespace UniTime.Comments
                 comment = await _commentManager.CreateAsync(ActivityPlanComment.Create(input.Content, activityPlan, currentUser));
             }
 
-            if (comment == null) throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
+            if (comment == null)
+                throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
 
             return new EntityDto<long>(comment.Id);
         }

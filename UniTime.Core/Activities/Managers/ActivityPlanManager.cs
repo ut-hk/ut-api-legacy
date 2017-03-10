@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using UniTime.Tags;
 
 namespace UniTime.Activities.Managers
 {
@@ -19,7 +21,8 @@ namespace UniTime.Activities.Managers
         {
             var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(id);
 
-            if (activityPlan == null) throw new UserFriendlyException("The activity plan with id = " + id + " does not exist.");
+            if (activityPlan == null)
+                throw new UserFriendlyException("The activity plan with id = " + id + " does not exist.");
 
             return activityPlan;
         }
@@ -42,6 +45,11 @@ namespace UniTime.Activities.Managers
                 for (var i = 0; i < descriptionIds.Length; i++)
                     if (descriptionIds[i] == activityPlanDescription.Id)
                         activityPlanDescription.EditPriority(i);
+        }
+
+        public void EditActivityPlan(ActivityPlan activityPlan, string name, ICollection<Tag> tags, long editUserId)
+        {
+            activityPlan.Edit(name, tags, editUserId);
         }
     }
 }

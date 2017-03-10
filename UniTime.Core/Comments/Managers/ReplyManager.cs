@@ -18,7 +18,8 @@ namespace UniTime.Comments.Managers
         {
             var reply = await _replyRepository.FirstOrDefaultAsync(id);
 
-            if (reply == null) throw new UserFriendlyException("The comment with id = " + id + " does not exist.");
+            if (reply == null)
+                throw new UserFriendlyException("The comment with id = " + id + " does not exist.");
 
             return reply;
         }
