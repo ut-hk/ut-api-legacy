@@ -226,7 +226,13 @@
     <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Users\Dtos\UserListDto.cs" />
     <Compile Include="Users\Dtos\GetMyUserOutput.cs" />
+    <Compile Include="Users\Dtos\TargetUserInput.cs" />
+    <Compile Include="Users\Dtos\GetFriendsOutput.cs" />
+    <Compile Include="Users\Dtos\GetTrackedByUsersOutput.cs" />
+    <Compile Include="Users\Dtos\GetTrackingUsersOutput.cs" />
+    <Compile Include="Users\ITrackAppService.cs" />
     <Compile Include="Users\IUserAppService.cs" />
+    <Compile Include="Users\TrackAppService.cs" />
     <Compile Include="Users\UserAppService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,7 @@ namespace UniTime.Users
     {
         public const string DefaultPassword = "123qweabpunitime";
 
-        public virtual UserProfile Profile { get; set; }
+        public virtual UserProfile Profile { get; protected set; }
 
         public virtual ICollection<AbstractActivity> AbstractActivities { get; protected set; }
 
@@ -25,7 +25,7 @@ namespace UniTime.Users
 
         public virtual ICollection<ActivityPlan> ActivityPlans { get; protected set; }
 
-        public virtual ICollection<Guest> Guests { get; set; }
+        public virtual ICollection<Guest> Guests { get; protected set; }
 
         public virtual ICollection<ChatRoom> ChatRooms { get; protected set; }
 
@@ -42,6 +42,10 @@ namespace UniTime.Users
         public virtual ICollection<Invitation> SentInvitations { get; protected set; }
 
         public virtual ICollection<Invitation> ReceivedInvitations { get; protected set; }
+
+        public virtual ICollection<Track> Trackings { get; protected set; }
+
+        public virtual ICollection<Track> TrackedBys { get; protected set; }
 
         public static string CreateRandomPassword()
         {

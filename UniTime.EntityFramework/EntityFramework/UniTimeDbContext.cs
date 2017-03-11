@@ -81,6 +81,11 @@ namespace UniTime.EntityFramework
 
         public IDbSet<Tag> Tags { get; set; }
 
+        public IDbSet<Track> Tracks { get; set; }
+
+        public IDbSet<UserProfile> UserProfiles { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -147,6 +152,16 @@ namespace UniTime.EntityFramework
             modelBuilder.Entity<Rating>()
                 .HasRequired(rating => rating.Owner)
                 .WithMany(user => user.Ratings)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Track>()
+               .HasRequired(track => track.From)
+               .WithMany(user => user.Trackings)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Track>()
+                .HasRequired(track => track.To)
+                .WithMany(user => user.TrackedBys)
                 .WillCascadeOnDelete(false);
         }
     }
