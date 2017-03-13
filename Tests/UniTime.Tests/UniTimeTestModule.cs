@@ -15,10 +15,10 @@ namespace UniTime.Tests
     {
         public override void PreInitialize()
         {
-            //Use database for language management
+            // Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
-            //Registering fake services
+            // Registering fake services
 
             IocManager.IocContainer.Register(
                 Component.For<IAbpZeroDbMigrator>()

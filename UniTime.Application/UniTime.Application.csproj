@@ -131,6 +131,7 @@
     <Compile Include="Activities\ActivityTemplateAppService.cs" />
     <Compile Include="Activities\Dtos\AbstractActivityDto.cs" />
     <Compile Include="Activities\Dtos\ActivityDto.cs" />
+    <Compile Include="Activities\Dtos\ActivityTemplateReferenceTimeSlotDto.cs" />
     <Compile Include="Activities\Dtos\CreateAbstractActivityInput.cs" />
     <Compile Include="Activities\Dtos\CreateActivityPlanTimeSlotInput.cs" />
     <Compile Include="Activities\Dtos\CreateActivityInput.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Activities\Dtos\GetActivityTemplatesInput.cs" />
     <Compile Include="Activities\Dtos\GetActivityPlanOutput.cs" />
     <Compile Include="Activities\Dtos\GetActivityTemplateOutput.cs" />
+    <Compile Include="Activities\Dtos\GetActivityOutput.cs" />
     <Compile Include="Activities\IActivityAppService.cs" />
     <Compile Include="Activities\IActivityPlanTimeSlotAppService.cs" />
     <Compile Include="Activities\IActivityTemplateAppService.cs" />

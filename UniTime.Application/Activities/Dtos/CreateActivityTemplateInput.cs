@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UniTime.Activities.Dtos
 {
     public class CreateActivityTemplateInput : CreateAbstractActivityInput
     {
-        public virtual DateTime? ReferenceStartTime { get; set; }
-
-        public virtual DateTime? ReferenceEndTime { get; set; }
+        public virtual ICollection<ActivityTemplateReferenceTimeSlotDto> ReferenceTimeSlots { get; set; }
     }
 }

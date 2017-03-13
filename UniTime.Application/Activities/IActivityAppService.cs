@@ -8,6 +8,7 @@ namespace UniTime.Activities
 {
     public interface IActivityAppService : IApplicationService
     {
+        Task<GetActivityOutput> GetActivity(EntityDto<Guid> input);
         /// <summary>
         ///     My Activities are the owned activities and the participated activities.
         /// </summary>

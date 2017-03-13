@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.UI;
+using UniTime.Interfaces;
 
 namespace UniTime.Activities
 {
-    public class ActivityPlanTimeSlot : Entity<long>
+    public class ActivityPlanTimeSlot : Entity<long>, ITimeSlot
     {
         protected ActivityPlanTimeSlot()
         {

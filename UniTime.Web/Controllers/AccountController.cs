@@ -84,7 +84,7 @@ namespace UniTime.Web.Controllers
         {
             CheckModelState();
 
-            var loginResult = await GetLoginResultAsync(
+            var loginResult = await GetLogInResultAsync(
                 loginModel.UsernameOrEmailAddress,
                 loginModel.Password,
                 loginModel.TenancyName
@@ -105,7 +105,7 @@ namespace UniTime.Web.Controllers
             return Json(new AjaxResponse { TargetUrl = returnUrl });
         }
 
-        private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
+        private async Task<AbpLoginResult<Tenant, User>> GetLogInResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
         {
             var loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
 
@@ -273,7 +273,7 @@ namespace UniTime.Web.Controllers
                     }
                     else
                     {
-                        loginResult = await GetLoginResultAsync(user.UserName, model.Password, tenant.TenancyName);
+                        loginResult = await GetLogInResultAsync(user.UserName, model.Password, tenant.TenancyName);
                     }
 
                     if (loginResult.Result == AbpLoginResultType.Success)

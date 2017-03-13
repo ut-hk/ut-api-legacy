@@ -26,6 +26,17 @@ namespace UniTime.Activities
             _activityManager = activityManager;
         }
 
+        public async Task<GetActivityOutput> GetActivity(EntityDto<Guid> input)
+        {
+            var activity = await _activityManager.GetAsync(input.Id);
+
+            return new GetActivityOutput
+            {
+                Activity = activity.MapTo<ActivityDto>()
+            };
+        }
+
+
         public async Task<GetMyActivitiesOutput> GetMyActivities()
         {
             var currentUserId = GetCurrentUserId();

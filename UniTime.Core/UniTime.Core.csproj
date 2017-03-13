@@ -123,6 +123,8 @@
     <Compile Include="Activities\ActivityPlan.cs" />
     <Compile Include="Activities\ActivityTemplate.cs" />
     <Compile Include="Activities\ActivityParticipant.cs" />
+    <Compile Include="Activities\ActivityTemplateReferenceTimeSlot.cs" />
+    <Compile Include="Interfaces\ITimeSlot.cs" />
     <Compile Include="Activities\Managers\ActivityManager.cs" />
     <Compile Include="Activities\Managers\ActivityPlanManager.cs" />
     <Compile Include="Activities\Managers\ActivityPlanTimeSlotManager.cs" />

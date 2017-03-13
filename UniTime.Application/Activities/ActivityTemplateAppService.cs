@@ -47,8 +47,8 @@ namespace UniTime.Activities
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
                     activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
-                .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceStartTime > input.StartTime)
-                .WhereIf(input.EndTime.HasValue, activityTemplate => input.EndTime > activityTemplate.ReferenceEndTime)
+                .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.StartTime > input.StartTime))
+                .WhereIf(input.EndTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.EndTime < input.EndTime))
                 .ToListAsync();
 
             return new GetActivityTemplatesOutput
@@ -65,8 +65,7 @@ namespace UniTime.Activities
             var activityTemplate = await _activityTemplateManager.CreateAsync(ActivityTemplate.Create(
                 input.Name,
                 input.Description,
-                input.ReferenceStartTime,
-                input.ReferenceEndTime,
+                input.ReferenceTimeSlots.Select(timeSlot => ActivityTemplateReferenceTimeSlot.Create(timeSlot.StartTime, timeSlot.EndTime)).ToList(),
                 currentUser
             ));
 

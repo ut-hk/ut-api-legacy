@@ -6,27 +6,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp;
 using Abp.Configuration.Startup;
-using Abp.Domain.Uow;
 using Abp.Runtime.Session;
 using Abp.TestBase;
+using Castle.MicroKernel.Registration;
+using Effort;
+using EntityFramework.DynamicFilters;
 using UniTime.EntityFramework;
 using UniTime.Migrations.SeedData;
 using UniTime.MultiTenancy;
 using UniTime.Users;
-using Castle.MicroKernel.Registration;
-using Effort;
-using EntityFramework.DynamicFilters;
 
 namespace UniTime.Tests
 {
     public abstract class UniTimeTestBase : AbpIntegratedTestBase<UniTimeTestModule>
     {
         private DbConnection _hostDb;
-        private Dictionary<int, DbConnection> _tenantDbs; //only used for db per tenant architecture
 
         protected UniTimeTestBase()
         {
-            //Seed initial data for host
+            // Seed initial data for host
             AbpSession.TenantId = null;
             UsingDbContext(context =>
             {
@@ -34,27 +32,20 @@ namespace UniTime.Tests
                 new DefaultTenantCreator(context).Create();
             });
 
-            //Seed initial data for default tenant
+            // Seed initial data for default tenant
             AbpSession.TenantId = 1;
-            UsingDbContext(context =>
-            {
-                new TenantRoleAndUserBuilder(context, 1).Create();
-            });
+            UsingDbContext(context => { new TenantRoleAndUserBuilder(context, 1).Create(); });
 
-            LoginAsDefaultTenantAdmin();
+            LogInAsDefaultTenantAdmin();
         }
 
         protected override void PreInitialize()
         {
             base.PreInitialize();
 
-            /* You can switch database architecture here: */
             UseSingleDatabase();
-            //UseDatabasePerTenant();
         }
 
-        /* Uses single database for host and all tenants.
-         */
         private void UseSingleDatabase()
         {
             _hostDb = DbConnectionFactory.CreateTransient();
@@ -63,43 +54,27 @@ namespace UniTime.Tests
                 Component.For<DbConnection>()
                     .UsingFactoryMethod(() => _hostDb)
                     .LifestyleSingleton()
-                );
+            );
         }
 
-        /* Uses single database for host and Default tenant,
-         * but dedicated databases for all other tenants.
-         */
-        private void UseDatabasePerTenant()
+        /// <summary>
+        ///     Gets current user if <see cref="IAbpSession.UserId" /> is not null.
+        ///     Throws exception if it's null.
+        /// </summary>
+        protected async Task<User> GetCurrentUserAsync()
         {
-            _hostDb = DbConnectionFactory.CreateTransient();
-            _tenantDbs = new Dictionary<int, DbConnection>();
+            var userId = AbpSession.GetUserId();
+            return await UsingDbContext(context => context.Users.SingleAsync(u => u.Id == userId));
+        }
 
-            LocalIocManager.IocContainer.Register(
-                Component.For<DbConnection>()
-                    .UsingFactoryMethod((kernel) =>
-                    {
-                        lock (_tenantDbs)
-                        {
-                            var currentUow = kernel.Resolve<ICurrentUnitOfWorkProvider>().Current;
-                            var abpSession = kernel.Resolve<IAbpSession>();
-
-                            var tenantId = currentUow != null ? currentUow.GetTenantId() : abpSession.TenantId;
-
-                            if (tenantId == null || tenantId == 1) //host and default tenant are stored in host db
-                            {
-                                return _hostDb;
-                            }
-
-                            if (!_tenantDbs.ContainsKey(tenantId.Value))
-                            {
-                                _tenantDbs[tenantId.Value] = DbConnectionFactory.CreateTransient();
-                            }
-
-                            return _tenantDbs[tenantId.Value];
-                        }
-                    }, true)
-                    .LifestyleTransient()
-                );
+        /// <summary>
+        ///     Gets current tenant if <see cref="IAbpSession.TenantId" /> is not null.
+        ///     Throws exception if there is no current tenant.
+        /// </summary>
+        protected async Task<Tenant> GetCurrentTenantAsync()
+        {
+            var tenantId = AbpSession.GetTenantId();
+            return await UsingDbContext(context => context.Tenants.SingleAsync(t => t.Id == tenantId));
         }
 
         #region UsingDbContext
@@ -193,78 +168,46 @@ namespace UniTime.Tests
 
         #endregion
 
-        #region Login
+        #region LogIn
 
-        protected void LoginAsHostAdmin()
+        protected void LogInAsHostAdmin()
         {
-            LoginAsHost(User.AdminUserName);
+            LogInAsHost(User.AdminUserName);
         }
 
-        protected void LoginAsDefaultTenantAdmin()
+        protected void LogInAsDefaultTenantAdmin()
         {
-            LoginAsTenant(Tenant.DefaultTenantName, User.AdminUserName);
+            LogInAsTenant(Tenant.DefaultTenantName, User.AdminUserName);
         }
 
-        protected void LoginAsHost(string userName)
+        protected void LogInAsHost(string userName)
         {
             Resolve<IMultiTenancyConfig>().IsEnabled = true;
 
             AbpSession.TenantId = null;
 
-            var user =
-                UsingDbContext(
-                    context =>
-                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            var user = UsingDbContext(context => context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
             if (user == null)
-            {
                 throw new Exception("There is no user: " + userName + " for host.");
-            }
 
             AbpSession.UserId = user.Id;
         }
 
-        protected void LoginAsTenant(string tenancyName, string userName)
+        protected void LogInAsTenant(string tenancyName, string userName)
         {
             var tenant = UsingDbContext(context => context.Tenants.FirstOrDefault(t => t.TenancyName == tenancyName));
             if (tenant == null)
-            {
                 throw new Exception("There is no tenant: " + tenancyName);
-            }
 
             AbpSession.TenantId = tenant.Id;
 
-            var user =
-                UsingDbContext(
-                    context =>
-                        context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
+            var user = UsingDbContext(context => context.Users.FirstOrDefault(u => u.TenantId == AbpSession.TenantId && u.UserName == userName));
             if (user == null)
-            {
                 throw new Exception("There is no user: " + userName + " for tenant: " + tenancyName);
-            }
 
             AbpSession.UserId = user.Id;
         }
 
         #endregion
-        
-        /// <summary>
-        /// Gets current user if <see cref="IAbpSession.UserId"/> is not null.
-        /// Throws exception if it's null.
-        /// </summary>
-        protected async Task<User> GetCurrentUserAsync()
-        {
-            var userId = AbpSession.GetUserId();
-            return await UsingDbContext(context => context.Users.SingleAsync(u => u.Id == userId));
-        }
-
-        /// <summary>
-        /// Gets current tenant if <see cref="IAbpSession.TenantId"/> is not null.
-        /// Throws exception if there is no current tenant.
-        /// </summary>
-        protected async Task<Tenant> GetCurrentTenantAsync()
-        {
-            var tenantId = AbpSession.GetTenantId();
-            return await UsingDbContext(context => context.Tenants.SingleAsync(t => t.Id == tenantId));
-        }
     }
 }

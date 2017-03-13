@@ -208,8 +208,14 @@
     <Compile Include="Migrations\201703110605250_Track.Designer.cs">
       <DependentUpon>201703110605250_Track.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.cs" />
+    <Compile Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.Designer.cs">
+      <DependentUpon>201703130831235_ActivityTemplateReferenceTimeSlots.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
+    <Compile Include="Migrations\SeedData\DefaultUserCreator.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="UniTimeDataModule.cs" />
     <Compile Include="Migrations\SeedData\DefaultEditionsCreator.cs" />
@@ -285,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703110605250_Track.resx">
       <DependentUpon>201703110605250_Track.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.resx">
+      <DependentUpon>201703130831235_ActivityTemplateReferenceTimeSlots.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

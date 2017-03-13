@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 using System.Data.Entity;
 using Abp.Zero.EntityFramework;
 using UniTime.Activities;
@@ -55,6 +56,8 @@ namespace UniTime.EntityFramework
 
         public IDbSet<ActivityPlanTimeSlot> ActivityPlanTimeSlots { get; set; }
 
+        public IDbSet<ActivityTemplateReferenceTimeSlot> ActivityTemplateReferenceTimeSlots { get; set; }
+
         public IDbSet<Guest> Guests { get; set; }
 
         public IDbSet<RouteHistory> RouteHistories { get; set; }
@@ -89,6 +92,9 @@ namespace UniTime.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            if (Database.Connection.GetType().Name.StartsWith("Effort", StringComparison.Ordinal))
+                modelBuilder.Entity<Location>().Ignore(location => location.Coordinate);
 
             modelBuilder.Entity<ActivityParticipant>()
                 .HasRequired(activityParticipant => activityParticipant.Owner)
@@ -155,9 +161,9 @@ namespace UniTime.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Track>()
-               .HasRequired(track => track.From)
-               .WithMany(user => user.Trackings)
-               .WillCascadeOnDelete(false);
+                .HasRequired(track => track.From)
+                .WithMany(user => user.Trackings)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Track>()
                 .HasRequired(track => track.To)

@@ -17,13 +17,13 @@ namespace UniTime.Tests.Sessions
         [Fact]
         public async Task Should_Get_Current_User_When_Logged_In_As_Host()
         {
-            //Arrange
-            LoginAsHostAdmin();
+            // Arrange
+            LogInAsHostAdmin();
 
-            //Act
+            // Act
             var output = await _sessionAppService.GetCurrentLoginInformations();
 
-            //Assert
+            // Assert
             var currentUser = await GetCurrentUserAsync();
             output.User.ShouldNotBe(null);
             output.User.Name.ShouldBe(currentUser.Name);
@@ -35,10 +35,10 @@ namespace UniTime.Tests.Sessions
         [Fact]
         public async Task Should_Get_Current_User_And_Tenant_When_Logged_In_As_Tenant()
         {
-            //Act
+            // Act
             var output = await _sessionAppService.GetCurrentLoginInformations();
 
-            //Assert
+            // Assert
             var currentUser = await GetCurrentUserAsync();
             var currentTenant = await GetCurrentTenantAsync();
 
