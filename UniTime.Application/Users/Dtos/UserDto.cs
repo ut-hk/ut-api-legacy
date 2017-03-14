@@ -1,6 +1,8 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using Newtonsoft.Json;
+using UniTime.Users.Enums;
 
 namespace UniTime.Users.Dtos
 {
@@ -21,8 +23,13 @@ namespace UniTime.Users.Dtos
 
         public DateTime? LastLoginTime { get; set; }
 
-        public bool IsActive { get; set; }
+        [JsonProperty(nameof(UserProfile.Gender))]
+        public Gender ProfileGender { get; set; }
 
-        public DateTime CreationTime { get; set; }
+        [JsonProperty(nameof(UserProfile.Birthday))]
+        public DateTime? ProfileBirthday { get; set; }
+
+        [JsonProperty(nameof(UserProfile.CoverId))]
+        public Guid? ProfileCoverId { get; set; }
     }
 }

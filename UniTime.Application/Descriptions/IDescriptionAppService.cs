@@ -8,6 +8,9 @@ namespace UniTime.Descriptions
     public interface IDescriptionAppService : IApplicationService
     {
         Task<EntityDto<long>> CreateTextDescription(CreateTextDescriptionInput input);
+        Task<EntityDto<long>> CreateExternalImageDescription(CreateExternalImageDescriptionInput input);
+        Task<EntityDto<long>> CreateInternalImageDescription(CreateInternalImageDescriptionInput input);
+        Task<EntityDto<long>> CreateYoutubeDescription(CreateYoutubeDescriptionInput input);
 
         Task UpdateTextDescription(UpdateTextDescriptionInput input);
 

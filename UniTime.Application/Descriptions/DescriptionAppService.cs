@@ -5,6 +5,8 @@ using Abp.UI;
 using UniTime.Activities.Managers;
 using UniTime.Descriptions.Dtos;
 using UniTime.Descriptions.Managers;
+using UniTime.Files;
+using UniTime.Files.Managers;
 
 namespace UniTime.Descriptions
 {
@@ -13,24 +15,57 @@ namespace UniTime.Descriptions
     {
         private readonly IActivityPlanManager _activityPlanManager;
         private readonly IDescriptionManager _descriptionManager;
+        private readonly IFileManager _fileManager;
 
         public DescriptionAppService(
             IDescriptionManager descriptionManager,
-            IActivityPlanManager activityPlanManager)
+            IActivityPlanManager activityPlanManager,
+            IFileManager fileManager)
         {
             _descriptionManager = descriptionManager;
             _activityPlanManager = activityPlanManager;
+            _fileManager = fileManager;
         }
 
         public async Task<EntityDto<long>> CreateTextDescription(CreateTextDescriptionInput input)
         {
             var currentUserId = GetCurrentUserId();
-
             var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
 
             var textDescription = await _descriptionManager.CreateAsync(TextDescription.Create(activityPlan, currentUserId));
 
             return new EntityDto<long>(textDescription.Id);
+        }
+
+        public async Task<EntityDto<long>> CreateExternalImageDescription(CreateExternalImageDescriptionInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
+
+            var externalImageDescription = await _descriptionManager.CreateAsync(ExternalImageDescription.Create(input.Path, activityPlan, currentUserId));
+
+            return new EntityDto<long>(externalImageDescription.Id);
+        }
+
+        public async Task<EntityDto<long>> CreateInternalImageDescription(CreateInternalImageDescriptionInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
+            var image = await _fileManager.GetAsync(input.ImageId) as Image ?? throw new UserFriendlyException("Please give an image.");
+
+            var internalImageDescription = await _descriptionManager.CreateAsync(InternalImageDescription.Create(image, activityPlan, currentUserId));
+
+            return new EntityDto<long>(internalImageDescription.Id);
+        }
+
+        public async Task<EntityDto<long>> CreateYoutubeDescription(CreateYoutubeDescriptionInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
+
+            var internalImageDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, activityPlan, currentUserId));
+
+            return new EntityDto<long>(internalImageDescription.Id);
         }
 
         public async Task UpdateTextDescription(UpdateTextDescriptionInput input)

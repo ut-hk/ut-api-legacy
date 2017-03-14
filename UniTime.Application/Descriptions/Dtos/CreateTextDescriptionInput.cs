@@ -1,9 +1,6 @@
-using System;
-
 namespace UniTime.Descriptions.Dtos
 {
-    public class CreateTextDescriptionInput
+    public class CreateTextDescriptionInput : CreateDescriptionInput
     {
-        public Guid ActivityPlanId { get; set; }
     }
 }

@@ -19,8 +19,7 @@ namespace UniTime.Descriptions
         public static TextDescription Create(ActivityPlan activityPlan, long createUserId)
         {
             if (createUserId != activityPlan.OwnerId)
-                throw new UserFriendlyException($"You are not allowed to create a text description in this description with id = {activityPlan.Id}.");
-
+                throw new UserFriendlyException($"You are not allowed to create a text description in this activity plan with id = {activityPlan.Id}.");
 
             return new TextDescription
             {

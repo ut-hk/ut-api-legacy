@@ -6,7 +6,7 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.UI;
-using UniTime.Activities;
+using UniTime.Activities.Managers;
 using UniTime.Ratings.Dtos;
 using UniTime.Ratings.Managers;
 
@@ -15,21 +15,24 @@ namespace UniTime.Ratings
     [AbpAuthorize]
     public class RatingAppService : UniTimeAppServiceBase, IRatingAppService
     {
-        private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
-        private readonly IRepository<ActivityPlan, Guid> _activityPlanRepository;
+        private readonly IActivityManager _activityManager;
+        private readonly IActivityPlanManager _activityPlanManager;
+        private readonly IActivityTemplateManager _activityTemplateManager;
         private readonly IRatingManager _ratingManager;
-        private readonly IRepository<Rating, Guid> _ratingRepository;
+        private readonly IRepository<Rating, long> _ratingRepository;
 
         public RatingAppService(
-            IRepository<Rating, Guid> ratingRepository,
-            IRepository<AbstractActivity, Guid> abstractActivityRepository,
-            IRepository<ActivityPlan, Guid> activityPlanRepository,
-            IRatingManager ratingManager)
+            IRepository<Rating, long> ratingRepository,
+            IRatingManager ratingManager,
+            IActivityManager activityManager,
+            IActivityPlanManager activityPlanManager,
+            IActivityTemplateManager activityTemplateManager)
         {
             _ratingRepository = ratingRepository;
-            _abstractActivityRepository = abstractActivityRepository;
-            _activityPlanRepository = activityPlanRepository;
             _ratingManager = ratingManager;
+            _activityManager = activityManager;
+            _activityPlanManager = activityPlanManager;
+            _activityTemplateManager = activityTemplateManager;
         }
 
         public async Task<GetRatingsOutput> GetMyRatings()
@@ -43,29 +46,36 @@ namespace UniTime.Ratings
             };
         }
 
-        public async Task<EntityDto<Guid>> CreateRating(CreateRatingInput input)
+        public async Task<EntityDto<long>> CreateRating(CreateRatingInput input)
         {
             var currentUser = await GetCurrentUserAsync();
 
             Rating rating = null;
 
-            if (input.AbstractActivityId.HasValue)
+            if (input.ActivityId.HasValue)
             {
-                var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
 
-                rating = await _ratingManager.CreateAsync(AbstractActivityRating.Create(input.RatingStatus, abstractActivity, currentUser));
+                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activity, currentUser));
             }
-            if (input.ActivityPlanId.HasValue)
+            else if (input.ActivityPlanId.HasValue)
             {
-                var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
+                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
 
-                rating = await _ratingManager.CreateAsync(ActivityPlanRating.Create(input.RatingStatus, activityPlan, currentUser));
+                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activityPlan, currentUser));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+
+                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activityTemplate, currentUser));
+            }
+            else
+            {
+                throw new UserFriendlyException("Please provide either activityId or activityPlanId or activityTemplateId.");
             }
 
-            if (rating == null)
-                throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
-
-            return new EntityDto<Guid>(rating.Id);
+            return new EntityDto<long>(rating.Id);
         }
     }
 }

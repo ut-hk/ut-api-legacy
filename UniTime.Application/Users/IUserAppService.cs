@@ -7,5 +7,7 @@ namespace UniTime.Users
     public interface IUserAppService : IApplicationService
     {
         Task<GetMyUserOutput> GetMyUser();
+
+        Task UpdateMyUser(UpdateMyUserInput input);
     }
 }

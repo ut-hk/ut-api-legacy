@@ -88,7 +88,6 @@ namespace UniTime.EntityFramework
 
         public IDbSet<UserProfile> UserProfiles { get; set; }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -99,6 +98,14 @@ namespace UniTime.EntityFramework
             modelBuilder.Entity<ActivityParticipant>()
                 .HasRequired(activityParticipant => activityParticipant.Owner)
                 .WithMany(user => user.Participants);
+
+            modelBuilder.Entity<AbstractActivity>()
+                .HasMany(abstractActivity => abstractActivity.Images)
+                .WithMany();
+
+            modelBuilder.Entity<ChatRoom>()
+                .HasMany(chatRoom => chatRoom.Participants)
+                .WithMany();
 
             modelBuilder.Entity<Invitation>()
                 .HasRequired(invitation => invitation.Owner)

@@ -7,15 +7,15 @@ namespace UniTime.Ratings.Managers
 {
     public class RatingManager : IRatingManager
     {
-        private readonly IRepository<Rating, Guid> _ratingRepository;
+        private readonly IRepository<Rating, long> _ratingRepository;
 
         public RatingManager(
-            IRepository<Rating, Guid> ratingRepository)
+            IRepository<Rating, long> ratingRepository)
         {
             _ratingRepository = ratingRepository;
         }
 
-        public async Task<Rating> GetAsync(Guid id)
+        public async Task<Rating> GetAsync(long id)
         {
             var rating = await _ratingRepository.FirstOrDefaultAsync(id);
 

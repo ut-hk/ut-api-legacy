@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using UniTime.Interfaces;
 using UniTime.Users;
@@ -16,7 +17,7 @@ namespace UniTime.Comments
         [ForeignKey(nameof(CommentId))]
         public virtual Comment Comment { get; protected set; }
 
-        public virtual long CommentId { get; protected set; }
+        public virtual Guid CommentId { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
         public virtual User Owner { get; protected set; }

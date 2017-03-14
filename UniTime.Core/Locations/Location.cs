@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using Abp.Domain.Entities.Auditing;
+using UniTime.Activities;
 
 namespace UniTime.Locations
 {
@@ -13,6 +15,8 @@ namespace UniTime.Locations
         public virtual string Name { get; protected set; }
 
         public virtual DbGeography Coordinate { get; protected set; }
+
+        public virtual ICollection<AbstractActivity> Activities { get; protected set; }
 
         public static Location Create(string name, double longitude, double latitude)
         {

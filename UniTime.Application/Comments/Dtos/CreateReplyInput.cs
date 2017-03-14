@@ -1,8 +1,10 @@
-﻿namespace UniTime.Comments.Dtos
+﻿using System;
+
+namespace UniTime.Comments.Dtos
 {
     public class CreateReplyInput
     {
-        public long CommentId { get; set; }
+        public Guid CommentId { get; set; }
 
         public string Content { get; set; }
     }

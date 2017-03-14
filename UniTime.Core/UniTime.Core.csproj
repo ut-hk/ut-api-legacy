@@ -124,6 +124,10 @@
     <Compile Include="Activities\ActivityTemplate.cs" />
     <Compile Include="Activities\ActivityParticipant.cs" />
     <Compile Include="Activities\ActivityTemplateReferenceTimeSlot.cs" />
+    <Compile Include="Comments\Enums\CommentType.cs" />
+    <Compile Include="Comments\InternalImageComment.cs" />
+    <Compile Include="Comments\TextComment.cs" />
+    <Compile Include="Descriptions\InternalImageDescription.cs" />
     <Compile Include="Interfaces\ITimeSlot.cs" />
     <Compile Include="Activities\Managers\ActivityManager.cs" />
     <Compile Include="Activities\Managers\ActivityPlanManager.cs" />
@@ -150,8 +154,6 @@
     <Compile Include="ChatRooms\Managers\IChatRoomManager.cs" />
     <Compile Include="ChatRooms\Managers\IChatRoomMessageManager.cs" />
     <Compile Include="ChatRooms\TextChatRoomMessage.cs" />
-    <Compile Include="Comments\AbstractActivityComment.cs" />
-    <Compile Include="Comments\ActivityPlanComment.cs" />
     <Compile Include="Comments\Comment.cs" />
     <Compile Include="Comments\Managers\CommentManager.cs" />
     <Compile Include="Comments\Managers\ICommentManager.cs" />
@@ -179,12 +181,9 @@
     <Compile Include="Invitations\Enums\InvitationStatus.cs" />
     <Compile Include="Invitations\Managers\IInvitationManager.cs" />
     <Compile Include="Invitations\Managers\InvitationManager.cs" />
-    <Compile Include="Locations\AbstractActivityLocation.cs" />
     <Compile Include="Locations\Managers\ILocationManager.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="Locations\Managers\LocationManager.cs" />
-    <Compile Include="Ratings\ActivityPlanRating.cs" />
-    <Compile Include="Ratings\AbstractActivityRating.cs" />
     <Compile Include="Ratings\Managers\IRatingManager.cs" />
     <Compile Include="Ratings\Managers\RatingManager.cs" />
     <Compile Include="Ratings\Rating.cs" />

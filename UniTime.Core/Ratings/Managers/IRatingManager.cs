@@ -6,7 +6,7 @@ namespace UniTime.Ratings.Managers
 {
     public interface IRatingManager : IDomainService
     {
-        Task<Rating> GetAsync(Guid id);
+        Task<Rating> GetAsync(long id);
 
         Task<Rating> CreateAsync(Rating rating);
     }

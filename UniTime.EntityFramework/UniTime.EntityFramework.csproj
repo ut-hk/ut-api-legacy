@@ -140,77 +140,13 @@
     <Compile Include="Migrations\201701271145151_AbpZero_Initial.Designer.cs">
       <DependentUpon>201701271145151_AbpZero_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703011701212_Initial.cs" />
-    <Compile Include="Migrations\201703011701212_Initial.Designer.cs">
-      <DependentUpon>201703011701212_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201703141834112_Initial.cs" />
+    <Compile Include="Migrations\201703141834112_Initial.Designer.cs">
+      <DependentUpon>201703141834112_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703021529541_File.cs" />
-    <Compile Include="Migrations\201703021529541_File.Designer.cs">
-      <DependentUpon>201703021529541_File.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703030452586_LocationId_in_AbstractActivity.cs" />
-    <Compile Include="Migrations\201703030452586_LocationId_in_AbstractActivity.Designer.cs">
-      <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703040006349_Name_in_ChatRoom.cs" />
-    <Compile Include="Migrations\201703040006349_Name_in_ChatRoom.Designer.cs">
-      <DependentUpon>201703040006349_Name_in_ChatRoom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703040050528_Types_in_TPH.cs" />
-    <Compile Include="Migrations\201703040050528_Types_in_TPH.Designer.cs">
-      <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703041232314_RouteHistory.cs" />
-    <Compile Include="Migrations\201703041232314_RouteHistory.Designer.cs">
-      <DependentUpon>201703041232314_RouteHistory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703041351315_Guest.cs" />
-    <Compile Include="Migrations\201703041351315_Guest.Designer.cs">
-      <DependentUpon>201703041351315_Guest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703041354114_Guest_CreationTime.cs" />
-    <Compile Include="Migrations\201703041354114_Guest_CreationTime.Designer.cs">
-      <DependentUpon>201703041354114_Guest_CreationTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703041526567_Location.cs" />
-    <Compile Include="Migrations\201703041526567_Location.Designer.cs">
-      <DependentUpon>201703041526567_Location.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.cs" />
-    <Compile Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.Designer.cs">
-      <DependentUpon>201703050245292_Images_to_File_And_Optional_Birthday.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703050401485_Tags.cs" />
-    <Compile Include="Migrations\201703050401485_Tags.Designer.cs">
-      <DependentUpon>201703050401485_Tags.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703050404570_Mergerd_Tags.cs" />
-    <Compile Include="Migrations\201703050404570_Mergerd_Tags.Designer.cs">
-      <DependentUpon>201703050404570_Mergerd_Tags.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703050437543_Tag_Length.cs" />
-    <Compile Include="Migrations\201703050437543_Tag_Length.Designer.cs">
-      <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703090654081_ChatRoom_Owner.cs" />
-    <Compile Include="Migrations\201703090654081_ChatRoom_Owner.Designer.cs">
-      <DependentUpon>201703090654081_ChatRoom_Owner.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703100951147_Fixed_StarTime.cs" />
-    <Compile Include="Migrations\201703100951147_Fixed_StarTime.Designer.cs">
-      <DependentUpon>201703100951147_Fixed_StarTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703101336188_Description.cs" />
-    <Compile Include="Migrations\201703101336188_Description.Designer.cs">
-      <DependentUpon>201703101336188_Description.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703110605250_Track.cs" />
-    <Compile Include="Migrations\201703110605250_Track.Designer.cs">
-      <DependentUpon>201703110605250_Track.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.cs" />
-    <Compile Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.Designer.cs">
-      <DependentUpon>201703130831235_ActivityTemplateReferenceTimeSlots.cs</DependentUpon>
+    <Compile Include="Migrations\201703141855102_ChatRoom_Participants.cs" />
+    <Compile Include="Migrations\201703141855102_ChatRoom_Participants.Designer.cs">
+      <DependentUpon>201703141855102_ChatRoom_Participants.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -241,59 +177,11 @@
     <EmbeddedResource Include="Migrations\201701271145151_AbpZero_Initial.resx">
       <DependentUpon>201701271145151_AbpZero_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703011701212_Initial.resx">
-      <DependentUpon>201703011701212_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703141834112_Initial.resx">
+      <DependentUpon>201703141834112_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703021529541_File.resx">
-      <DependentUpon>201703021529541_File.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703030452586_LocationId_in_AbstractActivity.resx">
-      <DependentUpon>201703030452586_LocationId_in_AbstractActivity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703040006349_Name_in_ChatRoom.resx">
-      <DependentUpon>201703040006349_Name_in_ChatRoom.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703040050528_Types_in_TPH.resx">
-      <DependentUpon>201703040050528_Types_in_TPH.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703041232314_RouteHistory.resx">
-      <DependentUpon>201703041232314_RouteHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703041351315_Guest.resx">
-      <DependentUpon>201703041351315_Guest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703041354114_Guest_CreationTime.resx">
-      <DependentUpon>201703041354114_Guest_CreationTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703041526567_Location.resx">
-      <DependentUpon>201703041526567_Location.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703050245292_Images_to_File_And_Optional_Birthday.resx">
-      <DependentUpon>201703050245292_Images_to_File_And_Optional_Birthday.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703050401485_Tags.resx">
-      <DependentUpon>201703050401485_Tags.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703050404570_Mergerd_Tags.resx">
-      <DependentUpon>201703050404570_Mergerd_Tags.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703050437543_Tag_Length.resx">
-      <DependentUpon>201703050437543_Tag_Length.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703090654081_ChatRoom_Owner.resx">
-      <DependentUpon>201703090654081_ChatRoom_Owner.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703100951147_Fixed_StarTime.resx">
-      <DependentUpon>201703100951147_Fixed_StarTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703101336188_Description.resx">
-      <DependentUpon>201703101336188_Description.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703110605250_Track.resx">
-      <DependentUpon>201703110605250_Track.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703130831235_ActivityTemplateReferenceTimeSlots.resx">
-      <DependentUpon>201703130831235_ActivityTemplateReferenceTimeSlots.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703141855102_ChatRoom_Participants.resx">
+      <DependentUpon>201703141855102_ChatRoom_Participants.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

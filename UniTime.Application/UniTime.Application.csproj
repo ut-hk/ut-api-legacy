@@ -168,20 +168,29 @@
     <Compile Include="ChatRooms\IChatRoomMessageAppService.cs" />
     <Compile Include="ChatRooms\Dtos\UpdateChatRoomInput.cs" />
     <Compile Include="Comments\CommentAppService.cs" />
+    <Compile Include="Comments\Dtos\CreateInternalImageCommentInput.cs" />
     <Compile Include="Comments\Dtos\CreateCommentInput.cs" />
+    <Compile Include="Comments\Dtos\CreateTextCommentInput.cs" />
     <Compile Include="Comments\Dtos\CreateReplyInput.cs" />
     <Compile Include="Comments\Dtos\CommentDto.cs" />
     <Compile Include="Activities\Dtos\CreateActivityPlanInput.cs" />
     <Compile Include="Comments\Dtos\GetRepliesOutput.cs" />
     <Compile Include="Comments\Dtos\GetCommentsOutput.cs" />
     <Compile Include="Comments\ReplyAppService.cs" />
+    <Compile Include="Descriptions\Dtos\CreateDescriptionInput.cs" />
+    <Compile Include="Descriptions\Dtos\CreateExternalImageDescriptionInput.cs" />
+    <Compile Include="Descriptions\Dtos\CreateInternalImageDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\CreateTextDescriptionInput.cs" />
+    <Compile Include="Descriptions\Dtos\CreateYoutubeDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\DescriptionDto.cs" />
     <Compile Include="Activities\Dtos\GetActivityPlansOutput.cs" />
     <Compile Include="Activities\IActivityPlanAppService.cs" />
     <Compile Include="Descriptions\IDescriptionAppService.cs" />
     <Compile Include="Descriptions\Dtos\UpdateTextDescriptionInput.cs" />
     <Compile Include="Files\Dtos\FileDto.cs" />
+    <Compile Include="Files\FileAppService.cs" />
+    <Compile Include="Files\Dtos\GetMyImagesOutput.cs" />
+    <Compile Include="Files\IFileAppService.cs" />
     <Compile Include="Invitations\ActivityInvitationAppService.cs" />
     <Compile Include="Invitations\Dtos\ActivityInvitationDto.cs" />
     <Compile Include="Invitations\Dtos\CreateActivityInvitationInput.cs" />
@@ -235,6 +244,7 @@
     <Compile Include="Users\ITrackAppService.cs" />
     <Compile Include="Users\IUserAppService.cs" />
     <Compile Include="Users\TrackAppService.cs" />
+    <Compile Include="Users\Dtos\UpdateMyUserInput.cs" />
     <Compile Include="Users\UserAppService.cs" />
   </ItemGroup>
   <ItemGroup>

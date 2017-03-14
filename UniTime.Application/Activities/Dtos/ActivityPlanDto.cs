@@ -6,7 +6,6 @@ using UniTime.Comments.Dtos;
 using UniTime.Descriptions.Dtos;
 using UniTime.Ratings.Dtos;
 using UniTime.Tags.Dtos;
-using UniTime.Users.Dtos;
 
 namespace UniTime.Activities.Dtos
 {

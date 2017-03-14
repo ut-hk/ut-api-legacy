@@ -72,6 +72,7 @@ namespace UniTime.Activities
             return new EntityDto<Guid>(activityTemplate.Id);
         }
 
+        [AbpAuthorize]
         public async Task UpdateActivityTemplate(UpdateAbstractActivityInput input)
         {
             var currentUserId = GetCurrentUserId();

@@ -7,8 +7,10 @@ namespace UniTime.Ratings.Dtos
     {
         public RatingStatus RatingStatus { get; set; }
 
-        public Guid? AbstractActivityId { get; set; }
+        public Guid? ActivityId { get; set; }
 
         public Guid? ActivityPlanId { get; set; }
+
+        public Guid? ActivityTemplateId { get; set; }
     }
 }

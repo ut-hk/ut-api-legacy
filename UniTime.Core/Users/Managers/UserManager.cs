@@ -1,4 +1,5 @@
-﻿using Abp.Authorization;
+﻿using System;
+using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Configuration;
 using Abp.Domain.Repositories;
@@ -8,6 +9,8 @@ using Abp.Localization;
 using Abp.Organizations;
 using Abp.Runtime.Caching;
 using UniTime.Authorization.Roles;
+using UniTime.Files;
+using UniTime.Users.Enums;
 
 namespace UniTime.Users.Managers
 {
@@ -27,19 +30,29 @@ namespace UniTime.Users.Managers
             IdentityEmailMessageService emailService,
             IUserTokenProviderAccessor userTokenProviderAccessor)
             : base(
-                  userStore,
-                  roleManager,
-                  permissionManager,
-                  unitOfWorkManager,
-                  cacheManager,
-                  organizationUnitRepository,
-                  userOrganizationUnitRepository,
-                  organizationUnitSettings,
-                  localizationManager,
-                  emailService,
-                  settingManager,
-                  userTokenProviderAccessor)
+                userStore,
+                roleManager,
+                permissionManager,
+                unitOfWorkManager,
+                cacheManager,
+                organizationUnitRepository,
+                userOrganizationUnitRepository,
+                organizationUnitSettings,
+                localizationManager,
+                emailService,
+                settingManager,
+                userTokenProviderAccessor)
         {
+        }
+
+        public void EditUser(User user, string name, string surname, string phoneNumber, Gender? gender, DateTime? birthday, Image cover)
+        {
+            user.EditUser(name, surname, phoneNumber);
+
+            if (user.Profile == null)
+                user.Profile = UserProfile.Create(user, gender, birthday, cover);
+            else
+                user.Profile.EditUserProfile(gender, birthday, cover);
         }
     }
 }

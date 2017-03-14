@@ -36,7 +36,6 @@ namespace UniTime.Activities
             };
         }
 
-
         public async Task<GetMyActivitiesOutput> GetMyActivities()
         {
             var currentUserId = GetCurrentUserId();

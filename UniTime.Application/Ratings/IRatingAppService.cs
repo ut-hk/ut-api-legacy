@@ -10,6 +10,6 @@ namespace UniTime.Ratings
     {
         Task<GetRatingsOutput> GetMyRatings();
 
-        Task<EntityDto<Guid>> CreateRating(CreateRatingInput input);
+        Task<EntityDto<long>> CreateRating(CreateRatingInput input);
     }
 }

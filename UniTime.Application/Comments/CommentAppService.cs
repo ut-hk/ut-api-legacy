@@ -2,54 +2,101 @@
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.Domain.Repositories;
 using Abp.UI;
-using UniTime.Activities;
+using UniTime.Activities.Managers;
 using UniTime.Comments.Dtos;
 using UniTime.Comments.Managers;
+using UniTime.Files;
+using UniTime.Files.Managers;
 
 namespace UniTime.Comments
 {
     [AbpAuthorize]
     public class CommentAppService : UniTimeAppServiceBase, ICommentAppService
     {
-        private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
-        private readonly IRepository<ActivityPlan, Guid> _activityPlanRepository;
+        private readonly IActivityManager _activityManager;
+        private readonly IActivityPlanManager _activityPlanManager;
+        private readonly IActivityTemplateManager _activityTemplateManager;
         private readonly ICommentManager _commentManager;
+        private readonly IFileManager _fileManager;
 
         public CommentAppService(
             ICommentManager commentManager,
-            IRepository<AbstractActivity, Guid> abstractActivityRepository,
-            IRepository<ActivityPlan, Guid> activityPlanRepository)
+            IFileManager fileManager,
+            IActivityManager activityManager,
+            IActivityPlanManager activityPlanManager,
+            IActivityTemplateManager activityTemplateManager)
         {
             _commentManager = commentManager;
-            _abstractActivityRepository = abstractActivityRepository;
-            _activityPlanRepository = activityPlanRepository;
+            _fileManager = fileManager;
+            _activityManager = activityManager;
+            _activityPlanManager = activityPlanManager;
+            _activityTemplateManager = activityTemplateManager;
         }
 
-        public async Task<EntityDto<long>> CreateComment(CreateCommentInput input)
+        public async Task<EntityDto<Guid>> CreateTextComment(CreateTextCommentInput input)
         {
             var currentUser = await GetCurrentUserAsync();
 
-            Comment comment = null;
+            Comment textComment = null;
 
-            if (input.AbstractActivityId.HasValue)
+            if (input.ActivityId.HasValue)
             {
-                var abstractActivity = await _abstractActivityRepository.FirstOrDefaultAsync(input.AbstractActivityId.Value);
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
 
-                comment = await _commentManager.CreateAsync(AbstractActivityComment.Create(input.Content, abstractActivity, currentUser));
+                textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activity, currentUser));
             }
-            if (input.ActivityPlanId.HasValue)
+            else if (input.ActivityPlanId.HasValue)
             {
-                var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(input.ActivityPlanId.Value);
+                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
 
-                comment = await _commentManager.CreateAsync(ActivityPlanComment.Create(input.Content, activityPlan, currentUser));
+                textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activityPlan, currentUser));
             }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
 
-            if (comment == null)
+                textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activityTemplate, currentUser));
+            }
+            else
+            {
                 throw new UserFriendlyException("Please provide either abstractActivityId or activityPlanId.");
+            }
 
-            return new EntityDto<long>(comment.Id);
+            return new EntityDto<Guid>(textComment.Id);
+        }
+
+        public async Task<EntityDto<Guid>> CreateInternalImageComment(CreateInternalImageCommentInput input)
+        {
+            var currentUser = await GetCurrentUserAsync();
+            var image = await _fileManager.GetAsync(input.ImageId) as Image ?? throw new UserFriendlyException("Please give an image.");
+
+            Comment internalImageComment = null;
+
+            if (input.ActivityId.HasValue)
+            {
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
+
+                internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activity, currentUser));
+            }
+            else if (input.ActivityPlanId.HasValue)
+            {
+                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
+
+                internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activityPlan, currentUser));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+
+                internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activityTemplate, currentUser));
+            }
+            else
+            {
+                throw new UserFriendlyException("Please provide either activityId or activityPlanId or activityTemplateId.");
+            }
+
+            return new EntityDto<Guid>(internalImageComment.Id);
         }
     }
 }

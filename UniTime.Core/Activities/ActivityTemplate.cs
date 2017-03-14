@@ -9,6 +9,8 @@ namespace UniTime.Activities
         {
         }
 
+        public virtual string ReferenceId { get; protected set; }
+
         public virtual ICollection<ActivityTemplateReferenceTimeSlot> ReferenceTimeSlots { get; protected set; }
 
         public virtual ICollection<Activity> TemplatedActivities { get; protected set; }

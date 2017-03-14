@@ -10,5 +10,7 @@ namespace UniTime.Descriptions.Dtos
         public string Content { get; set; }
 
         public DescriptionType Type { get; set; }
+
+        public int Priority { get; set; }
     }
 }

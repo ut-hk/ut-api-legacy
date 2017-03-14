@@ -1,6 +1,4 @@
-﻿using UniTime.Activities.Dtos;
-
-namespace UniTime.Activities
+﻿namespace UniTime.Activities.Dtos
 {
     public class GetActivityOutput
     {

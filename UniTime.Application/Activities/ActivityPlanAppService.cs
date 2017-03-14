@@ -40,12 +40,12 @@ namespace UniTime.Activities
             };
         }
 
-
         public async Task<GetActivityPlansOutput> GetActivityPlans(GetActivityPlansInput input)
         {
             var queryKeywords = input.QueryKeywords?.Split(' ').Where(queryKeyword => queryKeyword.Length > 0).ToArray();
 
             var activityPlans = await _activityPlanRepository.GetAll()
+                .Include(activityPlan => activityPlan.Tags)
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityPlan => input.TagTexts.Any(tagText => activityPlan.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(queryKeywords != null && queryKeywords.Length > 0,

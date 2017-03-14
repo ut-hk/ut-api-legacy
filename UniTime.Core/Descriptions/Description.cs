@@ -21,7 +21,6 @@ namespace UniTime.Descriptions
 
         public virtual Guid? ActivityPlanId { get; protected set; }
 
-
         public virtual void EditPriority(int priority)
         {
             Priority = priority;

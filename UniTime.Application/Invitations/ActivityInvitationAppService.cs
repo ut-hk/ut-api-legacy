@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Activities.Managers;
@@ -13,6 +14,7 @@ using UniTime.Invitations.Managers;
 
 namespace UniTime.Invitations
 {
+    [AbpAuthorize]
     public class ActivityInvitationAppService : UniTimeAppServiceBase, IActivityInvitationAppService
     {
         private readonly IActivityManager _activityManager;
@@ -32,7 +34,8 @@ namespace UniTime.Invitations
         public async Task<GetActivityInvitationsOutput> GetMyActivityInvitations()
         {
             var currentUserId = GetCurrentUserId();
-            var activityInvitations = await _invitationRepository.GetAll().OfType<ActivityInvitation>()
+            var activityInvitations = await _invitationRepository.GetAll()
+                .OfType<ActivityInvitation>()
                 .Include(invitation => invitation.Invitee)
                 .Include(invitation => invitation.Owner)
                 .Include(invitation => invitation.Activity)

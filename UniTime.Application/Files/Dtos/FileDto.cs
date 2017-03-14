@@ -9,8 +9,6 @@ namespace UniTime.Files.Dtos
     {
         public Guid Id { get; set; }
 
-        public string FileName { get; set; }
-
         public string Description { get; set; }
 
         public DateTime CreationTime { get; set; }

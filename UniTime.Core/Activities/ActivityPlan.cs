@@ -26,9 +26,9 @@ namespace UniTime.Activities
 
         public virtual ICollection<ActivityPlanTimeSlot> TimeSlots { get; protected set; }
 
-        public virtual ICollection<ActivityPlanComment> Comments { get; protected set; }
+        public virtual ICollection<Comment> Comments { get; protected set; }
 
-        public virtual ICollection<ActivityPlanRating> Ratings { get; protected set; }
+        public virtual ICollection<Rating> Ratings { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
         public virtual User Owner { get; protected set; }

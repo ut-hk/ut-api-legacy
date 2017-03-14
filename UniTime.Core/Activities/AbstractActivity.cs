@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.UI;
 using UniTime.Comments;
+using UniTime.Files;
 using UniTime.Interfaces;
 using UniTime.Locations;
 using UniTime.Ratings;
@@ -19,15 +20,17 @@ namespace UniTime.Activities
         public virtual string Description { get; protected set; }
 
         [ForeignKey(nameof(LocationId))]
-        public virtual AbstractActivityLocation Location { get; protected set; }
+        public virtual Location Location { get; protected set; }
 
         public virtual Guid? LocationId { get; protected set; }
 
         public virtual ICollection<Tag> Tags { get; protected set; }
 
-        public virtual ICollection<AbstractActivityRating> Ratings { get; protected set; }
+        public virtual ICollection<Image> Images { get; protected set; }
 
-        public virtual ICollection<AbstractActivityComment> Comments { get; protected set; }
+        public virtual ICollection<Rating> Ratings { get; protected set; }
+
+        public virtual ICollection<Comment> Comments { get; protected set; }
 
         [ForeignKey(nameof(OwnerId))]
         public virtual User Owner { get; protected set; }
@@ -39,8 +42,8 @@ namespace UniTime.Activities
             if (OwnerId != editUserId)
                 throw new UserFriendlyException($"You are not allowed to update this activity with id = {Id}.");
 
-            Name = name;
-            Description = description;
+            if (!string.IsNullOrWhiteSpace(name)) Name = name;
+            if (description != null) Description = description;
         }
     }
 }

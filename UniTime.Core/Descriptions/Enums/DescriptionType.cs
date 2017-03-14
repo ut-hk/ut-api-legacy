@@ -4,6 +4,7 @@
     {
         Text,
         ExternalImage,
+        InternalImage,
         Youtube
     }
 }

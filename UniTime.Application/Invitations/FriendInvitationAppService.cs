@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Invitations.Dtos;
@@ -12,6 +13,7 @@ using UniTime.Invitations.Managers;
 
 namespace UniTime.Invitations
 {
+    [AbpAuthorize]
     public class FriendInvitationAppService : UniTimeAppServiceBase, IFriendInvitationAppService
     {
         private readonly IInvitationManager _invitationManager;
@@ -29,7 +31,8 @@ namespace UniTime.Invitations
         {
             var currentUserId = GetCurrentUserId();
 
-            var friendInvitations = await _invitationRepository.GetAll().OfType<FriendInvitation>()
+            var friendInvitations = await _invitationRepository.GetAll()
+                .OfType<FriendInvitation>()
                 .Include(invitation => invitation.Invitee)
                 .Include(invitation => invitation.Owner)
                 .Where(invitation => invitation.InviteeId == currentUserId && invitation.Status == InvitationStatus.Pending)

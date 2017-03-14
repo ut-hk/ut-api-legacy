@@ -17,7 +17,7 @@ namespace UniTime.Users
     {
         public const string DefaultPassword = "123qweabpunitime";
 
-        public virtual UserProfile Profile { get; protected set; }
+        public virtual UserProfile Profile { get; internal set; }
 
         public virtual ICollection<AbstractActivity> AbstractActivities { get; protected set; }
 
@@ -63,6 +63,13 @@ namespace UniTime.Users
                 EmailAddress = emailAddress,
                 Password = new PasswordHasher().HashPassword(password)
             };
+        }
+
+        internal void EditUser(string name, string surname, string phoneNumber)
+        {
+            Name = name;
+            Surname = surname;
+            PhoneNumber = phoneNumber;
         }
     }
 }

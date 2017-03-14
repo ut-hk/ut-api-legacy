@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
 
@@ -6,15 +7,15 @@ namespace UniTime.Comments.Managers
 {
     public class CommentManager : ICommentManager
     {
-        private readonly IRepository<Comment, long> _commentRepository;
+        private readonly IRepository<Comment, Guid> _commentRepository;
 
         public CommentManager(
-            IRepository<Comment, long> commentRepository)
+            IRepository<Comment, Guid> commentRepository)
         {
             _commentRepository = commentRepository;
         }
 
-        public async Task<Comment> GetAsync(long id)
+        public async Task<Comment> GetAsync(Guid id)
         {
             var comment = await _commentRepository.FirstOrDefaultAsync(id);
 
