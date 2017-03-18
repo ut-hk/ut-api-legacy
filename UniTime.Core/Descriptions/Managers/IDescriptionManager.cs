@@ -9,6 +9,7 @@ namespace UniTime.Descriptions.Managers
 
         Task<Description> CreateAsync(Description description);
 
+        void EditDescription(Description description, string[] htmlClasses, long editUserId);
         void EditTextDescription(TextDescription textDescription, string text, long editUserId);
 
         Task RemoveAsync(Description description);

@@ -31,6 +31,11 @@ namespace UniTime.Descriptions.Managers
             return description;
         }
 
+        public void EditDescription(Description description, string[] htmlClasses, long editUserId)
+        {
+            description.EditHTMLClasses(htmlClasses, editUserId);
+        }
+
         public void EditTextDescription(TextDescription textDescription, string text, long editUserId)
         {
             textDescription.EditText(text, editUserId);

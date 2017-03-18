@@ -187,6 +187,7 @@
     <Compile Include="Activities\IActivityPlanAppService.cs" />
     <Compile Include="Descriptions\IDescriptionAppService.cs" />
     <Compile Include="Descriptions\Dtos\UpdateTextDescriptionInput.cs" />
+    <Compile Include="Descriptions\Dtos\UpdateDescriptionInput.cs" />
     <Compile Include="Files\Dtos\FileDto.cs" />
     <Compile Include="Files\FileAppService.cs" />
     <Compile Include="Files\Dtos\GetMyImagesOutput.cs" />

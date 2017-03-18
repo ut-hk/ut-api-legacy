@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Abp.Collections.Extensions;
 using Abp.Domain.Entities;
 using UniTime.Activities;
 using UniTime.Descriptions.Enums;
@@ -14,6 +16,8 @@ namespace UniTime.Descriptions
         [NotMapped]
         public virtual string Content { get; }
 
+        public virtual string HTMLClasses { get; protected set; }
+
         public virtual int Priority { get; protected set; }
 
         [ForeignKey(nameof(ActivityPlanId))]
@@ -24,6 +28,14 @@ namespace UniTime.Descriptions
         public virtual void EditPriority(int priority)
         {
             Priority = priority;
+        }
+
+        public virtual void EditHTMLClasses(string[] htmlClasses, long editUserId)
+        {
+            HTMLClasses = htmlClasses
+                .Select(htmlClass => htmlClass.Trim())
+                .Where(htmlClass => !htmlClass.Contains(" "))
+                .JoinAsString(" ");
         }
     }
 }

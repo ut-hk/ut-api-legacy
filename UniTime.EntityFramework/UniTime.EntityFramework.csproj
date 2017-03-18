@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201703141855102_ChatRoom_Participants.Designer.cs">
       <DependentUpon>201703141855102_ChatRoom_Participants.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703161759186_Description_HTMLClasses.cs" />
+    <Compile Include="Migrations\201703161759186_Description_HTMLClasses.Designer.cs">
+      <DependentUpon>201703161759186_Description_HTMLClasses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
@@ -182,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703141855102_ChatRoom_Participants.resx">
       <DependentUpon>201703141855102_ChatRoom_Participants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703161759186_Description_HTMLClasses.resx">
+      <DependentUpon>201703161759186_Description_HTMLClasses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

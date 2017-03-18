@@ -12,6 +12,7 @@ namespace UniTime.Descriptions
         Task<EntityDto<long>> CreateInternalImageDescription(CreateInternalImageDescriptionInput input);
         Task<EntityDto<long>> CreateYoutubeDescription(CreateYoutubeDescriptionInput input);
 
+        Task UpdateDescription(UpdateDescriptionInput input);
         Task UpdateTextDescription(UpdateTextDescriptionInput input);
 
         Task RemoveDescription(EntityDto<long> input);

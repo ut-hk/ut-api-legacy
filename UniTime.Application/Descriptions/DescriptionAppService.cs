@@ -68,6 +68,15 @@ namespace UniTime.Descriptions
             return new EntityDto<long>(internalImageDescription.Id);
         }
 
+        public async Task UpdateDescription(UpdateDescriptionInput input)
+        {
+            var currentUserId = GetCurrentUserId();
+
+            var textDescription = await _descriptionManager.GetAsync(input.Id);
+
+            _descriptionManager.EditDescription(textDescription, input.HTMLClasses, currentUserId);
+        }
+
         public async Task UpdateTextDescription(UpdateTextDescriptionInput input)
         {
             var currentUserId = GetCurrentUserId();
@@ -77,6 +86,7 @@ namespace UniTime.Descriptions
             if (textDescription == null)
                 throw new UserFriendlyException($"The text activity plan description with id = {input.Id} does not exist.");
 
+            _descriptionManager.EditDescription(textDescription, input.HTMLClasses, currentUserId);
             _descriptionManager.EditTextDescription(textDescription, input.Text, currentUserId);
         }
 
