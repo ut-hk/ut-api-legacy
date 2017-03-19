@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using UniTime.Locations;
+using UniTime.Tags;
 
 namespace UniTime.Activities.Managers
 {
@@ -32,9 +35,10 @@ namespace UniTime.Activities.Managers
             return activityTemplate;
         }
 
-        public void EditActivityTemplate(ActivityTemplate activityTemplate, string name, string description, long editUserId)
+        public void EditActivityTemplate(ActivityTemplate activityTemplate, string name, string description, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, Location location, ICollection<Tag> tags, long editUserId)
         {
-            activityTemplate.Edit(name, description, editUserId);
+            activityTemplate.Edit(name, description, location, tags, editUserId);
+            activityTemplate.Edit(referenceTimeSlots, editUserId);
         }
     }
 }

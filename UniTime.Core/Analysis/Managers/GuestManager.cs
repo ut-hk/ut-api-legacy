@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 
@@ -31,13 +32,19 @@ namespace UniTime.Analysis.Managers
             return guest;
         }
 
-        public async Task<Guest> CreateAsync(long? userId = null)
+        public async Task<Guest> CreateAsync(long? ownerId = null)
         {
-            var guest = Guest.Create(userId);
+            var guest = Guest.Create(ownerId);
 
             guest.Id = await _guestRepository.InsertAndGetIdAsync(guest);
 
             return guest;
+        }
+
+  
+        public void MergeWithOwner(Guest guest, long ownerId)
+        {
+            guest.EditOwner(ownerId);
         }
     }
 }

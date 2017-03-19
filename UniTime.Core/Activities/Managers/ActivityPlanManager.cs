@@ -44,7 +44,7 @@ namespace UniTime.Activities.Managers
             foreach (var activityPlanDescription in activityPlanDescriptions)
                 for (var i = 0; i < descriptionIds.Length; i++)
                     if (descriptionIds[i] == activityPlanDescription.Id)
-                        activityPlanDescription.EditPriority(i);
+                        activityPlanDescription.EditPriority(i, editUserId);
         }
 
         public void EditActivityPlan(ActivityPlan activityPlan, string name, ICollection<Tag> tags, long editUserId)

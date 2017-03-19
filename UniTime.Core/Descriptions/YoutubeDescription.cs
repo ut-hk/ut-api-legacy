@@ -1,4 +1,5 @@
-﻿using UniTime.Activities;
+﻿using Abp.UI;
+using UniTime.Activities;
 using UniTime.Descriptions.Enums;
 
 namespace UniTime.Descriptions
@@ -17,11 +18,14 @@ namespace UniTime.Descriptions
 
         public static YoutubeDescription Create(string youtubeId, ActivityPlan activityPlan, long createUserId)
         {
-            return new YoutubeDescription()
+            if (createUserId != activityPlan.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a text description in this activity plan with id = {activityPlan.Id}.");
+
+            return new YoutubeDescription
             {
                 YoutubeId = youtubeId,
                 ActivityPlan = activityPlan,
-                ActivityPlanId = activityPlan.Id,
+                ActivityPlanId = activityPlan.Id
             };
         }
     }

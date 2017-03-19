@@ -9,6 +9,7 @@ namespace UniTime.Activities
     public interface IActivityAppService : IApplicationService
     {
         Task<GetActivityOutput> GetActivity(EntityDto<Guid> input);
+
         /// <summary>
         ///     My Activities are the owned activities and the participated activities.
         /// </summary>
@@ -17,6 +18,6 @@ namespace UniTime.Activities
 
         Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);
 
-        Task UpdateActivity(UpdateAbstractActivityInput input);
+        Task UpdateActivity(UpdateActivityInput input);
     }
 }

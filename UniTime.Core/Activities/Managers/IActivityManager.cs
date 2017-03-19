@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Services;
+using UniTime.Locations;
+using UniTime.Tags;
 
 namespace UniTime.Activities.Managers
 {
@@ -11,6 +13,6 @@ namespace UniTime.Activities.Managers
 
         Task<Activity> CreateAsync(Activity activity);
 
-        void EditActivity(Activity activity, string name, string description, long editUserId);
+        void EditActivity(Activity activity, string name, string description, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, long editUserId);
     }
 }

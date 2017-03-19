@@ -13,6 +13,6 @@ namespace UniTime.Activities
 
         Task<EntityDto<Guid>> CreateActivityTemplate(CreateActivityTemplateInput input);
 
-        Task UpdateActivityTemplate(UpdateAbstractActivityInput input);
+        Task UpdateActivityTemplate(UpdateActivityTemplateInput input);
     }
 }

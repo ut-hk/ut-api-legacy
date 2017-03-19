@@ -29,8 +29,11 @@ namespace UniTime.Activities
 
         public virtual DateTime? EndTime { get; protected set; }
 
-        public static ActivityPlanTimeSlot Create(ActivityPlan activityPlan, ActivityTemplate activityTemplate, DateTime? startTime, DateTime? endTime)
+        public static ActivityPlanTimeSlot Create(ActivityPlan activityPlan, ActivityTemplate activityTemplate, DateTime? startTime, DateTime? endTime, long createUserId)
         {
+            if (activityPlan.OwnerId != createUserId)
+                throw new UserFriendlyException($"You are not allowed to add time slot in this activity paln with id = {createUserId}");
+
             return new ActivityPlanTimeSlot
             {
                 ActivityPlan = activityPlan,

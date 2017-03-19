@@ -24,5 +24,10 @@ namespace UniTime.Files
                 OwnerId = owner.Id
             };
         }
+
+        public void EditDescription(string description)
+        {
+            Description = description;
+        }
     }
 }

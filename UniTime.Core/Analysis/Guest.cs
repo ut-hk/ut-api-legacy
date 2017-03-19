@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
-using UniTime.Interfaces;
 using UniTime.Users;
 
 namespace UniTime.Analysis
@@ -27,6 +26,12 @@ namespace UniTime.Analysis
             {
                 OwnerId = ownerId
             };
+        }
+
+        internal void EditOwner(long ownerId)
+        {
+            if (OwnerId == null)
+                OwnerId = ownerId;
         }
     }
 }

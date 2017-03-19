@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UniTime.Locations;
 using UniTime.Users;
 
 namespace UniTime.Activities
@@ -17,7 +18,7 @@ namespace UniTime.Activities
 
         public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; protected set; }
 
-        public static ActivityTemplate Create(string name, string description, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, User owner)
+        public static ActivityTemplate Create(string name, string description, Location location, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, User owner)
         {
             var activityTemplate = new ActivityTemplate
             {
@@ -28,7 +29,20 @@ namespace UniTime.Activities
                 OwnerId = owner.Id
             };
 
+            if (location != null)
+            {
+                activityTemplate.Location = location;
+                activityTemplate.LocationId = location.Id;
+            }
+
             return activityTemplate;
+        }
+
+        internal void Edit(ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, long editUserId)
+        {
+            ReferenceTimeSlots.Clear();
+            foreach (var referenceTimeSlot in referenceTimeSlots)
+                ReferenceTimeSlots.Add(referenceTimeSlot);
         }
     }
 }

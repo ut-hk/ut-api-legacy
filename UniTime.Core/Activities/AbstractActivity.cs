@@ -37,13 +37,23 @@ namespace UniTime.Activities
 
         public virtual long OwnerId { get; protected set; }
 
-        public virtual void Edit(string name, string description, long editUserId)
+        internal virtual void Edit(string name, string description, Location location, ICollection<Tag> tags, long editUserId)
         {
             if (OwnerId != editUserId)
                 throw new UserFriendlyException($"You are not allowed to update this activity with id = {Id}.");
 
             if (!string.IsNullOrWhiteSpace(name)) Name = name;
             if (description != null) Description = description;
+
+            if (location != null)
+            {
+                Location = location;
+                LocationId = location.Id;
+            }
+
+            Tags.Clear();
+            foreach (var tag in tags)
+                Tags.Add(tag);
         }
     }
 }

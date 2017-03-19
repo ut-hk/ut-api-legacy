@@ -9,6 +9,8 @@ namespace UniTime.Analysis.Managers
         Task<Guest> GetAsync(Guid id);
         Task<Guest> GetByUserIdAsync(long userId);
 
-        Task<Guest> CreateAsync(long? userId = null);
+        Task<Guest> CreateAsync(long? ownerId = null);
+
+        void MergeWithOwner(Guest guest, long ownerId);
     }
 }

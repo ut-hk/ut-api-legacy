@@ -45,7 +45,7 @@ namespace UniTime.Activities
             };
         }
 
-        public void Edit(string name, ICollection<Tag> tags, long editUserId)
+        internal void Edit(string name, ICollection<Tag> tags, long editUserId)
         {
             if (OwnerId != editUserId)
                 throw new UserFriendlyException($"You are not allowed to update this activity plan with id = {Id}.");

@@ -23,7 +23,7 @@ namespace UniTime.Api
         {
             var user = UserManager.FindByIdAsync(AbpSession.GetUserId());
             if (user == null)
-                throw new ApplicationException("There is no current user!");
+                throw new ApplicationException("Please log in to do further action.");
 
             return user;
         }

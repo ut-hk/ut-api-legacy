@@ -41,6 +41,13 @@ namespace UniTime.Descriptions.Managers
             textDescription.EditText(text, editUserId);
         }
 
+        public void EditInternalImageDescription(InternalImageDescription internalImageDescription, string text, long editUserId)
+        {
+            var image = internalImageDescription.Image;
+
+            image.EditDescription(text);
+        }
+
         public async Task RemoveAsync(Description description)
         {
             await _descriptionRepository.DeleteAsync(description);

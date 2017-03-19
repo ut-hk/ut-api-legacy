@@ -21,6 +21,24 @@ namespace UniTime.Tests.Activities
         private readonly IActivityTemplateAppService _activityTemplateAppService;
 
         [Fact]
+        public async Task Should_Get_No_Result()
+        {
+            // Assert
+            await Assert.ThrowsAsync<UserFriendlyException>(async () => await _activityTemplateAppService.GetActivityTemplate(new EntityDto<Guid>(Guid.Empty)));
+        }
+
+        [Fact]
+        public async Task Should_Get_No_Results()
+        {
+            // Act
+            var getActivityTemplatesOutput = await _activityTemplateAppService.GetActivityTemplates(new GetActivityTemplatesInput());
+
+            // Assert
+            getActivityTemplatesOutput.ShouldNotBe(null);
+            getActivityTemplatesOutput.ActivityTemplates.Count.ShouldBe(0);
+        }
+
+        [Fact]
         public async Task Should_Create_Activity_Template()
         {
             const string name = "Hello World";
@@ -33,6 +51,7 @@ namespace UniTime.Tests.Activities
             {
                 Name = name,
                 Description = description,
+                LocationId = null,
                 ReferenceTimeSlots = new List<ActivityTemplateReferenceTimeSlotDto>
                 {
                     new ActivityTemplateReferenceTimeSlotDto
@@ -60,24 +79,6 @@ namespace UniTime.Tests.Activities
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.Count.ShouldBe(1);
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.First().StartTime.ShouldBe(startTime);
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.First().EndTime.ShouldBe(endTime);
-        }
-
-        [Fact]
-        public async Task Should_Get_No_Result()
-        {
-            // Assert
-            await Assert.ThrowsAsync<UserFriendlyException>(async () => await _activityTemplateAppService.GetActivityTemplate(new EntityDto<Guid>(Guid.Empty)));
-        }
-
-        [Fact]
-        public async Task Should_Get_No_Results()
-        {
-            // Act
-            var output = await _activityTemplateAppService.GetActivityTemplates(new GetActivityTemplatesInput());
-
-            // Assert
-            output.ShouldNotBe(null);
-            output.ActivityTemplates.Count.ShouldBe(0);
         }
     }
 }

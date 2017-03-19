@@ -8,8 +8,12 @@ namespace UniTime.Invitations
 {
     public interface IActivityInvitationAppService : IApplicationService
     {
-        Task<GetActivityInvitationsOutput> GetMyActivityInvitations();
+        Task<GetActivityInvitationsOutput> GetMyPendingActivityInvitations();
 
         Task<EntityDto<Guid>> CreateActivityInvitation(CreateActivityInvitationInput input);
+
+        Task AcceptActivityInvitation(EntityDto<Guid> input);
+        Task RejectActivityInvitation(EntityDto<Guid> input);
+        Task IgnoreActivityInvitation(EntityDto<Guid> input);
     }
 }

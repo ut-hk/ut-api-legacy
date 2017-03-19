@@ -11,6 +11,8 @@ namespace UniTime.Descriptions.Managers
 
         void EditDescription(Description description, string[] htmlClasses, long editUserId);
         void EditTextDescription(TextDescription textDescription, string text, long editUserId);
+        void EditInternalImageDescription(InternalImageDescription internalImageDescription, string text, long editUserId);
+
 
         Task RemoveAsync(Description description);
     }

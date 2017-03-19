@@ -9,6 +9,8 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
+using UniTime.Locations.Managers;
+using UniTime.Tags;
 
 namespace UniTime.Activities
 {
@@ -17,13 +19,19 @@ namespace UniTime.Activities
     {
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
         private readonly IActivityManager _activityManager;
+        private readonly ILocationManager _locationManager;
+        private readonly IRepository<Tag, long> _tagRepository;
 
         public ActivityAppService(
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
-            IActivityManager activityManager)
+            IRepository<Tag, long> tagRepository,
+            IActivityManager activityManager,
+            ILocationManager locationManager)
         {
             _abstractActivityRepository = abstractActivityRepository;
+            _tagRepository = tagRepository;
             _activityManager = activityManager;
+            _locationManager = locationManager;
         }
 
         public async Task<GetActivityOutput> GetActivity(EntityDto<Guid> input)
@@ -40,7 +48,8 @@ namespace UniTime.Activities
         {
             var currentUserId = GetCurrentUserId();
 
-            var myActivities = await _abstractActivityRepository.GetAll().OfType<Activity>()
+            var myActivities = await _abstractActivityRepository.GetAll()
+                .OfType<Activity>()
                 .Where(activity =>
                     activity.OwnerId == currentUserId ||
                     activity.Participants.Select(participant => participant.OwnerId).Contains(currentUserId)
@@ -57,23 +66,28 @@ namespace UniTime.Activities
         {
             var currentUser = await GetCurrentUserAsync();
 
+            var location = input.LocationId.HasValue ? await _locationManager.GetLocationAsync(input.LocationId.Value) : null;
+
             var activity = await _activityManager.CreateAsync(Activity.Create(
                 input.Name,
                 input.Description,
                 input.StartTime,
                 input.EndTime,
+                location,
                 currentUser
             ));
 
             return new EntityDto<Guid>(activity.Id);
         }
 
-        public async Task UpdateActivity(UpdateAbstractActivityInput input)
+        public async Task UpdateActivity(UpdateActivityInput input)
         {
             var currentUserId = GetCurrentUserId();
             var activity = await _activityManager.GetAsync(input.Id);
+            var location = input.LocationId.HasValue ? await _locationManager.GetLocationAsync(input.LocationId.Value) : null;
+            var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
 
-            _activityManager.EditActivity(activity, input.Name, input.Description, currentUserId);
+            _activityManager.EditActivity(activity, input.Name, input.Description, input.StartTime, input.EndTime, location, tags, currentUserId);
         }
     }
 }

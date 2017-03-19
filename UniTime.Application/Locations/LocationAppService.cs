@@ -36,7 +36,7 @@ namespace UniTime.Locations
         [AbpAuthorize]
         public async Task<EntityDto<Guid>> CreateLocation(CreateLocationInput input)
         {
-            var location = await _locationManager.CreateLocationAsync(Location.Create(input.Name, input.Longitude, input.Longitude));
+            var location = await _locationManager.CreateLocationAsync(Location.Create(input.Name, input.Longitude, input.Latitude));
 
             return new EntityDto<Guid>(location.Id);
         }
