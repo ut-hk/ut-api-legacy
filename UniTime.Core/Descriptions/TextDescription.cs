@@ -16,15 +16,29 @@ namespace UniTime.Descriptions
 
         public virtual string Text { get; protected set; }
 
-        public static TextDescription Create(ActivityPlan activityPlan, long createUserId)
+        public static TextDescription Create(string text, ActivityPlan activityPlan, long createUserId)
         {
             if (createUserId != activityPlan.OwnerId)
                 throw new UserFriendlyException($"You are not allowed to create a text description in this activity plan with id = {activityPlan.Id}.");
 
             return new TextDescription
             {
+                Text = text,
                 ActivityPlan = activityPlan,
                 ActivityPlanId = activityPlan.Id
+            };
+        }
+
+        public static TextDescription Create(string text, AbstractActivity abstractActivity, long createUserId)
+        {
+            if (createUserId != abstractActivity.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a text description in this activity with id = {abstractActivity.Id}.");
+
+            return new TextDescription
+            {
+                Text = text,
+                AbstractActivity = abstractActivity,
+                AbstractActivityId = abstractActivity.Id
             };
         }
 

@@ -28,5 +28,18 @@ namespace UniTime.Descriptions
                 ActivityPlanId = activityPlan.Id
             };
         }
+
+        public static YoutubeDescription Create(string youtubeId, AbstractActivity abstractActivity, long createUserId)
+        {
+            if (createUserId != abstractActivity.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a text description in this activity with id = {abstractActivity.Id}.");
+
+            return new YoutubeDescription
+            {
+                YoutubeId = youtubeId,
+                AbstractActivity = abstractActivity,
+                AbstractActivityId = abstractActivity.Id
+            };
+        }
     }
 }

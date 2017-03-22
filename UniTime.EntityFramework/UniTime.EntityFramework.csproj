@@ -152,6 +152,10 @@
     <Compile Include="Migrations\201703161759186_Description_HTMLClasses.Designer.cs">
       <DependentUpon>201703161759186_Description_HTMLClasses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703210655002_Descriptions.cs" />
+    <Compile Include="Migrations\201703210655002_Descriptions.Designer.cs">
+      <DependentUpon>201703210655002_Descriptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
@@ -189,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703161759186_Description_HTMLClasses.resx">
       <DependentUpon>201703161759186_Description_HTMLClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703210655002_Descriptions.resx">
+      <DependentUpon>201703210655002_Descriptions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

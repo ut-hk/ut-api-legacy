@@ -99,10 +99,6 @@ namespace UniTime.EntityFramework
                 .HasRequired(activityParticipant => activityParticipant.Owner)
                 .WithMany(user => user.Participants);
 
-            modelBuilder.Entity<AbstractActivity>()
-                .HasMany(abstractActivity => abstractActivity.Images)
-                .WithMany();
-
             modelBuilder.Entity<ChatRoom>()
                 .HasMany(chatRoom => chatRoom.Participants)
                 .WithMany();

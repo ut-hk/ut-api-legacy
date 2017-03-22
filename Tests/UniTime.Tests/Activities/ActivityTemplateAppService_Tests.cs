@@ -50,7 +50,6 @@ namespace UniTime.Tests.Activities
             var createActivityTemplateOutput = await _activityTemplateAppService.CreateActivityTemplate(new CreateActivityTemplateInput
             {
                 Name = name,
-                Description = description,
                 LocationId = null,
                 ReferenceTimeSlots = new List<ActivityTemplateReferenceTimeSlotDto>
                 {
@@ -75,7 +74,6 @@ namespace UniTime.Tests.Activities
             getActivityTemplateOutput.ActivityTemplate.ShouldNotBe(null);
             getActivityTemplateOutput.ActivityTemplate.Id.ShouldBe(id);
             getActivityTemplateOutput.ActivityTemplate.Name.ShouldBe(name);
-            getActivityTemplateOutput.ActivityTemplate.Description.ShouldBe(description);
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.Count.ShouldBe(1);
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.First().StartTime.ShouldBe(startTime);
             getActivityTemplateOutput.ActivityTemplate.ReferenceTimeSlots.First().EndTime.ShouldBe(endTime);

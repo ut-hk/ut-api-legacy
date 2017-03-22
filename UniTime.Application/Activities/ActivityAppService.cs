@@ -50,6 +50,13 @@ namespace UniTime.Activities
 
             var myActivities = await _abstractActivityRepository.GetAll()
                 .OfType<Activity>()
+                .Include(activityTemplate => activityTemplate.Descriptions)
+                .Include(activityTemplate => activityTemplate.Location)
+                .Include(activityTemplate => activityTemplate.Tags)
+                .Include(activityTemplate => activityTemplate.Ratings)
+                .Include(activityTemplate => activityTemplate.Comments)
+                .Include(activityTemplate => activityTemplate.Owner)
+                .Include(activityTemplate => activityTemplate.Participants)
                 .Where(activity =>
                     activity.OwnerId == currentUserId ||
                     activity.Participants.Select(participant => participant.OwnerId).Contains(currentUserId)
@@ -70,7 +77,6 @@ namespace UniTime.Activities
 
             var activity = await _activityManager.CreateAsync(Activity.Create(
                 input.Name,
-                input.Description,
                 input.StartTime,
                 input.EndTime,
                 location,
@@ -87,7 +93,8 @@ namespace UniTime.Activities
             var location = input.LocationId.HasValue ? await _locationManager.GetLocationAsync(input.LocationId.Value) : null;
             var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
 
-            _activityManager.EditActivity(activity, input.Name, input.Description, input.StartTime, input.EndTime, location, tags, currentUserId);
+            _activityManager.EditActivity(activity, input.Name, input.StartTime, input.EndTime, location, tags, currentUserId);
+            _activityManager.EditDescriptions(activity, input.DescriptionIds, currentUserId);
         }
     }
 }

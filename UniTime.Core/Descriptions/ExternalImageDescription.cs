@@ -31,5 +31,20 @@ namespace UniTime.Descriptions
                 ActivityPlanId = activityPlan.Id
             };
         }
+
+        public static ExternalImageDescription Create(string path, AbstractActivity abstractActivity, long createUserId)
+        {
+            if (createUserId != abstractActivity.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a external image description in this activity with id = {abstractActivity.Id}.");
+
+            var uri = new Uri(path);
+
+            return new ExternalImageDescription
+            {
+                Path = uri.Host + uri.PathAndQuery,
+                AbstractActivity = abstractActivity,
+                AbstractActivityId = abstractActivity.Id
+            };
+        }
     }
 }

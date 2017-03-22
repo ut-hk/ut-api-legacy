@@ -19,7 +19,7 @@ namespace UniTime.Web
         typeof(UniTimeApplicationModule),
         typeof(UniTimeWebApiModule),
         typeof(AbpWebSignalRModule),
-        typeof(AbpHangfireModule),
+//        typeof(AbpHangfireModule),
         typeof(AbpWebMvcModule))]
     public class UniTimeWebModule : AbpModule
     {
@@ -34,7 +34,7 @@ namespace UniTime.Web
             Configuration.Modules.AbpWeb().AntiForgery.IsEnabled = false;
 
             // Configure Hangfire
-            Configuration.BackgroundJobs.UseHangfire(configuration => { configuration.GlobalConfiguration.UseSqlServerStorage("Default"); });
+//            Configuration.BackgroundJobs.UseHangfire(configuration => { configuration.GlobalConfiguration.UseSqlServerStorage("Default"); });
         }
 
         public override void Initialize()

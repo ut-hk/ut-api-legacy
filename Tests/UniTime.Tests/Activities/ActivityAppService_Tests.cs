@@ -46,7 +46,6 @@ namespace UniTime.Tests.Activities
             var createActivityTemplateOutput = await _activityAppService.CreateActivity(new CreateActivityInput
             {
                 Name = name,
-                Description = description,
                 LocationId = null,
                 StartTime = new DateTime(2017, 3, 12, 2, 10, 0),
                 EndTime = new DateTime(2017, 3, 12, 3, 10, 0)
@@ -65,7 +64,6 @@ namespace UniTime.Tests.Activities
             getActivityOutput.Activity.ShouldNotBe(null);
             getActivityOutput.Activity.Id.ShouldBe(id);
             getActivityOutput.Activity.Name.ShouldBe(name);
-            getActivityOutput.Activity.Description.ShouldBe(description);
             getActivityOutput.Activity.StartTime.ShouldBe(new DateTime(2017, 3, 12, 2, 10, 0));
             getActivityOutput.Activity.EndTime.ShouldBe(new DateTime(2017, 3, 12, 3, 10, 0));
         }

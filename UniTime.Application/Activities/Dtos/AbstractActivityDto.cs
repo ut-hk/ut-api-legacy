@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 using UniTime.Comments.Dtos;
-using UniTime.Files.Dtos;
+using UniTime.Descriptions.Dtos;
 using UniTime.Locations.Dtos;
 using UniTime.Ratings.Dtos;
 using UniTime.Tags.Dtos;
-using UniTime.Users;
 using UniTime.Users.Dtos;
 
 namespace UniTime.Activities.Dtos
@@ -15,11 +14,9 @@ namespace UniTime.Activities.Dtos
     {
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public ICollection<DescriptionDto> Descriptions { get; set; }
 
         public LocationDto Location { get; set; }
-
-        public ICollection<FileDto> Images { get; set; }
 
         public ICollection<TagDto> Tags { get; set; }
 

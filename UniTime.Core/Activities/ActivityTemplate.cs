@@ -18,12 +18,12 @@ namespace UniTime.Activities
 
         public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; protected set; }
 
-        public static ActivityTemplate Create(string name, string description, Location location, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, User owner)
+        public static ActivityTemplate Create(string name, Location location, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, User owner, string referenceId)
         {
             var activityTemplate = new ActivityTemplate
             {
                 Name = name,
-                Description = description,
+                ReferenceId = referenceId,
                 ReferenceTimeSlots = referenceTimeSlots,
                 Owner = owner,
                 OwnerId = owner.Id

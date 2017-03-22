@@ -35,10 +35,20 @@ namespace UniTime.Activities.Managers
             return activity;
         }
 
-        public void EditActivity(Activity activity, string name, string description, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, long editUserId)
+        public void EditActivity(Activity activity, string name, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, long editUserId)
         {
-            activity.Edit(name, description, location, tags, editUserId);
+            activity.Edit(name, location, tags, editUserId);
             activity.Edit(startTime, endTime, editUserId);
+        }
+
+        public void EditDescriptions(Activity activity, long[] descriptionIds, long editUserId)
+        {
+            var activityDescriptions = activity.Descriptions;
+
+            foreach (var activityDescription in activityDescriptions)
+                for (var i = 0; i < descriptionIds.Length; i++)
+                    if (descriptionIds[i] == activityDescription.Id)
+                        activityDescription.EditPriority(i, editUserId);
         }
     }
 }

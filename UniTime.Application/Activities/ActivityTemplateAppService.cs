@@ -9,6 +9,7 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
+using Abp.Runtime.Caching;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 using UniTime.Locations.Managers;
@@ -20,6 +21,7 @@ namespace UniTime.Activities
     {
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
         private readonly IActivityTemplateManager _activityTemplateManager;
+        private readonly ICacheManager _cacheManager;
         private readonly ILocationManager _locationManager;
         private readonly IRepository<Tag, long> _tagRepository;
 
@@ -27,12 +29,15 @@ namespace UniTime.Activities
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
             IRepository<Tag, long> tagRepository,
             IActivityTemplateManager activityTemplateManager,
-            ILocationManager locationManager)
+            ILocationManager locationManager,
+            ICacheManager cacheManager
+        )
         {
             _abstractActivityRepository = abstractActivityRepository;
             _tagRepository = tagRepository;
             _activityTemplateManager = activityTemplateManager;
             _locationManager = locationManager;
+            _cacheManager = cacheManager;
         }
 
         public async Task<GetActivityTemplateOutput> GetActivityTemplate(EntityDto<Guid> input)
@@ -52,6 +57,13 @@ namespace UniTime.Activities
 
             var activityTemplates = await _abstractActivityRepository.GetAll()
                 .OfType<ActivityTemplate>()
+                .Include(activityTemplate => activityTemplate.Descriptions)
+                .Include(activityTemplate => activityTemplate.Location)
+                .Include(activityTemplate => activityTemplate.Tags)
+                .Include(activityTemplate => activityTemplate.Ratings)
+                .Include(activityTemplate => activityTemplate.Comments)
+                .Include(activityTemplate => activityTemplate.Owner)
+                .Include(activityTemplate => activityTemplate.ReferenceTimeSlots)
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
@@ -75,10 +87,10 @@ namespace UniTime.Activities
 
             var activityTemplate = await _activityTemplateManager.CreateAsync(ActivityTemplate.Create(
                 input.Name,
-                input.Description,
                 location,
                 input.ReferenceTimeSlots.Select(timeSlot => ActivityTemplateReferenceTimeSlot.Create(timeSlot.StartTime, timeSlot.EndTime)).ToList(),
-                currentUser
+                currentUser,
+                input.ReferenceId
             ));
 
             return new EntityDto<Guid>(activityTemplate.Id);
@@ -95,12 +107,12 @@ namespace UniTime.Activities
             _activityTemplateManager.EditActivityTemplate(
                 activityTemplate,
                 input.Name,
-                input.Description,
                 input.ReferenceTimeSlots.Select(timeSlot => ActivityTemplateReferenceTimeSlot.Create(timeSlot.StartTime, timeSlot.EndTime)).ToList(),
                 location,
                 tags,
                 currentUserId
             );
+            _activityTemplateManager.EditDescriptions(activityTemplate, input.DescriptionIds, currentUserId);
         }
 
         private static double ConvertToStandardDistance(double distanceInMile)

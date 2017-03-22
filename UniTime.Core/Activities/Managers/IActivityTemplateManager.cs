@@ -13,6 +13,7 @@ namespace UniTime.Activities.Managers
 
         Task<ActivityTemplate> CreateAsync(ActivityTemplate activityTemplate);
 
-        void EditActivityTemplate(ActivityTemplate activityTemplate, string name, string description, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, Location location, ICollection<Tag> tags, long editUserId);
+        void EditActivityTemplate(ActivityTemplate activityTemplate, string name, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, Location location, ICollection<Tag> tags, long editUserId);
+        void EditDescriptions(ActivityTemplate activityTemplate, long[] descriptionIds, long editUserId);
     }
 }

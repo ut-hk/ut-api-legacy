@@ -26,13 +26,11 @@ namespace UniTime.Activities
 
         public virtual Guid? ActivityTemplateId { get; protected set; }
 
-        public static Activity Create(string name, string description, DateTime? startTime, DateTime? endTime, Location location, User owner)
+        public static Activity Create(string name, DateTime? startTime, DateTime? endTime, Location location, User owner)
         {
             var actvitiy = new Activity
             {
                 Name = name,
-                Description = description,
-
                 StartTime = startTime,
                 EndTime = endTime,
                 Owner = owner,
