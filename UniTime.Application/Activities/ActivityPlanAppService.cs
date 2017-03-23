@@ -45,11 +45,18 @@ namespace UniTime.Activities
             var queryKeywords = input.QueryKeywords?.Split(' ').Where(queryKeyword => queryKeyword.Length > 0).ToArray();
 
             var activityPlans = await _activityPlanRepository.GetAll()
+                .Include(activityPlan => activityPlan.Descriptions)
                 .Include(activityPlan => activityPlan.Tags)
+                .Include(activityPlan => activityPlan.TimeSlots)
+                .Include(activityPlan => activityPlan.Comments)
+                .Include(activityPlan => activityPlan.Ratings)
+                .Include(activityPlan => activityPlan.Owner)
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityPlan => input.TagTexts.Any(tagText => activityPlan.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(queryKeywords != null && queryKeywords.Length > 0,
                     activityPlan => queryKeywords.Any(queryKeyword => activityPlan.Name.Contains(queryKeyword)))
+                .OrderByDescending(activityPlan => activityPlan.CreationTime)
+                .PageBy(input)
                 .ToListAsync();
 
             return new GetActivityPlansOutput

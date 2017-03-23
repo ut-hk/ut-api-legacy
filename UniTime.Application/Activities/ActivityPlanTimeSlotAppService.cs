@@ -26,6 +26,7 @@ namespace UniTime.Activities
 
         public async Task<EntityDto<long>> CreateActivityPlanTimeSlot(CreateActivityPlanTimeSlotInput input)
         {
+            var currentUserId = GetCurrentUserId();
             var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId);
             var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId);
 
@@ -33,7 +34,8 @@ namespace UniTime.Activities
                 activityPlan,
                 activityTemplate,
                 input.StartTime,
-                input.EndTime
+                input.EndTime,
+                currentUserId
             ));
 
             return new EntityDto<long>(activityPlanTimeSlot.Id);

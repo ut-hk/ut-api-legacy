@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using UniTime.Analysis.Dtos;
 using UniTime.Analysis.Managers;
 
@@ -37,6 +38,15 @@ namespace UniTime.Analysis
                 : await _guestManager.CreateAsync();
 
             return new EntityDto<Guid>(guest.Id);
+        }
+
+        [AbpAuthorize]
+        public async Task MergeGuestWithOwner(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var guest = await _guestManager.GetAsync(input.Id);
+
+            _guestManager.MergeWithOwner(guest, currentUserId);
         }
     }
 }

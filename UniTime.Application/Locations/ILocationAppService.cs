@@ -8,7 +8,7 @@ namespace UniTime.Locations
 {
     public interface ILocationAppService : IApplicationService
     {
-        Task<GetLocationsOutput> GetLocations();
+        Task<GetLocationsOutput> GetLocations(GetLocationsInput input);
 
         Task<EntityDto<Guid>> CreateLocation(CreateLocationInput input);
     }

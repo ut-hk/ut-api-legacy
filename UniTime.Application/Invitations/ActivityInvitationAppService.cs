@@ -11,27 +11,31 @@ using UniTime.Activities.Managers;
 using UniTime.Invitations.Dtos;
 using UniTime.Invitations.Enums;
 using UniTime.Invitations.Managers;
+using UniTime.Invitations.Policies;
 
 namespace UniTime.Invitations
 {
     [AbpAuthorize]
     public class ActivityInvitationAppService : UniTimeAppServiceBase, IActivityInvitationAppService
     {
+        private readonly IActivityInvitationManager _activityInvitationManager;
+        private readonly IActivityInvitationPolicy _activityInvitationPolicy;
         private readonly IActivityManager _activityManager;
-        private readonly IInvitationManager _invitationManager;
         private readonly IRepository<Invitation, Guid> _invitationRepository;
 
         public ActivityInvitationAppService(
             IRepository<Invitation, Guid> invitationRepository,
             IActivityManager activityManager,
-            IInvitationManager invitationManager)
+            IActivityInvitationManager activityInvitationManager,
+            IActivityInvitationPolicy activityInvitationPolicy)
         {
             _invitationRepository = invitationRepository;
             _activityManager = activityManager;
-            _invitationManager = invitationManager;
+            _activityInvitationManager = activityInvitationManager;
+            _activityInvitationPolicy = activityInvitationPolicy;
         }
 
-        public async Task<GetActivityInvitationsOutput> GetMyActivityInvitations()
+        public async Task<GetActivityInvitationsOutput> GetMyPendingActivityInvitations()
         {
             var currentUserId = GetCurrentUserId();
             var activityInvitations = await _invitationRepository.GetAll()
@@ -54,9 +58,33 @@ namespace UniTime.Invitations
             var invitee = await UserManager.GetUserByIdAsync(input.InviteeId);
             var activity = await _activityManager.GetAsync(input.ActivityId);
 
-            var invitation = await _invitationManager.CreateAsync(ActivityInvitation.Create(invitee, currentUser, activity, input.Content));
+            var invitation = await _activityInvitationManager.CreateAsync(ActivityInvitation.Create(invitee, currentUser, activity, input.Content, _activityInvitationPolicy));
 
             return new EntityDto<Guid>(invitation.Id);
+        }
+
+        public async Task AcceptActivityInvitation(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var invitation = await _activityInvitationManager.GetAsync(input.Id);
+
+            await _activityInvitationManager.Accept(invitation, currentUserId);
+        }
+
+        public async Task RejectActivityInvitation(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var invitation = await _activityInvitationManager.GetAsync(input.Id);
+
+            _activityInvitationManager.Reject(invitation, currentUserId);
+        }
+
+        public async Task IgnoreActivityInvitation(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var invitation = await _activityInvitationManager.GetAsync(input.Id);
+
+            _activityInvitationManager.Ignore(invitation, currentUserId);
         }
     }
 }

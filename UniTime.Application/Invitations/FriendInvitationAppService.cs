@@ -16,18 +16,18 @@ namespace UniTime.Invitations
     [AbpAuthorize]
     public class FriendInvitationAppService : UniTimeAppServiceBase, IFriendInvitationAppService
     {
-        private readonly IInvitationManager _invitationManager;
+        private readonly IFriendInvitationManager _friendInvitationManager;
         private readonly IRepository<Invitation, Guid> _invitationRepository;
 
         public FriendInvitationAppService(
             IRepository<Invitation, Guid> invitationRepository,
-            IInvitationManager invitationManager)
+            IFriendInvitationManager friendInvitationManager)
         {
             _invitationRepository = invitationRepository;
-            _invitationManager = invitationManager;
+            _friendInvitationManager = friendInvitationManager;
         }
 
-        public async Task<GetFriendInvitationsOutput> GetMyFriendInvitations()
+        public async Task<GetFriendInvitationsOutput> GetMyPendingFriendInvitations()
         {
             var currentUserId = GetCurrentUserId();
 
@@ -49,7 +49,7 @@ namespace UniTime.Invitations
             var currentUser = await GetCurrentUserAsync();
             var invitee = await UserManager.GetUserByIdAsync(input.InviteeId);
 
-            var invitation = await _invitationManager.CreateAsync(FriendInvitation.Create(invitee, currentUser, input.Content));
+            var invitation = await _friendInvitationManager.CreateAsync(FriendInvitation.Create(invitee, currentUser, input.Content));
 
             return new EntityDto<Guid>(invitation.Id);
         }

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Authorization;
-using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using AutoMapper.QueryableExtensions;
 using UniTime.Files.Dtos;
 
 namespace UniTime.Files
@@ -25,13 +24,15 @@ namespace UniTime.Files
         {
             var currentUserId = GetCurrentUserId();
 
-            var images = await _fileRepository.GetAll().OfType<Image>()
+            var images = await _fileRepository.GetAll()
+                .OfType<Image>()
                 .Where(image => image.OwnerId == currentUserId)
+                .ProjectTo<FileDto>()
                 .ToListAsync();
 
             return new GetMyImagesOutput
             {
-                Images = images.MapTo<List<FileDto>>()
+                Images = images
             };
         }
     }

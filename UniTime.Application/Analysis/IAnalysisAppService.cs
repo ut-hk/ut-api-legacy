@@ -10,5 +10,7 @@ namespace UniTime.Analysis
     {
         Task<EntityDto<Guid>> CreateGuest();
         Task<EntityDto<long>> CreateRouteHistory(CreateRouteHistoryInput input);
+
+        Task MergeGuestWithOwner(EntityDto<Guid> input);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
@@ -36,9 +37,9 @@ namespace UniTime.ChatRooms
             if (!chatRoom.Participants.Select(participant => participant.Id).Contains(currentUserId))
                 throw new UserFriendlyException($"You are not allowed to view this chat room with id = {input.ChatRoomId}.");
 
-            var chatRoomMessages = await _chatRoomMessageRepository.GetAllListAsync(chatRoomMessage =>
-                chatRoomMessage.ChatRoomId == input.ChatRoomId &&
-                chatRoomMessage.Id > input.StartId);
+            var chatRoomMessages = await _chatRoomMessageRepository.GetAll()
+                .Where(chatRoomMessage => chatRoomMessage.ChatRoomId == input.ChatRoomId && chatRoomMessage.Id > input.StartId)
+                .ToListAsync();
 
             return new GetChatRoomMessagesOutput
             {

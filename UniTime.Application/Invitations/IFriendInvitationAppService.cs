@@ -8,7 +8,7 @@ namespace UniTime.Invitations
 {
     public interface IFriendInvitationAppService : IApplicationService
     {
-        Task<GetFriendInvitationsOutput> GetMyFriendInvitations();
+        Task<GetFriendInvitationsOutput> GetMyPendingFriendInvitations();
 
         Task<EntityDto<Guid>> CreateFriendInvitation(CreateFriendInvitationInput input);
     }

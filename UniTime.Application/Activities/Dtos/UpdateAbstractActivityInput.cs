@@ -7,6 +7,10 @@ namespace UniTime.Activities.Dtos
     {
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public long[] DescriptionIds { get; set; }
+
+        public long[] TagIds { get; set; }
+
+        public Guid? LocationId { get; set; }
     }
 }

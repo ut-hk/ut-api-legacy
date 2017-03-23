@@ -11,9 +11,9 @@ namespace UniTime.Locations.Dtos
         public string Name { get; set; }
 
         [JsonProperty(PropertyName = "Longitude")]
-        public double CoordinateLongitude { get; set; }
+        public double? CoordinateLongitude { get; set; }
 
         [JsonProperty(PropertyName = "Latitude")]
-        public double CoordinateLatitude { get; set; }
+        public double? CoordinateLatitude { get; set; }
     }
 }

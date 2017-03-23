@@ -35,5 +35,19 @@ namespace UniTime.Descriptions
                 ActivityPlanId = activityPlan.Id
             };
         }
+
+        public static InternalImageDescription Create(Image image, AbstractActivity abstractActivity, long createUserId)
+        {
+            if (createUserId != abstractActivity.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a internal description in this activity with id = {abstractActivity.Id}.");
+
+            return new InternalImageDescription
+            {
+                Image = image,
+                ImageId = image.Id,
+                AbstractActivity = abstractActivity,
+                AbstractActivityId = abstractActivity.Id
+            };
+        }
     }
 }

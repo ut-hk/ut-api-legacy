@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using AutoMapper.QueryableExtensions;
 using UniTime.ChatRooms.Dtos;
 using UniTime.ChatRooms.Managers;
 using UniTime.Users;
@@ -31,14 +32,16 @@ namespace UniTime.ChatRooms
 
         public async Task<GetMyChatRoomsOutput> GetMyChatRooms()
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId =  GetCurrentUserId();
 
-            var chatRooms = await _chatRoomRepository.GetAllListAsync(chatRoom =>
-                chatRoom.Participants.Select(participant => participant.Id).Contains(currentUser.Id));
+            var chatRooms = await _chatRoomRepository.GetAll()
+                .Where(chatRoom => chatRoom.Participants.Select(participant => participant.Id).Contains(currentUserId))
+                .ProjectTo<ChatRoomDto>()
+                .ToListAsync();
 
             return new GetMyChatRoomsOutput
             {
-                ChatRooms = chatRooms.MapTo<List<ChatRoomDto>>()
+                ChatRooms = chatRooms
             };
         }
 
@@ -53,13 +56,13 @@ namespace UniTime.ChatRooms
 
         public async Task UpdateChatRoom(UpdateChatRoomInput input)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUserId = GetCurrentUserId();
 
             var chatRoom = await _chatRoomManager.GetAsync(input.Id);
             var participants = await _userRepository.GetAllListAsync(user => input.ParticipantIds.Contains(user.Id));
 
-            chatRoom.EditName(input.Name, currentUser);
-            chatRoom.EditParticipants(participants, currentUser);
+            _chatRoomManager.EditChatRoom(chatRoom, input.Name, currentUserId);
+            _chatRoomManager.EditParticipants(chatRoom, participants, currentUserId);
         }
     }
 }
