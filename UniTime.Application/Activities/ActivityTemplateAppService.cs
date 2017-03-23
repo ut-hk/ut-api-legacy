@@ -12,6 +12,7 @@ using Abp.Linq.Extensions;
 using Abp.Runtime.Caching;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
+using UniTime.Descriptions.Enums;
 using UniTime.Locations.Managers;
 using UniTime.Tags;
 
@@ -52,6 +53,7 @@ namespace UniTime.Activities
 
         public async Task<GetActivityTemplatesOutput> GetActivityTemplates(GetActivityTemplatesInput input)
         {
+            var queryKeywords = input.QueryKeywords?.Split(' ').Where(queryKeyword => queryKeyword.Length > 0).ToArray();
             var selectedGeographyPoint = $"POINT({input.Longitude} {input.Latitude})";
             var targetRadiusInStandardDistance = ConvertToStandardDistance(100);
 
@@ -64,17 +66,29 @@ namespace UniTime.Activities
                 .Include(activityTemplate => activityTemplate.Comments)
                 .Include(activityTemplate => activityTemplate.Owner)
                 .Include(activityTemplate => activityTemplate.ReferenceTimeSlots)
+                .Where(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime > DateTime.UtcNow)
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
+                .WhereIf(queryKeywords != null && queryKeywords.Length > 0, activityTemplate => queryKeywords.Any(queryKeyword => activityTemplate.Name.Contains(queryKeyword)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
                     activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
                 .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.StartTime > input.StartTime))
                 .WhereIf(input.EndTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.EndTime < input.EndTime))
+                .OrderBy(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime)
+                .PageBy(input)
                 .ToListAsync();
+
+            var activityTemplateDtos = activityTemplates.MapTo<List<ActivityTemplateDto>>();
+
+            foreach (var activityTemplateDto in activityTemplateDtos)
+            {
+                activityTemplateDto.CoverImageDescription = activityTemplateDto.Descriptions
+                    .FirstOrDefault(at => at.Type == DescriptionType.ExternalImage || at.Type == DescriptionType.InternalImage);
+            }
 
             return new GetActivityTemplatesOutput
             {
-                ActivityTemplates = activityTemplates.MapTo<List<ActivityTemplateDto>>()
+                ActivityTemplates = activityTemplateDtos
             };
         }
 

@@ -21,7 +21,7 @@ namespace UniTime.Tests.Locations
         public async Task Should_Get_No_Results()
         {
             // Act
-            var getLocationsOutput = await _locationAppService.GetLocations();
+            var getLocationsOutput = await _locationAppService.GetLocations(new GetLocationsInput());
 
             // Assert
             getLocationsOutput.ShouldNotBe(null);
@@ -49,7 +49,7 @@ namespace UniTime.Tests.Locations
 
             // Act
             var id = createLocationOutput.Id;
-            var getLocationsOutput = await _locationAppService.GetLocations();
+            var getLocationsOutput = await _locationAppService.GetLocations(new GetLocationsInput());
 
             // Assert
             getLocationsOutput.ShouldNotBe(null);

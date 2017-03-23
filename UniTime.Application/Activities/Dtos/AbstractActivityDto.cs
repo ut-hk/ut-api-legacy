@@ -14,6 +14,8 @@ namespace UniTime.Activities.Dtos
     {
         public string Name { get; set; }
 
+        public DescriptionDto CoverImageDescription { get; set; }
+
         public ICollection<DescriptionDto> Descriptions { get; set; }
 
         public LocationDto Location { get; set; }

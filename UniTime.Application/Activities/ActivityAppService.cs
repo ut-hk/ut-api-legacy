@@ -50,17 +50,18 @@ namespace UniTime.Activities
 
             var myActivities = await _abstractActivityRepository.GetAll()
                 .OfType<Activity>()
-                .Include(activityTemplate => activityTemplate.Descriptions)
-                .Include(activityTemplate => activityTemplate.Location)
-                .Include(activityTemplate => activityTemplate.Tags)
-                .Include(activityTemplate => activityTemplate.Ratings)
-                .Include(activityTemplate => activityTemplate.Comments)
-                .Include(activityTemplate => activityTemplate.Owner)
-                .Include(activityTemplate => activityTemplate.Participants)
+                .Include(activity => activity.Descriptions)
+                .Include(activity => activity.Location)
+                .Include(activity => activity.Tags)
+                .Include(activity => activity.Ratings)
+                .Include(activity => activity.Comments)
+                .Include(activity => activity.Owner)
+                .Include(activity => activity.Participants)
                 .Where(activity =>
                     activity.OwnerId == currentUserId ||
                     activity.Participants.Select(participant => participant.OwnerId).Contains(currentUserId)
                 )
+                .OrderBy(activity => activity.StartTime)
                 .ToListAsync();
 
             return new GetMyActivitiesOutput

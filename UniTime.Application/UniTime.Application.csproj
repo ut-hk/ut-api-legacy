@@ -209,6 +209,7 @@
     <Compile Include="Locations\Dtos\CreateLocationInput.cs" />
     <Compile Include="Locations\Dtos\LocationDto.cs" />
     <Compile Include="Locations\Dtos\GetLocationsOutput.cs" />
+    <Compile Include="Locations\Dtos\GetLocationsInput.cs" />
     <Compile Include="Locations\ILocationAppService.cs" />
     <Compile Include="Locations\LocationAppService.cs" />
     <Compile Include="Ratings\Dtos\RatingDto.cs" />
