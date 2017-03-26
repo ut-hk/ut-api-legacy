@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201703210655002_Descriptions.Designer.cs">
       <DependentUpon>201703210655002_Descriptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703251325082_Comment_And_Reply_Length.cs" />
+    <Compile Include="Migrations\201703251325082_Comment_And_Reply_Length.Designer.cs">
+      <DependentUpon>201703251325082_Comment_And_Reply_Length.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
@@ -196,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703210655002_Descriptions.resx">
       <DependentUpon>201703210655002_Descriptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703251325082_Comment_And_Reply_Length.resx">
+      <DependentUpon>201703251325082_Comment_And_Reply_Length.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
