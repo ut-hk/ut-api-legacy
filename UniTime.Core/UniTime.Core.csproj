@@ -123,6 +123,9 @@
     <Compile Include="Activities\ActivityTemplate.cs" />
     <Compile Include="Activities\ActivityParticipant.cs" />
     <Compile Include="Activities\ActivityTemplateReferenceTimeSlot.cs" />
+    <Compile Include="Analysis\LocationHistory.cs" />
+    <Compile Include="Analysis\Managers\ILocationHistoryManager.cs" />
+    <Compile Include="Analysis\Managers\LocationHistoryManager.cs" />
     <Compile Include="Comments\Enums\CommentType.cs" />
     <Compile Include="Comments\InternalImageComment.cs" />
     <Compile Include="Comments\TextComment.cs" />

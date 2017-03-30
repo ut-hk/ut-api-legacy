@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 
@@ -16,11 +15,12 @@ namespace UniTime.Analysis.Managers
             _guestRepository = guestRepository;
         }
 
-        public async Task<Guest> GetAsync(Guid id)
+        public async Task<Guest> GetAnonymousGuestAsync(Guid id)
         {
             var guest = await _guestRepository.FirstOrDefaultAsync(id);
 
             if (guest == null) throw new UserFriendlyException($"The guest with id = {id} does not exist.");
+            if (guest.OwnerId != null) throw new UserFriendlyException($"The guest with id = {id} is not anonymous.");
 
             return guest;
         }
@@ -41,10 +41,12 @@ namespace UniTime.Analysis.Managers
             return guest;
         }
 
-  
-        public void MergeWithOwner(Guest guest, long ownerId)
+        public void MergeGuests(Guest guest, Guest anonymousGuest)
         {
-            guest.EditOwner(ownerId);
+            if (!guest.OwnerId.HasValue) throw new UserFriendlyException($"The guest with id = {guest.OwnerId} does not exist.");
+            if (anonymousGuest.OwnerId.HasValue) throw new UserFriendlyException($"The guest with id = {anonymousGuest.OwnerId} is not anonymous.");
+
+            anonymousGuest.EditOwner(guest.OwnerId.Value);
         }
     }
 }

@@ -14,13 +14,15 @@ namespace UniTime.Analysis
 
         public virtual ICollection<RouteHistory> RouteHistories { get; protected set; }
 
+        public virtual ICollection<LocationHistory> LocationHistories { get; protected set; }
+
         public virtual User Owner { get; protected set; }
 
         public virtual long? OwnerId { get; protected set; }
 
         public virtual DateTime CreationTime { get; set; }
 
-        public static Guest Create(long? ownerId)
+        public static Guest Create(long? ownerId = null)
         {
             return new Guest
             {
@@ -30,8 +32,7 @@ namespace UniTime.Analysis
 
         internal void EditOwner(long ownerId)
         {
-            if (OwnerId == null)
-                OwnerId = ownerId;
+            OwnerId = ownerId;
         }
     }
 }

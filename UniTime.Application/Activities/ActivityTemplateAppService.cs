@@ -9,7 +9,6 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using Abp.Runtime.Caching;
 using UniTime.Activities.Dtos;
 using UniTime.Activities.Managers;
 using UniTime.Descriptions.Enums;
@@ -22,7 +21,6 @@ namespace UniTime.Activities
     {
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
         private readonly IActivityTemplateManager _activityTemplateManager;
-        private readonly ICacheManager _cacheManager;
         private readonly ILocationManager _locationManager;
         private readonly IRepository<Tag, long> _tagRepository;
 
@@ -30,15 +28,13 @@ namespace UniTime.Activities
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
             IRepository<Tag, long> tagRepository,
             IActivityTemplateManager activityTemplateManager,
-            ILocationManager locationManager,
-            ICacheManager cacheManager
+            ILocationManager locationManager
         )
         {
             _abstractActivityRepository = abstractActivityRepository;
             _tagRepository = tagRepository;
             _activityTemplateManager = activityTemplateManager;
             _locationManager = locationManager;
-            _cacheManager = cacheManager;
         }
 
         public async Task<GetActivityTemplateOutput> GetActivityTemplate(EntityDto<Guid> input)
@@ -54,8 +50,6 @@ namespace UniTime.Activities
         public async Task<GetActivityTemplatesOutput> GetActivityTemplates(GetActivityTemplatesInput input)
         {
             var queryKeywords = input.QueryKeywords?.Split(' ').Where(queryKeyword => queryKeyword.Length > 0).ToArray();
-            var selectedGeographyPoint = $"POINT({input.Longitude} {input.Latitude})";
-            var targetRadiusInStandardDistance = ConvertToStandardDistance(100);
 
             var activityTemplates = await _abstractActivityRepository.GetAll()
                 .OfType<ActivityTemplate>()
@@ -67,11 +61,12 @@ namespace UniTime.Activities
                 .Include(activityTemplate => activityTemplate.Owner)
                 .Include(activityTemplate => activityTemplate.ReferenceTimeSlots)
                 .Where(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime > DateTime.UtcNow)
+
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(queryKeywords != null && queryKeywords.Length > 0, activityTemplate => queryKeywords.Any(queryKeyword => activityTemplate.Name.Contains(queryKeyword)))
-                .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue,
-                    activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText(selectedGeographyPoint)) < targetRadiusInStandardDistance)
+                .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue && input.Distance.HasValue,
+                    activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText($"POINT({input.Longitude.Value} {input.Latitude.Value})")) < ConvertToStandardDistance(input.Distance.Value))
                 .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.StartTime > input.StartTime))
                 .WhereIf(input.EndTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.EndTime < input.EndTime))
                 .OrderBy(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime)

@@ -8,9 +8,10 @@ namespace UniTime.Analysis
 {
     public interface IAnalysisAppService : IApplicationService
     {
-        Task<EntityDto<Guid>> CreateGuest();
-        Task<EntityDto<long>> CreateRouteHistory(CreateRouteHistoryInput input);
+        Task<EntityDto<Guid>> GetGuest(GetGuestInput input);
+        Task<GetAnalysisInsightsOutput> GetAnaylsisInsights();
 
-        Task MergeGuestWithOwner(EntityDto<Guid> input);
+        Task<EntityDto<long>> CreateRouteHistory(CreateRouteHistoryInput input);
+        Task CreateLocationHistory(CreateLocationHistoryInput input);
     }
 }

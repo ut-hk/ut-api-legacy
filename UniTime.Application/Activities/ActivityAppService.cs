@@ -44,6 +44,29 @@ namespace UniTime.Activities
             };
         }
 
+        public async Task<GetActivitiesOutput> GetActivities(GetActivitiesInput input)
+        {
+            var activities = await _abstractActivityRepository.GetAll()
+                .OfType<Activity>()
+                .Include(activity => activity.Descriptions)
+                .Include(activity => activity.Location)
+                .Include(activity => activity.Tags)
+                .Include(activity => activity.Ratings)
+                .Include(activity => activity.Comments)
+                .Include(activity => activity.Owner)
+                .Include(activity => activity.Participants)
+                .Where(activity =>
+                    activity.OwnerId == input.UserId
+                )
+                .OrderBy(activity => activity.StartTime)
+                .ToListAsync();
+
+            return new GetActivitiesOutput
+            {
+                Activities = activities.MapTo<List<ActivityDto>>()
+            };
+        }
+
         public async Task<GetMyActivitiesOutput> GetMyActivities()
         {
             var currentUserId = GetCurrentUserId();

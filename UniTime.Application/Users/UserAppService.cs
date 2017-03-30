@@ -4,6 +4,7 @@ using Abp.Auditing;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using UniTime.Analysis.Managers;
 using UniTime.Files;
 using UniTime.Users.Dtos;
 
@@ -13,19 +14,26 @@ namespace UniTime.Users
     public class UserAppService : UniTimeAppServiceBase, IUserAppService
     {
         private readonly IRepository<File, Guid> _fileRepository;
+        private readonly IGuestManager _guestManager;
 
         public UserAppService(
-            IRepository<File, Guid> fileRepository)
+            IRepository<File, Guid> fileRepository,
+            IGuestManager guestManager)
         {
             _fileRepository = fileRepository;
+            _guestManager = guestManager;
         }
 
         [DisableAuditing]
         public async Task<GetMyUserOutput> GetMyUser()
         {
+            var currentUser = await GetCurrentUserAsync();
+            var guest = await _guestManager.GetByUserIdAsync(currentUser.Id);
+
             return new GetMyUserOutput
             {
-                MyUser = (await GetCurrentUserAsync()).MapTo<UserDto>()
+                MyUser = currentUser.MapTo<UserDto>(),
+                GuestId = guest.Id
             };
         }
 

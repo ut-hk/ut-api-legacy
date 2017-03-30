@@ -18,6 +18,8 @@ namespace UniTime.Activities.Dtos
 
         public double? Latitude { get; set; }
 
+        public double? Distance { get; set; }
+
         [Range(1, 20)]
         public int MaxResultCount { get; set; } = 10;
 

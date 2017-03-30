@@ -10,6 +10,8 @@ namespace UniTime.Activities
     {
         Task<GetActivityOutput> GetActivity(EntityDto<Guid> input);
 
+        Task<GetActivitiesOutput> GetActivities(GetActivitiesInput input);
+
         /// <summary>
         ///     My Activities are the owned activities and the participated activities.
         /// </summary>

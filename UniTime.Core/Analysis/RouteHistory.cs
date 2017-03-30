@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using Abp.UI;
 
 namespace UniTime.Analysis
 {
@@ -25,8 +26,11 @@ namespace UniTime.Analysis
 
         public virtual DateTime CreationTime { get; set; }
 
-        public static RouteHistory Create(string routeName, string parameters, string referer, Guest guest)
+        public static RouteHistory Create(string routeName, string parameters, string referer, Guest guest, long? createUserId)
         {
+            if (guest.OwnerId != createUserId)
+                throw new UserFriendlyException("You are not allowed to create this route history.");
+
             return new RouteHistory
             {
                 RouteName = routeName,

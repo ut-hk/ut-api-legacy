@@ -159,6 +159,14 @@
     <Compile Include="Migrations\201703251325082_Comment_And_Reply_Length.Designer.cs">
       <DependentUpon>201703251325082_Comment_And_Reply_Length.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703281133491_LocationHistory.cs" />
+    <Compile Include="Migrations\201703281133491_LocationHistory.Designer.cs">
+      <DependentUpon>201703281133491_LocationHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703281715032_GuestOwner.cs" />
+    <Compile Include="Migrations\201703281715032_GuestOwner.Designer.cs">
+      <DependentUpon>201703281715032_GuestOwner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
@@ -202,6 +210,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703251325082_Comment_And_Reply_Length.resx">
       <DependentUpon>201703251325082_Comment_And_Reply_Length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281133491_LocationHistory.resx">
+      <DependentUpon>201703281133491_LocationHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281715032_GuestOwner.resx">
+      <DependentUpon>201703281715032_GuestOwner.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

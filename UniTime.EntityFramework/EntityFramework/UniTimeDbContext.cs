@@ -60,6 +60,8 @@ namespace UniTime.EntityFramework
 
         public IDbSet<Guest> Guests { get; set; }
 
+        public IDbSet<LocationHistory> LocationHistories { get; set; }
+
         public IDbSet<RouteHistory> RouteHistories { get; set; }
 
         public IDbSet<Category> Categories { get; set; }

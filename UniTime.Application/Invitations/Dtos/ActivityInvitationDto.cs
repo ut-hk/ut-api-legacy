@@ -1,4 +1,5 @@
 ﻿using Abp.AutoMapper;
+using UniTime.Activities;
 using UniTime.Activities.Dtos;
 
 namespace UniTime.Invitations.Dtos
