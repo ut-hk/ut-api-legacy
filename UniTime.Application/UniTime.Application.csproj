@@ -251,6 +251,7 @@
     <Compile Include="Users\Dtos\GetFriendsOutput.cs" />
     <Compile Include="Users\Dtos\GetTrackedByUsersOutput.cs" />
     <Compile Include="Users\Dtos\GetTrackingUsersOutput.cs" />
+    <Compile Include="Users\GetUserOutput.cs" />
     <Compile Include="Users\ITrackAppService.cs" />
     <Compile Include="Users\IUserAppService.cs" />
     <Compile Include="Users\TrackAppService.cs" />

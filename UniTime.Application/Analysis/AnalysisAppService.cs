@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using Abp.Auditing;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using AutoMapper.QueryableExtensions;
@@ -32,6 +33,7 @@ namespace UniTime.Analysis
             _locationHistoryManager = locationHistoryManager;
         }
 
+        [DisableAuditing]
         public async Task<EntityDto<Guid>> GetGuest(GetGuestInput input)
         {
             var currentUserId = AbpSession.UserId;
@@ -70,6 +72,7 @@ namespace UniTime.Analysis
             };
         }
 
+        [DisableAuditing]
         public async Task<EntityDto<long>> CreateRouteHistory(CreateRouteHistoryInput input)
         {
             var currentUserId = AbpSession.UserId;
@@ -91,6 +94,7 @@ namespace UniTime.Analysis
             return new EntityDto<long>(routeHistory.Id);
         }
 
+        [DisableAuditing]
         public async Task CreateLocationHistory(CreateLocationHistoryInput input)
         {
             var currentUserId = AbpSession.UserId;
