@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.UI;
 using Shouldly;
+using UniTime.AbstractActivities;
+using UniTime.AbstractActivities.Dtos;
 using UniTime.Activities;
-using UniTime.Activities.Dtos;
 using Xunit;
 
 namespace UniTime.Tests.Activities

@@ -5,26 +5,15 @@ using Abp.Application.Services;
 using Abp.Configuration.Startup;
 using Abp.Modules;
 using Abp.WebApi;
-using Abp.WebApi.OData;
-using Abp.WebApi.OData.Configuration;
 using Swashbuckle.Application;
-using UniTime.Activities;
 
 namespace UniTime.Api
 {
     [DependsOn(
         typeof(AbpWebApiModule),
-        typeof(UniTimeApplicationModule),
-        typeof(AbpWebApiODataModule))]
+        typeof(UniTimeApplicationModule))]
     public class UniTimeWebApiModule : AbpModule
     {
-        public override void PreInitialize()
-        {
-            var builder = Configuration.Modules.AbpWebApiOData().ODataModelBuilder;
-
-            builder.EntitySet<ActivityTemplate>("ActivityTemplate");
-        }
-
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());

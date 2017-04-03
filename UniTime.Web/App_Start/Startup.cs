@@ -27,25 +27,10 @@ namespace UniTime.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/LogIn")
             });
 
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-            if (IsTrue("ExternalAuth.Facebook.IsEnabled"))
-            {
-                app.UseFacebookAuthentication(CreateFacebookAuthOptions());
-            }
-
-            if (IsTrue("ExternalAuth.Twitter.IsEnabled"))
-            {
-                app.UseTwitterAuthentication(CreateTwitterAuthOptions());
-            }
-
-            if (IsTrue("ExternalAuth.Google.IsEnabled"))
-            {
-                app.UseGoogleAuthentication(CreateGoogleAuthOptions());
-            }
+            // UseExternalSignIn(app);
 
             app.MapSignalR();
 
@@ -68,6 +53,26 @@ namespace UniTime.Web
             });
 
             Clock.Provider = ClockProviders.Utc;
+        }
+
+        private static void UseExternalSignIn(IAppBuilder app)
+        {
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            if (IsTrue("ExternalAuth.Facebook.IsEnabled"))
+            {
+                app.UseFacebookAuthentication(CreateFacebookAuthOptions());
+            }
+
+            if (IsTrue("ExternalAuth.Twitter.IsEnabled"))
+            {
+                app.UseTwitterAuthentication(CreateTwitterAuthOptions());
+            }
+
+            if (IsTrue("ExternalAuth.Google.IsEnabled"))
+            {
+                app.UseGoogleAuthentication(CreateGoogleAuthOptions());
+            }
         }
 
         private static FacebookAuthenticationOptions CreateFacebookAuthOptions()
