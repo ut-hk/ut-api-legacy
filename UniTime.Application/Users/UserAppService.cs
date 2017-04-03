@@ -31,7 +31,7 @@ namespace UniTime.Users
         public async Task<GetUserOutput> GetUser(EntityDto<long> input)
         {
             var user = await _cacheManager
-                .GetCache("LongCache")
+                .GetCache("UserCache")
                 .GetAsync(input.Id, () => GetUserFromDatabase(input.Id));
 
             return new GetUserOutput
@@ -46,7 +46,7 @@ namespace UniTime.Users
         {
             var currentUser = await GetCurrentUserAsync();
             var guestId = await _cacheManager
-                .GetCache("LongCache")
+                .GetCache("GuestIdCache")
                 .GetAsync(currentUser.Id, () => GetGuestIdFromDatabase(currentUser.Id));
 
             return new GetMyUserOutput
@@ -54,6 +54,14 @@ namespace UniTime.Users
                 MyUser = currentUser.MapTo<UserDto>(),
                 GuestId = guestId
             };
+        }
+
+        [AbpAuthorize()]
+        public async Task UpdateMyUserPassword(UpdateMyUserPasswordInput input)
+        {
+            var currentUser = await GetCurrentUserAsync();
+
+            UserManager.EditPassword(currentUser, input.Password);
         }
 
         [AbpAuthorize]
@@ -64,6 +72,7 @@ namespace UniTime.Users
 
             UserManager.EditUser(currentUser, input.Name, input.Surname, input.PhoneNumber, input.Gender, input.Birthday, cover);
         }
+
 
         private async Task<User> GetUserFromDatabase(long id)
         {

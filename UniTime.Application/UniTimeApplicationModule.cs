@@ -17,8 +17,8 @@ namespace UniTime
                     // mapper.CreateMap<,>()
                 });
 
-            Configuration.Caching.Configure("LongCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromHours(4); });
-            Configuration.Caching.Configure("ShortCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromMinutes(30); });
+            Configuration.Caching.Configure("UserCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromMinutes(30); });
+            Configuration.Caching.Configure("GuestIdCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromDays(1); });
         }
 
         public override void Initialize()

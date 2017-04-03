@@ -20,6 +20,8 @@ namespace UniTime.Activities.Dtos
 
         public double? Distance { get; set; }
 
+        public long? UserId { get; set; }
+
         [Range(1, 20)]
         public int MaxResultCount { get; set; } = 10;
 

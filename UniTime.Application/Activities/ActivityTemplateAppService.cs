@@ -62,13 +62,20 @@ namespace UniTime.Activities
                 .Include(activityTemplate => activityTemplate.ReferenceTimeSlots)
                 .Where(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime > DateTime.UtcNow)
 
+                // Optional Wheres
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityTemplate => input.TagTexts.Any(tagText => activityTemplate.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(queryKeywords != null && queryKeywords.Length > 0, activityTemplate => queryKeywords.Any(queryKeyword => activityTemplate.Name.Contains(queryKeyword)))
                 .WhereIf(input.Longitude.HasValue && input.Latitude.HasValue && input.Distance.HasValue,
                     activityTemplate => activityTemplate.Location.Coordinate.Distance(DbGeography.FromText($"POINT({input.Longitude.Value} {input.Latitude.Value})")) < ConvertToStandardDistance(input.Distance.Value))
-                .WhereIf(input.StartTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.StartTime > input.StartTime))
-                .WhereIf(input.EndTime.HasValue, activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.EndTime < input.EndTime))
+                .WhereIf(input.StartTime.HasValue,
+                    activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.StartTime > input.StartTime))
+                .WhereIf(input.EndTime.HasValue,
+                    activityTemplate => activityTemplate.ReferenceTimeSlots.Any(timeSlot => timeSlot.EndTime < input.EndTime))
+                .WhereIf(input.UserId.HasValue,
+                    activityTemplate => activityTemplate.OwnerId == input.UserId.Value)
+
+                // View Requirements
                 .OrderBy(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime)
                 .PageBy(input)
                 .ToListAsync();
@@ -76,10 +83,8 @@ namespace UniTime.Activities
             var activityTemplateDtos = activityTemplates.MapTo<List<ActivityTemplateDto>>();
 
             foreach (var activityTemplateDto in activityTemplateDtos)
-            {
                 activityTemplateDto.CoverImageDescription = activityTemplateDto.Descriptions
                     .FirstOrDefault(at => at.Type == DescriptionType.ExternalImage || at.Type == DescriptionType.InternalImage);
-            }
 
             return new GetActivityTemplatesOutput
             {

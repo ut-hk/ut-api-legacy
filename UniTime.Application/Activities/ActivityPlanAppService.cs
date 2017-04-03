@@ -51,10 +51,16 @@ namespace UniTime.Activities
                 .Include(activityPlan => activityPlan.Comments)
                 .Include(activityPlan => activityPlan.Ratings)
                 .Include(activityPlan => activityPlan.Owner)
+
+                // Optional Wheres
                 .WhereIf(input.TagTexts != null && input.TagTexts.Length > 0,
                     activityPlan => input.TagTexts.Any(tagText => activityPlan.Tags.Select(tag => tag.Text).Contains(tagText)))
                 .WhereIf(queryKeywords != null && queryKeywords.Length > 0,
                     activityPlan => queryKeywords.Any(queryKeyword => activityPlan.Name.Contains(queryKeyword)))
+                .WhereIf(input.UserId.HasValue,
+                    activityPlan => activityPlan.OwnerId == input.UserId.Value)
+
+                // View Requirements
                 .OrderByDescending(activityPlan => activityPlan.CreationTime)
                 .PageBy(input)
                 .ToListAsync();

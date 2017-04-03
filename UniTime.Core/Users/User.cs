@@ -71,5 +71,10 @@ namespace UniTime.Users
             Surname = surname;
             PhoneNumber = phoneNumber;
         }
+
+        public void EditPassword(string password)
+        {
+            Password = new PasswordHasher().HashPassword(password);
+        }
     }
 }

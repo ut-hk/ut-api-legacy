@@ -10,6 +10,7 @@ namespace UniTime.Users
         Task<GetUserOutput> GetUser(EntityDto<long> input);
         Task<GetMyUserOutput> GetMyUser();
 
+        Task UpdateMyUserPassword(UpdateMyUserPasswordInput input);
         Task UpdateMyUser(UpdateMyUserInput input);
     }
 }

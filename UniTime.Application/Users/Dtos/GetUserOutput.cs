@@ -1,6 +1,4 @@
-﻿using UniTime.Users.Dtos;
-
-namespace UniTime.Users
+﻿namespace UniTime.Users.Dtos
 {
     public class GetUserOutput
     {

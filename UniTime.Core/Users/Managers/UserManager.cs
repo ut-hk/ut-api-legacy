@@ -54,5 +54,10 @@ namespace UniTime.Users.Managers
             else
                 user.Profile.EditUserProfile(gender, birthday, cover);
         }
+
+        public void EditPassword(User user, string password)
+        {
+            user.EditPassword(password);
+        }
     }
 }
