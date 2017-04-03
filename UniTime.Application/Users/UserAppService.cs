@@ -56,21 +56,22 @@ namespace UniTime.Users
             };
         }
 
-        [AbpAuthorize()]
+        [AbpAuthorize]
         public async Task UpdateMyUserPassword(UpdateMyUserPasswordInput input)
         {
             var currentUser = await GetCurrentUserAsync();
 
-            UserManager.EditPassword(currentUser, input.Password);
+            UserManager.EditPassword(currentUser, input.OldPassword, input.NewPassword);
         }
 
         [AbpAuthorize]
         public async Task UpdateMyUser(UpdateMyUserInput input)
         {
             var currentUser = await GetCurrentUserAsync();
+            var icon = input.IconId.HasValue ? await _fileRepository.GetAsync(input.IconId.Value) as Image : null;
             var cover = input.CoverId.HasValue ? await _fileRepository.GetAsync(input.CoverId.Value) as Image : null;
 
-            UserManager.EditUser(currentUser, input.Name, input.Surname, input.PhoneNumber, input.Gender, input.Birthday, cover);
+            UserManager.EditUser(currentUser, input.Name, input.Surname, input.PhoneNumber, input.Gender, input.Birthday, icon, cover);
         }
 
 

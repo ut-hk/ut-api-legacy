@@ -7,6 +7,10 @@ namespace UniTime.Users.Dtos
     {
         [StringLength(User.MaxPlainPasswordLength)]
         [DisableAuditing]
-        public string Password { get; set; }
+        public string OldPassword { get; set; }
+
+        [StringLength(User.MaxPlainPasswordLength)]
+        [DisableAuditing]
+        public string NewPassword { get; set; }
     }
 }

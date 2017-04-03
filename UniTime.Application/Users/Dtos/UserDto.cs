@@ -17,5 +17,8 @@ namespace UniTime.Users.Dtos
 
         [JsonProperty(nameof(UserProfile.Birthday))]
         public DateTime? ProfileBirthday { get; set; }
+
+        [JsonProperty(nameof(UserProfile.CoverId))]
+        public Guid? ProfileCoverId { get; set; }
     }
 }

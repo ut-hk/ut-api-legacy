@@ -18,7 +18,7 @@ namespace UniTime.Users.Dtos
         [JsonProperty(nameof(UserProfile.Gender))]
         public Gender? ProfileGender { get; set; }
 
-        [JsonProperty(nameof(UserProfile.CoverId))]
-        public Guid? ProfileCoverId { get; set; }
+        [JsonProperty(nameof(UserProfile.IconId))]
+        public Guid? ProfileIconId { get; set; }
     }
 }

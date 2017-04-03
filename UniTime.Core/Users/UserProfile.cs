@@ -21,12 +21,17 @@ namespace UniTime.Users
 
         public virtual DateTime? Birthday { get; protected set; }
 
+        [ForeignKey(nameof(IconId))]
+        public virtual Image Icon { get; protected set; }
+
+        public virtual Guid? IconId { get; protected set; }
+
         [ForeignKey(nameof(CoverId))]
         public virtual Image Cover { get; protected set; }
 
         public virtual Guid? CoverId { get; protected set; }
 
-        public static UserProfile Create(User user, Gender? gender, DateTime? birthday, Image cover)
+        public static UserProfile Create(User user, Gender? gender, DateTime? birthday, Image icon, Image cover)
         {
             var userProfile = new UserProfile
             {
@@ -34,6 +39,12 @@ namespace UniTime.Users
                 Gender = gender ?? Gender.NotProvided,
                 Birthday = birthday
             };
+
+            if (icon != null)
+            {
+                userProfile.Icon = icon;
+                userProfile.IconId = icon.Id;
+            }
 
             if (cover != null)
             {
@@ -44,10 +55,16 @@ namespace UniTime.Users
             return userProfile;
         }
 
-        internal void EditUserProfile(Gender? gender, DateTime? birthday, Image cover)
+        internal void EditUserProfile(Gender? gender, DateTime? birthday, Image icon, Image cover)
         {
             Gender = gender ?? Gender.NotProvided;
             Birthday = birthday;
+
+            if (icon != null)
+            {
+                Icon = icon;
+                IconId = icon.Id;
+            }
 
             if (cover != null)
             {
