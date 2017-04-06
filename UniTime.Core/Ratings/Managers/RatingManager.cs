@@ -30,36 +30,36 @@ namespace UniTime.Ratings.Managers
 
         public async Task<Rating> CreateAsync(RatingStatus ratingStatus, Activity activity, User owner)
         {
-            var rating = activity.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id);
+            var rating = activity.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id && r.AbstractActivityId == activity.Id);
 
             if (rating != null)
                 rating.EditRating(ratingStatus, owner.Id);
             else
-                await CreateAsync(Rating.Create(ratingStatus, activity, owner));
+                rating = await CreateAsync(Rating.Create(ratingStatus, activity, owner));
 
             return rating;
         }
 
         public async Task<Rating> CreateAsync(RatingStatus ratingStatus, ActivityTemplate activityTemplate, User owner)
         {
-            var rating = activityTemplate.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id);
+            var rating = activityTemplate.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id && r.AbstractActivityId == activityTemplate.Id);
 
             if (rating != null)
                 rating.EditRating(ratingStatus, owner.Id);
             else
-                await CreateAsync(Rating.Create(ratingStatus, activityTemplate, owner));
+                rating = await CreateAsync(Rating.Create(ratingStatus, activityTemplate, owner));
 
             return rating;
         }
 
         public async Task<Rating> CreateAsync(RatingStatus ratingStatus, ActivityPlan activityPlan, User owner)
         {
-            var rating = activityPlan.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id);
+            var rating = activityPlan.Ratings.FirstOrDefault(r => r.OwnerId == owner.Id && r.ActivityPlanId == activityPlan.Id);
 
             if (rating != null)
                 rating.EditRating(ratingStatus, owner.Id);
             else
-                await CreateAsync(Rating.Create(ratingStatus, activityPlan, owner));
+                rating = await CreateAsync(Rating.Create(ratingStatus, activityPlan, owner));
             
             return rating;
         }

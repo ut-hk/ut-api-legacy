@@ -10,8 +10,8 @@ namespace UniTime.Invitations.Policies
 {
     public class ActivityInvitationPolicy : IActivityInvitationPolicy
     {
-        private readonly IRepository<Invitation, Guid> _invitationRepository;
         private readonly IRepository<ActivityParticipant, long> _activityParticipantRepository;
+        private readonly IRepository<Invitation, Guid> _invitationRepository;
 
         public ActivityInvitationPolicy(
             IRepository<Invitation, Guid> invitationRepository,
@@ -49,7 +49,8 @@ namespace UniTime.Invitations.Policies
 
         private void CheckNoPendingInvitation(User invitee, Activity activity)
         {
-            if (_invitationRepository.GetAll().OfType<ActivityInvitation>()
+            if (_invitationRepository.GetAll()
+                .OfType<ActivityInvitation>()
                 .Any(activityInvitation =>
                     activityInvitation.ActivityId == activity.Id &&
                     activityInvitation.InviteeId == invitee.Id &&

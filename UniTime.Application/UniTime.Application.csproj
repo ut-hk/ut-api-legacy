@@ -255,9 +255,10 @@
     <Compile Include="Users\Dtos\GetTrackedByUsersOutput.cs" />
     <Compile Include="Users\Dtos\GetTrackingUsersOutput.cs" />
     <Compile Include="Users\Dtos\GetUserOutput.cs" />
-    <Compile Include="Users\ITrackAppService.cs" />
+    <Compile Include="Users\Dtos\GetInterTrackingUsersOutput.cs" />
+    <Compile Include="Users\IRelationshipAppService.cs" />
     <Compile Include="Users\IUserAppService.cs" />
-    <Compile Include="Users\TrackAppService.cs" />
+    <Compile Include="Users\RelationshipAppService.cs" />
     <Compile Include="Users\Dtos\UpdateMyUserInput.cs" />
     <Compile Include="Users\Dtos\UpdateMyUserPasswordInput.cs" />
     <Compile Include="Users\UserAppService.cs" />

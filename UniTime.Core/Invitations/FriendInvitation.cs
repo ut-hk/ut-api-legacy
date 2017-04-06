@@ -1,5 +1,7 @@
 using Abp.UI;
 using UniTime.Invitations.Enums;
+using UniTime.Invitations.Managers;
+using UniTime.Invitations.Policies;
 using UniTime.Users;
 
 namespace UniTime.Invitations
@@ -10,8 +12,10 @@ namespace UniTime.Invitations
         {
         }
 
-        public static FriendInvitation Create(User invitee, User owner, string content)
+        public static FriendInvitation Create(User invitee, User owner, string content, IFriendInvitationPolicy friendInvitationPolicy)
         {
+            friendInvitationPolicy.CreateAttempt(invitee, owner);
+
             return new FriendInvitation
             {
                 Content = content,
@@ -23,31 +27,23 @@ namespace UniTime.Invitations
             };
         }
 
-        internal void Accept(long editUserId)
+        internal void Accept(long editUserId, IFriendInvitationPolicy friendInvitationPolicy)
         {
-            
+            friendInvitationPolicy.AcceptAttempt(this,editUserId);
 
             Status = InvitationStatus.Accepted;
         }
 
-        internal void Reject(long editUserId)
+        internal void Reject(long editUserId, IFriendInvitationPolicy friendInvitationPolicy)
         {
-            if (editUserId != InviteeId)
-                throw new UserFriendlyException($"You are not allowed to reject this invitation with id = {Id}.");
-
-            if (Status != InvitationStatus.Pending)
-                throw new UserFriendlyException($"You are not allowed to change the responded invitation with id = {Id}.");
+            friendInvitationPolicy.RejectAttempt(this, editUserId);
 
             Status = InvitationStatus.Rejected;
         }
 
-        internal void Ignore(long editUserId)
+        internal void Ignore(long editUserId, IFriendInvitationPolicy friendInvitationPolicy)
         {
-            if (editUserId != InviteeId)
-                throw new UserFriendlyException($"You are not allowed to ignore this invitation with id = {Id}.");
-
-            if (Status != InvitationStatus.Pending)
-                throw new UserFriendlyException($"You are not allowed to change the responded invitation with id = {Id}.");
+            friendInvitationPolicy.IgnoreAttempt(this, editUserId);
 
             Status = InvitationStatus.Ignored;
         }

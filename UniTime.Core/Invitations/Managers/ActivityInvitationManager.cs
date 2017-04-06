@@ -4,15 +4,14 @@ using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Activities;
 using UniTime.Invitations.Policies;
-using UniTime.Users;
 
 namespace UniTime.Invitations.Managers
 {
     public class ActivityInvitationManager : IActivityInvitationManager
     {
-        private readonly IRepository<Invitation, Guid> _invitationRepository;
-        private readonly IRepository<ActivityParticipant, long> _activityParticipantRepository;
         private readonly IActivityInvitationPolicy _activityInvitationPolicy;
+        private readonly IRepository<ActivityParticipant, long> _activityParticipantRepository;
+        private readonly IRepository<Invitation, Guid> _invitationRepository;
 
         public ActivityInvitationManager(
             IRepository<Invitation, Guid> invitationRepository,

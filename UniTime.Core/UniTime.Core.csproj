@@ -181,9 +181,12 @@
     <Compile Include="Invitations\FriendInvitation.cs" />
     <Compile Include="Invitations\Invitation.cs" />
     <Compile Include="Invitations\Enums\InvitationStatus.cs" />
+    <Compile Include="Invitations\Managers\FriendInvitationManager.cs" />
+    <Compile Include="Invitations\Policies\FriendInvitationPolicy.cs" />
     <Compile Include="Invitations\Managers\IActivityInvitationManager.cs" />
     <Compile Include="Invitations\Managers\ActivityInvitationManager.cs" />
     <Compile Include="Invitations\Managers\IFriendInvitationManager.cs" />
+    <Compile Include="Invitations\Policies\IFriendInvitationPolicy.cs" />
     <Compile Include="Invitations\Policies\ActivityInvitationPolicy.cs" />
     <Compile Include="Invitations\Policies\IActivityInvitationPolicy.cs" />
     <Compile Include="Locations\Managers\ILocationManager.cs" />
@@ -213,6 +216,7 @@
     <Compile Include="Authorization\Roles\RoleManager.cs" />
     <Compile Include="Authorization\Roles\RoleStore.cs" />
     <Compile Include="Users\Enums\Gender.cs" />
+    <Compile Include="Users\FriendPair.cs" />
     <Compile Include="Users\Managers\ITrackManager.cs" />
     <Compile Include="Users\Managers\TrackManager.cs" />
     <Compile Include="Users\Track.cs" />

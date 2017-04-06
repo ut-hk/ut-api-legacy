@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using AutoMapper.QueryableExtensions;
 using UniTime.ChatRooms.Dtos;
@@ -17,31 +18,47 @@ namespace UniTime.ChatRooms
     public class ChatRoomAppService : UniTimeAppServiceBase, IChatRoomAppService
     {
         private readonly IChatRoomManager _chatRoomManager;
+        private readonly IRepository<ChatRoomMessage, long> _chatRoomMessageRepository;
         private readonly IRepository<ChatRoom, Guid> _chatRoomRepository;
         private readonly IRepository<User, long> _userRepository;
 
         public ChatRoomAppService(
             IRepository<ChatRoom, Guid> chatRoomRepository,
+            IRepository<ChatRoomMessage, long> chatRoomMessageRepository,
             IRepository<User, long> userRepository,
             IChatRoomManager chatRoomManager)
         {
             _chatRoomRepository = chatRoomRepository;
+            _chatRoomMessageRepository = chatRoomMessageRepository;
             _userRepository = userRepository;
             _chatRoomManager = chatRoomManager;
         }
 
         public async Task<GetMyChatRoomsOutput> GetMyChatRooms()
         {
-            var currentUserId =  GetCurrentUserId();
+            var currentUserId = GetCurrentUserId();
 
-            var chatRooms = await _chatRoomRepository.GetAll()
+            var chatRoomDtos = await _chatRoomRepository.GetAll()
                 .Where(chatRoom => chatRoom.Participants.Select(participant => participant.Id).Contains(currentUserId))
                 .ProjectTo<ChatRoomDto>()
                 .ToListAsync();
 
+            var chatRoomIds = chatRoomDtos.Select(chatRoom => chatRoom.Id);
+            var chatRoomMessages = await _chatRoomMessageRepository.GetAll()
+                .Where(message => chatRoomIds.Contains(message.ChatRoomId))
+                .OrderByDescending(message => message.CreationTime)
+                .GroupBy(message => message.ChatRoomId)
+                .ToDictionaryAsync(chatRoom => chatRoom.Key, messages => messages.FirstOrDefault());
+
+            foreach (var chatRoomDto in chatRoomDtos)
+            {
+                if (chatRoomMessages.ContainsKey(chatRoomDto.Id))
+                    chatRoomDto.LatestMessage = chatRoomMessages[chatRoomDto.Id]?.MapTo<ChatRoomMessageDto>();
+            }
+
             return new GetMyChatRoomsOutput
             {
-                ChatRooms = chatRooms
+                ChatRooms = chatRoomDtos
             };
         }
 

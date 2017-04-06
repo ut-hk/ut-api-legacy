@@ -18,12 +18,14 @@ namespace UniTime.Activities.Managers
             _abstractActivityRepository = abstractActivityRepository;
         }
 
+        public string DoesNotExistMessage => "The activity does not exist.";
+
         public async Task<Activity> GetAsync(Guid id)
         {
             var activity = await _abstractActivityRepository.FirstOrDefaultAsync(id) as Activity;
 
             if (activity == null)
-                throw new UserFriendlyException("The activity with id = " + id + " does not exist.");
+                throw new UserFriendlyException(this.DoesNotExistMessage);
 
             return activity;
         }

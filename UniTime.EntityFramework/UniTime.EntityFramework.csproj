@@ -171,6 +171,14 @@
     <Compile Include="Migrations\201704031114567_UserProfileIcon.Designer.cs">
       <DependentUpon>201704031114567_UserProfileIcon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704041923420_ActivityTemplateReferenceTimeSlot_ActivityTemplateId.cs" />
+    <Compile Include="Migrations\201704041923420_ActivityTemplateReferenceTimeSlot_ActivityTemplateId.Designer.cs">
+      <DependentUpon>201704041923420_ActivityTemplateReferenceTimeSlot_ActivityTemplateId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704060925523_Friends.cs" />
+    <Compile Include="Migrations\201704060925523_Friends.Designer.cs">
+      <DependentUpon>201704060925523_Friends.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AbpZeroDbMigrator.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\SeedData\DefaultActivityCreator.cs" />
@@ -223,6 +231,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704031114567_UserProfileIcon.resx">
       <DependentUpon>201704031114567_UserProfileIcon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704041923420_ActivityTemplateReferenceTimeSlot_ActivityTemplateId.resx">
+      <DependentUpon>201704041923420_ActivityTemplateReferenceTimeSlot_ActivityTemplateId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704060925523_Friends.resx">
+      <DependentUpon>201704060925523_Friends.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -14,11 +14,11 @@ namespace UniTime.AbstractActivities.Dtos
 
         public DateTime? EndTime { get; set; }
 
-        public double? Longitude { get; set; }
-
+        [Range(-90.0, 90.0)]
         public double? Latitude { get; set; }
 
-        public double? Distance { get; set; }
+        [Range(-180.0, 180.0)]
+        public double? Longitude { get; set; }
 
         public long? UserId { get; set; }
 

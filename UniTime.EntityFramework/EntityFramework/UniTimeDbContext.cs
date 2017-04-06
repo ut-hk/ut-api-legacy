@@ -86,6 +86,8 @@ namespace UniTime.EntityFramework
 
         public IDbSet<Tag> Tags { get; set; }
 
+        public IDbSet<FriendPair> FriendPairs { get; set; }
+
         public IDbSet<Track> Tracks { get; set; }
 
         public IDbSet<UserProfile> UserProfiles { get; set; }
@@ -173,6 +175,16 @@ namespace UniTime.EntityFramework
             modelBuilder.Entity<Track>()
                 .HasRequired(track => track.To)
                 .WithMany(user => user.TrackedBys)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<FriendPair>()
+                .HasRequired(friendPair => friendPair.Left)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<FriendPair>()
+                .HasRequired(friendPair => friendPair.Right)
+                .WithMany()
                 .WillCascadeOnDelete(false);
         }
     }
