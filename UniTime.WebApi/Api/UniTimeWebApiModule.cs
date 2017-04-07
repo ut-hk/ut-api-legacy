@@ -9,7 +9,9 @@ using Swashbuckle.Application;
 
 namespace UniTime.Api
 {
-    [DependsOn(typeof(AbpWebApiModule), typeof(UniTimeApplicationModule))]
+    [DependsOn(
+        typeof(AbpWebApiModule),
+        typeof(UniTimeApplicationModule))]
     public class UniTimeWebApiModule : AbpModule
     {
         public override void Initialize()

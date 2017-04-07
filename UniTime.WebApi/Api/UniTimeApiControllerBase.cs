@@ -23,7 +23,7 @@ namespace UniTime.Api
         {
             var user = UserManager.FindByIdAsync(AbpSession.GetUserId());
             if (user == null)
-                throw new ApplicationException("Please log in to do further action.");
+                throw new ApplicationException("Please log in again.");
 
             return user;
         }

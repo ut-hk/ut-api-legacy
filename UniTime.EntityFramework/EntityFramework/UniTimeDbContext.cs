@@ -60,6 +60,8 @@ namespace UniTime.EntityFramework
 
         public IDbSet<Guest> Guests { get; set; }
 
+        public IDbSet<LocationHistory> LocationHistories { get; set; }
+
         public IDbSet<RouteHistory> RouteHistories { get; set; }
 
         public IDbSet<Category> Categories { get; set; }
@@ -83,6 +85,8 @@ namespace UniTime.EntityFramework
         public IDbSet<Rating> Ratings { get; set; }
 
         public IDbSet<Tag> Tags { get; set; }
+
+        public IDbSet<FriendPair> FriendPairs { get; set; }
 
         public IDbSet<Track> Tracks { get; set; }
 
@@ -171,6 +175,16 @@ namespace UniTime.EntityFramework
             modelBuilder.Entity<Track>()
                 .HasRequired(track => track.To)
                 .WithMany(user => user.TrackedBys)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<FriendPair>()
+                .HasRequired(friendPair => friendPair.Left)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<FriendPair>()
+                .HasRequired(friendPair => friendPair.Right)
+                .WithMany()
                 .WillCascadeOnDelete(false);
         }
     }

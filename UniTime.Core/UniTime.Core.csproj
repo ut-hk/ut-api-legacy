@@ -80,9 +80,8 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
@@ -124,6 +123,9 @@
     <Compile Include="Activities\ActivityTemplate.cs" />
     <Compile Include="Activities\ActivityParticipant.cs" />
     <Compile Include="Activities\ActivityTemplateReferenceTimeSlot.cs" />
+    <Compile Include="Analysis\LocationHistory.cs" />
+    <Compile Include="Analysis\Managers\ILocationHistoryManager.cs" />
+    <Compile Include="Analysis\Managers\LocationHistoryManager.cs" />
     <Compile Include="Comments\Enums\CommentType.cs" />
     <Compile Include="Comments\InternalImageComment.cs" />
     <Compile Include="Comments\TextComment.cs" />
@@ -179,9 +181,12 @@
     <Compile Include="Invitations\FriendInvitation.cs" />
     <Compile Include="Invitations\Invitation.cs" />
     <Compile Include="Invitations\Enums\InvitationStatus.cs" />
+    <Compile Include="Invitations\Managers\FriendInvitationManager.cs" />
+    <Compile Include="Invitations\Policies\FriendInvitationPolicy.cs" />
     <Compile Include="Invitations\Managers\IActivityInvitationManager.cs" />
     <Compile Include="Invitations\Managers\ActivityInvitationManager.cs" />
     <Compile Include="Invitations\Managers\IFriendInvitationManager.cs" />
+    <Compile Include="Invitations\Policies\IFriendInvitationPolicy.cs" />
     <Compile Include="Invitations\Policies\ActivityInvitationPolicy.cs" />
     <Compile Include="Invitations\Policies\IActivityInvitationPolicy.cs" />
     <Compile Include="Locations\Managers\ILocationManager.cs" />
@@ -211,6 +216,7 @@
     <Compile Include="Authorization\Roles\RoleManager.cs" />
     <Compile Include="Authorization\Roles\RoleStore.cs" />
     <Compile Include="Users\Enums\Gender.cs" />
+    <Compile Include="Users\FriendPair.cs" />
     <Compile Include="Users\Managers\ITrackManager.cs" />
     <Compile Include="Users\Managers\TrackManager.cs" />
     <Compile Include="Users\Track.cs" />

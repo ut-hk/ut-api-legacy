@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 
@@ -16,34 +14,31 @@ namespace UniTime.Users.Managers
             _trackRepository = trackRepository;
         }
 
-        public async Task<ICollection<User>> GetTrackingUsersAsync(long targetUserId)
+        public IQueryable<User> GetTrackingUsersAsync(long targetUserId)
         {
-            var trackingUsers = await _trackRepository.GetAll()
+            var trackingUsers = _trackRepository.GetAll()
                 .Where(track => track.FromId == targetUserId)
-                .Select(track => track.To)
-                .ToListAsync();
+                .Select(track => track.To);
 
             return trackingUsers;
         }
 
-        public async Task<ICollection<User>> GetTrackedByUsersAsync(long targetUserId)
+        public IQueryable<User> GetTrackedByUsersAsync(long targetUserId)
         {
-            var trackedByUsers = await _trackRepository.GetAll()
+            var trackedByUsers = _trackRepository.GetAll()
                 .Where(track => track.ToId == targetUserId)
-                .Select(track => track.From)
-                .ToListAsync();
+                .Select(track => track.From);
 
             return trackedByUsers;
         }
 
-        public async Task<ICollection<User>> GetFriendsAsync(long targetUserId)
+        public IQueryable<User> GetInterTrackingUsersAsync(long targetUserId)
         {
-            var friends = await _trackRepository.GetAll()
+            var friends = _trackRepository.GetAll()
                 .Where(track => track.FromId == targetUserId)
                 .SelectMany(track => track.To.Trackings)
                 .Where(track => track.ToId == targetUserId)
-                .Select(track => track.From)
-                .ToListAsync();
+                .Select(track => track.From);
 
             return friends;
         }

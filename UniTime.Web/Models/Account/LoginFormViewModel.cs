@@ -1,6 +1,6 @@
 ﻿namespace UniTime.Web.Models.Account
 {
-    public class LoginFormViewModel
+    public class LogInFormViewModel
     {
         public string ReturnUrl { get; set; }
 

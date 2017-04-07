@@ -3,7 +3,7 @@ using Abp.Auditing;
 
 namespace UniTime.Web.Models.Account
 {
-    public class LoginViewModel
+    public class LogInViewModel
     {
         public string TenancyName { get; set; }
 

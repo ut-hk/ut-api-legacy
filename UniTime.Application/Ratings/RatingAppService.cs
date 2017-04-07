@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -56,19 +56,20 @@ namespace UniTime.Ratings
             {
                 var activity = await _activityManager.GetAsync(input.ActivityId.Value);
 
-                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activity, currentUser));
+                rating = await _ratingManager.CreateAsync(input.RatingStatus, activity, currentUser);
             }
             else if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
 
-                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activityPlan, currentUser));
+                rating = await _ratingManager.CreateAsync(input.RatingStatus, activityPlan, currentUser);
+
             }
             else if (input.ActivityTemplateId.HasValue)
             {
                 var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
 
-                rating = await _ratingManager.CreateAsync(Rating.Create(input.RatingStatus, activityTemplate, currentUser));
+                rating = await _ratingManager.CreateAsync(input.RatingStatus, activityTemplate, currentUser);
             }
             else
             {

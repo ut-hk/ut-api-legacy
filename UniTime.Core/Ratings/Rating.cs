@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
+using Abp.UI;
 using UniTime.Activities;
 using UniTime.Interfaces;
 using UniTime.Ratings.Enums;
@@ -48,6 +49,14 @@ namespace UniTime.Ratings
                 Owner = owner,
                 OwnerId = owner.Id
             };
+        }
+
+        internal void EditRating(RatingStatus ratingStatus, long editUserId)
+        {
+            if (OwnerId != editUserId)
+                throw new UserFriendlyException("You are not allowed to change this rating.");
+
+            RatingStatus = ratingStatus;
         }
     }
 }

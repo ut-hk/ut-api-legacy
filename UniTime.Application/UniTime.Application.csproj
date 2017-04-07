@@ -44,9 +44,8 @@
     <Reference Include="Abp.Zero, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Abp.Zero.1.5.1\lib\net452\Abp.Zero.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -87,9 +86,8 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
@@ -125,39 +123,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\ActivityAppService.cs" />
-    <Compile Include="Activities\ActivityPlanAppService.cs" />
-    <Compile Include="Activities\ActivityPlanTimeSlotAppService.cs" />
-    <Compile Include="Activities\ActivityTemplateAppService.cs" />
-    <Compile Include="Activities\Dtos\AbstractActivityDto.cs" />
-    <Compile Include="Activities\Dtos\ActivityDto.cs" />
-    <Compile Include="Activities\Dtos\ActivityParticipantDto.cs" />
-    <Compile Include="Activities\Dtos\ActivityTemplateReferenceTimeSlotDto.cs" />
-    <Compile Include="Activities\Dtos\CreateAbstractActivityInput.cs" />
-    <Compile Include="Activities\Dtos\CreateActivityPlanTimeSlotInput.cs" />
-    <Compile Include="Activities\Dtos\CreateActivityInput.cs" />
-    <Compile Include="Activities\Dtos\CreateActivityTemplateInput.cs" />
-    <Compile Include="Activities\Dtos\ActivityPlanDto.cs" />
-    <Compile Include="Activities\Dtos\ActivityPlanTimeSlotDto.cs" />
-    <Compile Include="Activities\Dtos\ActivityTemplateDto.cs" />
-    <Compile Include="Activities\Dtos\GetActivityPlansInput.cs" />
-    <Compile Include="Activities\Dtos\GetActivityTemplatesOutput.cs" />
-    <Compile Include="Activities\Dtos\GetMyActivitiesOutput.cs" />
-    <Compile Include="Activities\Dtos\GetActivityTemplatesInput.cs" />
-    <Compile Include="Activities\Dtos\GetActivityPlanOutput.cs" />
-    <Compile Include="Activities\Dtos\GetActivityTemplateOutput.cs" />
-    <Compile Include="Activities\Dtos\GetActivityOutput.cs" />
-    <Compile Include="Activities\IActivityAppService.cs" />
-    <Compile Include="Activities\IActivityPlanTimeSlotAppService.cs" />
-    <Compile Include="Activities\IActivityTemplateAppService.cs" />
-    <Compile Include="Activities\Dtos\UpdateActivityPlanTimeSlotInput.cs" />
-    <Compile Include="Activities\Dtos\UpdateActivityPlanInput.cs" />
-    <Compile Include="Activities\Dtos\UpdateAbstractActivityInput.cs" />
-    <Compile Include="Activities\Dtos\UpdateActivityTemplateInput.cs" />
-    <Compile Include="Activities\Dtos\UpdateActivityInput.cs" />
+    <Compile Include="AbstractActivities\ActivityAppService.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityListDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityTemplateListDto.cs" />
+    <Compile Include="ActivityPlans\ActivityPlanAppService.cs" />
+    <Compile Include="ActivityPlans\ActivityPlanTimeSlotAppService.cs" />
+    <Compile Include="AbstractActivities\ActivityTemplateAppService.cs" />
+    <Compile Include="AbstractActivities\Dtos\AbstractActivityDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\AbstractActivityListDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityParticipantDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityTemplateReferenceTimeSlotDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\CreateAbstractActivityInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\CreateActivityPlanTimeSlotInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\CreateActivityInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\CreateActivityTemplateInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\ActivityPlanDto.cs" />
+    <Compile Include="ActivityPlans\Dtos\ActivityPlanTimeSlotDto.cs" />
+    <Compile Include="AbstractActivities\Dtos\ActivityTemplateDto.cs" />
+    <Compile Include="ActivityPlans\Dtos\GetActivityPlansInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivityTemplatesOutput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetMyActivitiesOutput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivityTemplatesInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\GetActivityPlanOutput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivityTemplateOutput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivityOutput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivitiesInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\GetActivitiesOutput.cs" />
+    <Compile Include="AbstractActivities\IActivityAppService.cs" />
+    <Compile Include="ActivityPlans\IActivityPlanTimeSlotAppService.cs" />
+    <Compile Include="AbstractActivities\IActivityTemplateAppService.cs" />
+    <Compile Include="ActivityPlans\Dtos\UpdateActivityPlanTimeSlotInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\UpdateActivityPlanInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\UpdateAbstractActivityInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\UpdateActivityTemplateInput.cs" />
+    <Compile Include="AbstractActivities\Dtos\UpdateActivityInput.cs" />
     <Compile Include="Analysis\AnalysisAppService.cs" />
+    <Compile Include="Analysis\Dtos\CreateLocationHistoryInput.cs" />
     <Compile Include="Analysis\Dtos\CreateRouteHistoryInput.cs" />
+    <Compile Include="Analysis\Dtos\GetAnalysisInsightsOutput.cs" />
+    <Compile Include="Analysis\Dtos\GetGuestInput.cs" />
+    <Compile Include="Analysis\Dtos\LocationHistoryDto.cs" />
     <Compile Include="Analysis\IAnalysisAppService.cs" />
+    <Compile Include="Analysis\Dtos\RouteHistoryDto.cs" />
     <Compile Include="ChatRooms\ChatRoomAppService.cs" />
     <Compile Include="ChatRooms\ChatRoomMessageAppService.cs" />
     <Compile Include="ChatRooms\Dtos\CreateTextChatRoomMessageInput.cs" />
@@ -176,7 +184,7 @@
     <Compile Include="Comments\Dtos\CreateTextCommentInput.cs" />
     <Compile Include="Comments\Dtos\CreateReplyInput.cs" />
     <Compile Include="Comments\Dtos\CommentDto.cs" />
-    <Compile Include="Activities\Dtos\CreateActivityPlanInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\CreateActivityPlanInput.cs" />
     <Compile Include="Comments\Dtos\GetRepliesOutput.cs" />
     <Compile Include="Comments\Dtos\GetCommentsOutput.cs" />
     <Compile Include="Comments\ReplyAppService.cs" />
@@ -186,8 +194,8 @@
     <Compile Include="Descriptions\Dtos\CreateTextDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\CreateYoutubeDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\DescriptionDto.cs" />
-    <Compile Include="Activities\Dtos\GetActivityPlansOutput.cs" />
-    <Compile Include="Activities\IActivityPlanAppService.cs" />
+    <Compile Include="ActivityPlans\Dtos\GetActivityPlansOutput.cs" />
+    <Compile Include="ActivityPlans\IActivityPlanAppService.cs" />
     <Compile Include="Descriptions\IDescriptionAppService.cs" />
     <Compile Include="Descriptions\Dtos\UpdateTextDescriptionInput.cs" />
     <Compile Include="Descriptions\Dtos\UpdateDescriptionInput.cs" />
@@ -246,10 +254,13 @@
     <Compile Include="Users\Dtos\GetFriendsOutput.cs" />
     <Compile Include="Users\Dtos\GetTrackedByUsersOutput.cs" />
     <Compile Include="Users\Dtos\GetTrackingUsersOutput.cs" />
-    <Compile Include="Users\ITrackAppService.cs" />
+    <Compile Include="Users\Dtos\GetUserOutput.cs" />
+    <Compile Include="Users\Dtos\GetInterTrackingUsersOutput.cs" />
+    <Compile Include="Users\IRelationshipAppService.cs" />
     <Compile Include="Users\IUserAppService.cs" />
-    <Compile Include="Users\TrackAppService.cs" />
+    <Compile Include="Users\RelationshipAppService.cs" />
     <Compile Include="Users\Dtos\UpdateMyUserInput.cs" />
+    <Compile Include="Users\Dtos\UpdateMyUserPasswordInput.cs" />
     <Compile Include="Users\UserAppService.cs" />
   </ItemGroup>
   <ItemGroup>

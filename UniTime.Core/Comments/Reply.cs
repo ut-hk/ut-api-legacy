@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using UniTime.Interfaces;
@@ -8,10 +9,15 @@ namespace UniTime.Comments
 {
     public class Reply : FullAuditedEntity<long>, IHasOwner
     {
+        public const int MaxContentLength = 512;
+        public const int MinContentLength = 1;
+
         protected Reply()
         {
         }
 
+        [Required]
+        [StringLength(MaxContentLength, MinimumLength = MinContentLength)]
         public virtual string Content { get; protected set; }
 
         [ForeignKey(nameof(CommentId))]

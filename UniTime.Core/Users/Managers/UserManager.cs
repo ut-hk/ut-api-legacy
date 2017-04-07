@@ -45,14 +45,19 @@ namespace UniTime.Users.Managers
         {
         }
 
-        public void EditUser(User user, string name, string surname, string phoneNumber, Gender? gender, DateTime? birthday, Image cover)
+        public void EditUser(User user, string name, string surname, string phoneNumber, Gender? gender, DateTime? birthday, Image icon, Image cover)
         {
             user.EditUser(name, surname, phoneNumber);
 
             if (user.Profile == null)
-                user.Profile = UserProfile.Create(user, gender, birthday, cover);
+                user.Profile = UserProfile.Create(user, gender, birthday, icon, cover);
             else
-                user.Profile.EditUserProfile(gender, birthday, cover);
+                user.Profile.EditUserProfile(gender, birthday, icon, cover);
+        }
+
+        public void EditPassword(User user, string oldPassword, string newPassword)
+        {
+            user.EditPassword(oldPassword, newPassword);
         }
     }
 }

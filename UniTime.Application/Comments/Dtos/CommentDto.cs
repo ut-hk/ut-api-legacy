@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using UniTime.Comments.Enums;
+using UniTime.Users.Dtos;
 
 namespace UniTime.Comments.Dtos
 {
@@ -14,5 +15,7 @@ namespace UniTime.Comments.Dtos
         public CommentType Type { get; set; }
 
         public IReadOnlyList<ReplyDto> Replies { get; set; }
+
+        public UserListDto Owner { get; set; }
     }
 }

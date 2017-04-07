@@ -10,7 +10,7 @@ namespace UniTime.Tags
     public class Tag : FullAuditedEntity<long>
     {
         public const int MaxTextLength = 256;
-        public const int MinTextLength = 2;
+        public const int MinTextLength = 1;
 
         protected Tag()
         {
