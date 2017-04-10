@@ -9,6 +9,6 @@ namespace UniTime.ActivityPlans.Dtos
 
         public long[] DescriptionIds { get; set; }
 
-        public long[] TagIds { get; set; }
+        public string[] TagTexts { get; set; }
     }
 }

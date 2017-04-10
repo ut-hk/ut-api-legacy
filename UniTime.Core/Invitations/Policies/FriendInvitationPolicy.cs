@@ -48,8 +48,8 @@ namespace UniTime.Invitations.Policies
         {
             if (_friendPairRepository.GetAll()
                 .Any(fp =>
-                    fp.LeftId == owner.Id || fp.LeftId == invitee.Id &&
-                    fp.RightId == owner.Id || fp.RightId == invitee.Id))
+                    (fp.LeftId == owner.Id || fp.LeftId == invitee.Id) &&
+                    (fp.RightId == owner.Id || fp.RightId == invitee.Id)))
                 throw new UserFriendlyException($"You two are friend already.");
         }
 

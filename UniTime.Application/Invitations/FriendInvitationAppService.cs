@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
+using AutoMapper.QueryableExtensions;
 using UniTime.Invitations.Dtos;
 using UniTime.Invitations.Enums;
 using UniTime.Invitations.Managers;
 using UniTime.Invitations.Policies;
+using UniTime.Users;
+using UniTime.Users.Dtos;
 
 namespace UniTime.Invitations
 {
@@ -20,13 +24,16 @@ namespace UniTime.Invitations
         private readonly IFriendInvitationManager _friendInvitationManager;
         private readonly IFriendInvitationPolicy _friendInvitationPolicy;
         private readonly IRepository<Invitation, Guid> _invitationRepository;
+        private readonly IRepository<FriendPair, long> _friendPairRepository;
 
         public FriendInvitationAppService(
             IRepository<Invitation, Guid> invitationRepository,
+            IRepository<FriendPair, long> friendPairRepository,
             IFriendInvitationManager friendInvitationManager,
             IFriendInvitationPolicy friendInvitationPolicy)
         {
             _invitationRepository = invitationRepository;
+            _friendPairRepository = friendPairRepository;
             _friendInvitationManager = friendInvitationManager;
             _friendInvitationPolicy = friendInvitationPolicy;
         }

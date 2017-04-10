@@ -11,24 +11,24 @@ using Abp.Linq.Extensions;
 using UniTime.Activities;
 using UniTime.Activities.Managers;
 using UniTime.ActivityPlans.Dtos;
-using UniTime.Tags;
+using UniTime.Tags.Managers;
 
 namespace UniTime.ActivityPlans
 {
     public class ActivityPlanAppService : UniTimeAppServiceBase, IActivityPlanAppService
     {
         private readonly IActivityPlanManager _activityPlanManager;
+        private readonly ITagManager _tagManager;
         private readonly IRepository<ActivityPlan, Guid> _activityPlanRepository;
-        private readonly IRepository<Tag, long> _tagRepository;
 
         public ActivityPlanAppService(
             IRepository<ActivityPlan, Guid> activityPlanRepository,
-            IRepository<Tag, long> tagRepository,
-            IActivityPlanManager activityPlanManager)
+            IActivityPlanManager activityPlanManager,
+            ITagManager tagManager)
         {
             _activityPlanRepository = activityPlanRepository;
-            _tagRepository = tagRepository;
             _activityPlanManager = activityPlanManager;
+            _tagManager = tagManager;
         }
 
         public async Task<GetActivityPlanOutput> GetActivityPlan(EntityDto<Guid> input)
@@ -76,9 +76,11 @@ namespace UniTime.ActivityPlans
         public async Task<EntityDto<Guid>> CreateActivityPlan(CreateActivityPlanInput input)
         {
             var currentUser = await GetCurrentUserAsync();
+            var tags = await _tagManager.GetTags(input.TagTexts);
 
             var activityPlan = await _activityPlanManager.CreateAsync(ActivityPlan.Create(
-                input.Name,
+                input.Name, 
+                tags,
                 currentUser
             ));
 
@@ -90,7 +92,7 @@ namespace UniTime.ActivityPlans
         {
             var currentUserId = GetCurrentUserId();
             var activityPlan = await _activityPlanManager.GetAsync(input.Id);
-            var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
+            var tags = await _tagManager.GetTags(input.TagTexts);
 
             _activityPlanManager.EditActivityPlan(activityPlan, input.Name, tags, currentUserId);
             _activityPlanManager.EditDescriptions(activityPlan, input.DescriptionIds, currentUserId);

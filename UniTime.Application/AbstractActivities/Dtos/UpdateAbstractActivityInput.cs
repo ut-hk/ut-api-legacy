@@ -9,7 +9,7 @@ namespace UniTime.AbstractActivities.Dtos
 
         public long[] DescriptionIds { get; set; }
 
-        public long[] TagIds { get; set; }
+        public string[] TagTexts { get; set; }
 
         public Guid? LocationId { get; set; }
     }

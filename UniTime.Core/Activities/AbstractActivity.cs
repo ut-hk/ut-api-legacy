@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Abp.Domain.Entities.Auditing;
 using Abp.UI;
 using UniTime.Comments;
@@ -8,6 +9,7 @@ using UniTime.Descriptions;
 using UniTime.Interfaces;
 using UniTime.Locations;
 using UniTime.Ratings;
+using UniTime.Ratings.Enums;
 using UniTime.Tags;
 using UniTime.Users;
 

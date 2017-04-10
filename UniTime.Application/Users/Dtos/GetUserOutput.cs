@@ -3,5 +3,9 @@
     public class GetUserOutput
     {
         public UserDto User { get; set; }
+
+        public int NumberOfFriends { get; set; }
+
+        public bool IsFriend { get; set; }
     }
 }

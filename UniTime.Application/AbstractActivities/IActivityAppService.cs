@@ -19,6 +19,8 @@ namespace UniTime.AbstractActivities
         Task<GetMyActivitiesOutput> GetMyActivities();
 
         Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);
+        Task<EntityDto<Guid>> CreateActivityFromActivityTemplate(CreateActivityFromActivityTemplateInput input);
+
 
         Task UpdateActivity(UpdateActivityInput input);
     }

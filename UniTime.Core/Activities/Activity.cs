@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using UniTime.Invitations;
 using UniTime.Locations;
+using UniTime.Tags;
 using UniTime.Users;
 
 namespace UniTime.Activities
@@ -26,15 +27,16 @@ namespace UniTime.Activities
 
         public virtual Guid? ActivityTemplateId { get; protected set; }
 
-        public static Activity Create(string name, DateTime? startTime, DateTime? endTime, Location location, User owner)
+        public static Activity Create(string name, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, User owner)
         {
             var actvitiy = new Activity
             {
                 Name = name,
+                Tags = tags,
+                Owner = owner,
+                OwnerId = owner.Id,
                 StartTime = startTime,
                 EndTime = endTime,
-                Owner = owner,
-                OwnerId = owner.Id
             };
 
             if (location != null)
@@ -44,6 +46,23 @@ namespace UniTime.Activities
             }
 
             return actvitiy;
+        }
+
+        public static Activity Create(DateTime? startTime, DateTime? endTime, ActivityTemplate activityTemplate, User owner)
+        {
+            var activity = new Activity
+            {
+                Name = activityTemplate.Name,
+                Tags = activityTemplate.Tags,
+                Owner = owner,
+                OwnerId = owner.Id,
+                StartTime = startTime,
+                EndTime = endTime,
+                ActivityTemplate = activityTemplate,
+                ActivityTemplateId = activityTemplate.Id
+            };
+
+            return activity;
         }
 
         internal void Edit(DateTime? startTime, DateTime? endTime, long editUserId)

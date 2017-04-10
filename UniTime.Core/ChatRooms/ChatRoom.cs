@@ -43,7 +43,7 @@ namespace UniTime.ChatRooms
 
         internal void Edit(string name, long editUserId)
         {
-            if (Participants.Select(participant => participant.Id).Contains(editUserId))
+            if (Participants.All(participant => participant.Id != editUserId))
                 throw new UserFriendlyException("You are not allowed to change this chatRoom.");
 
             Name = name;
@@ -51,10 +51,11 @@ namespace UniTime.ChatRooms
 
         internal void EditParticipants(ICollection<User> participants, long editUserId)
         {
-            if (Participants.Select(participant => participant.Id).Contains(editUserId))
+            if (Participants.All(participant => participant.Id != editUserId))
                 throw new UserFriendlyException("You are not allowed to change this chatRoom.");
 
-            if (!participants.Select(participant => participant.Id).Contains(OwnerId))
+            // Owner must be one of the participants
+            if (participants.All(participant => participant.Id != OwnerId))
                 participants.Add(Owner);
 
             Participants.Clear();

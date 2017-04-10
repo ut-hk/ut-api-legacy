@@ -35,11 +35,12 @@ namespace UniTime.Activities
 
         public virtual long OwnerId { get; protected set; }
 
-        public static ActivityPlan Create(string name, User owner)
+        public static ActivityPlan Create(string name, ICollection<Tag> tags, User owner)
         {
             return new ActivityPlan
             {
                 Name = name,
+                Tags = tags,
                 Owner = owner,
                 OwnerId = owner.Id
             };

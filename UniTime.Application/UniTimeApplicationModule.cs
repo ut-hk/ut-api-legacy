@@ -21,6 +21,7 @@ namespace UniTime
 
             Configuration.Caching.Configure("UserCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromMinutes(30); });
             Configuration.Caching.Configure("GuestIdCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromDays(1); });
+            Configuration.Caching.Configure("NumberOfFriendsCache", cache=> { cache.DefaultSlidingExpireTime = TimeSpan.FromHours(6); });
             Configuration.Caching.Configure("CoverImageDescriptionCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromDays(1); });
             Configuration.Caching.Configure("CoverTextDescriptionCache", cache => { cache.DefaultSlidingExpireTime = TimeSpan.FromDays(1); });
         }

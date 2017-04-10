@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UniTime.Locations;
+using UniTime.Tags;
 using UniTime.Users;
 
 namespace UniTime.Activities
@@ -18,11 +19,12 @@ namespace UniTime.Activities
 
         public virtual ICollection<ActivityPlanTimeSlot> MentionedTimeSlots { get; protected set; }
 
-        public static ActivityTemplate Create(string name, Location location, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, User owner, string referenceId)
+        public static ActivityTemplate Create(string name, Location location, ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, ICollection<Tag> tags, User owner, string referenceId)
         {
             var activityTemplate = new ActivityTemplate
             {
                 Name = name,
+                Tags = tags,
                 ReferenceId = referenceId,
                 ReferenceTimeSlots = referenceTimeSlots,
                 Owner = owner,

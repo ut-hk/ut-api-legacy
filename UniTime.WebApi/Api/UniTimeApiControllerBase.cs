@@ -23,7 +23,7 @@ namespace UniTime.Api
         {
             var user = UserManager.FindByIdAsync(AbpSession.GetUserId());
             if (user == null)
-                throw new ApplicationException("Please log in again.");
+                throw new ApplicationException(L("CurrentUserDidNotLoginToTheApplication"));
 
             return user;
         }
@@ -31,7 +31,7 @@ namespace UniTime.Api
         protected virtual void CheckModelState()
         {
             if (!ModelState.IsValid)
-                throw new UserFriendlyException("Invalid request.");
+                throw new UserFriendlyException(L("CurrentUserDidNotLoginToTheApplication"));
         }
 
         protected void CheckErrors(IdentityResult identityResult)

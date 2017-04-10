@@ -7,6 +7,7 @@
     
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
     <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
+    <text name="CurrentUserDidNotLoginToTheApplication">Please log in again.</text>
 
     <text name="InvalidUserNameOrPassword" value="Invalid user name or password" />
     <text name="ThereIsNoTenantDefinedWithName{0}" value="There is no tenant defined with name {0}" />
@@ -19,7 +20,7 @@
     <text name="RememberMe" value="Remember me" />
     <text name="LogIn" value="Log in" />
 
-    <text name="LoginFailed" value="Login failed!" />
+    <text name="LoginFailed" value="Log in failed." />
 
     <text name="NameSurname" value="Name surname" />
     <text name="UserName" value="User name" />
@@ -41,7 +42,7 @@
     <text name="WaitingForActivationMessage" value="Your account is waiting to be activated by system admin." />
     <text name="TenantSelection" value="Tenant Selection" />
     <text name="TenantSelection_Detail" value="Please select one of the following tenants." />
-    <text name="Logout" value="Logout" />
+    <text name="Logout" value="Log out" />
 
     <text name="RegisterFormUserNameInvalidMessage">Please dont enter an email address for username.</text>
 

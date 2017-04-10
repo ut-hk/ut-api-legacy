@@ -13,16 +13,18 @@ namespace UniTime.AbstractActivities.Dtos
     {
         public string Name { get; set; }
 
+        public LocationDto Location { get; set; }
+
+        public ICollection<TagDto> Tags { get; set; }
+
+        public UserListDto Owner { get; set; }
+
         public DescriptionDto CoverImageDescription { get; set; }
 
         public DescriptionDto CoverTextDescription { get; set; }
 
         public RatingStatus? MyRatingStatus { get; set; }
 
-        public LocationDto Location { get; set; }
-
-        public ICollection<TagDto> Tags { get; set; }
-
-        public UserListDto Owner { get; set; }
+        public long Likes { get; set; }
     }
 }

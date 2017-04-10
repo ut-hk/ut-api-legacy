@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.Domain.Repositories;
 using Abp.UI;
-using UniTime.Activities;
 using UniTime.Activities.Managers;
 using UniTime.Descriptions.Dtos;
 using UniTime.Descriptions.Managers;
@@ -16,19 +13,21 @@ namespace UniTime.Descriptions
     [AbpAuthorize]
     public class DescriptionAppService : UniTimeAppServiceBase, IDescriptionAppService
     {
+        private readonly IActivityManager _activityManager;
         private readonly IActivityPlanManager _activityPlanManager;
-        private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
+        private readonly IActivityTemplateManager _activityTemplateManager;
         private readonly IDescriptionManager _descriptionManager;
         private readonly IFileManager _fileManager;
 
-        public DescriptionAppService(
-            IRepository<AbstractActivity, Guid> abstractActivityRepository,
-            IDescriptionManager descriptionManager,
+        public DescriptionAppService(IDescriptionManager descriptionManager,
+            IActivityManager activityManager,
+            IActivityTemplateManager activityTemplateManager,
             IActivityPlanManager activityPlanManager,
             IFileManager fileManager)
         {
-            _abstractActivityRepository = abstractActivityRepository;
             _descriptionManager = descriptionManager;
+            _activityManager = activityManager;
+            _activityTemplateManager = activityTemplateManager;
             _activityPlanManager = activityPlanManager;
             _fileManager = fileManager;
         }
@@ -36,17 +35,23 @@ namespace UniTime.Descriptions
         public async Task<EntityDto<long>> CreateTextDescription(CreateTextDescriptionInput input)
         {
             var currentUserId = GetCurrentUserId();
+
             Description textDescription;
 
-            if (input.ActivityPlanId.HasValue)
+            if (input.ActivityId.HasValue)
+            {
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
+                textDescription = await _descriptionManager.CreateAsync(TextDescription.Create(input.Text, activity, currentUserId));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+                textDescription = await _descriptionManager.CreateAsync(TextDescription.Create(input.Text, activityTemplate, currentUserId));
+            }
+            else if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
                 textDescription = await _descriptionManager.CreateAsync(TextDescription.Create(input.Text, activityPlan, currentUserId));
-            }
-            else if (input.AbstractActivityId.HasValue)
-            {
-                var abstractActvitiy = await _abstractActivityRepository.GetAsync(input.AbstractActivityId.Value);
-                textDescription = await _descriptionManager.CreateAsync(TextDescription.Create(input.Text, abstractActvitiy, currentUserId));
             }
             else
             {
@@ -62,15 +67,20 @@ namespace UniTime.Descriptions
 
             Description externalImageDescription;
 
-            if (input.ActivityPlanId.HasValue)
+            if (input.ActivityId.HasValue)
+            {
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
+                externalImageDescription = await _descriptionManager.CreateAsync(ExternalImageDescription.Create(input.Path, activity, currentUserId));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+                externalImageDescription = await _descriptionManager.CreateAsync(ExternalImageDescription.Create(input.Path, activityTemplate, currentUserId));
+            }
+            else if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
                 externalImageDescription = await _descriptionManager.CreateAsync(ExternalImageDescription.Create(input.Path, activityPlan, currentUserId));
-            }
-            else if (input.AbstractActivityId.HasValue)
-            {
-                var abstractActvitiy = await _abstractActivityRepository.GetAsync(input.AbstractActivityId.Value);
-                externalImageDescription = await _descriptionManager.CreateAsync(ExternalImageDescription.Create(input.Path, abstractActvitiy, currentUserId));
             }
             else
             {
@@ -87,15 +97,20 @@ namespace UniTime.Descriptions
 
             Description internalImageDescription;
 
-            if (input.ActivityPlanId.HasValue)
+            if (input.ActivityId.HasValue)
+            {
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
+                internalImageDescription = await _descriptionManager.CreateAsync(InternalImageDescription.Create(image, activity, currentUserId));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+                internalImageDescription = await _descriptionManager.CreateAsync(InternalImageDescription.Create(image, activityTemplate, currentUserId));
+            }
+            else if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
                 internalImageDescription = await _descriptionManager.CreateAsync(InternalImageDescription.Create(image, activityPlan, currentUserId));
-            }
-            else if (input.AbstractActivityId.HasValue)
-            {
-                var abstractActvitiy = await _abstractActivityRepository.GetAsync(input.AbstractActivityId.Value);
-                internalImageDescription = await _descriptionManager.CreateAsync(InternalImageDescription.Create(image, abstractActvitiy, currentUserId));
             }
             else
             {
@@ -109,24 +124,29 @@ namespace UniTime.Descriptions
         {
             var currentUserId = GetCurrentUserId();
 
-            Description internalImageDescription;
+            Description youtubeDescription;
 
-            if (input.ActivityPlanId.HasValue)
+            if (input.ActivityId.HasValue)
+            {
+                var activity = await _activityManager.GetAsync(input.ActivityId.Value);
+                youtubeDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, activity, currentUserId));
+            }
+            else if (input.ActivityTemplateId.HasValue)
+            {
+                var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
+                youtubeDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, activityTemplate, currentUserId));
+            }
+            else if (input.ActivityPlanId.HasValue)
             {
                 var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
-                internalImageDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, activityPlan, currentUserId));
-            }
-            else if (input.AbstractActivityId.HasValue)
-            {
-                var abstractActvitiy = await _abstractActivityRepository.GetAsync(input.AbstractActivityId.Value);
-                internalImageDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, abstractActvitiy, currentUserId));
+                youtubeDescription = await _descriptionManager.CreateAsync(YoutubeDescription.Create(input.YoutubeId, activityPlan, currentUserId));
             }
             else
             {
                 throw new UserFriendlyException("");
             }
 
-            return new EntityDto<long>(internalImageDescription.Id);
+            return new EntityDto<long>(youtubeDescription.Id);
         }
 
         public async Task UpdateDescription(UpdateDescriptionInput input)

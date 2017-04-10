@@ -17,7 +17,8 @@ using UniTime.Descriptions;
 using UniTime.Descriptions.Dtos;
 using UniTime.Locations.Managers;
 using UniTime.Ratings;
-using UniTime.Tags;
+using UniTime.Ratings.Enums;
+using UniTime.Tags.Managers;
 
 namespace UniTime.AbstractActivities
 {
@@ -29,25 +30,25 @@ namespace UniTime.AbstractActivities
         private readonly IRepository<Description, long> _descriptionRepository;
         private readonly ILocationManager _locationManager;
         private readonly IRepository<Rating, long> _ratingRepository;
-        private readonly IRepository<Tag, long> _tagRepository;
+        private readonly ITagManager _tagManager;
 
         public ActivityTemplateAppService(
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
             IRepository<Description, long> descriptionRepository,
-            IRepository<Tag, long> tagRepository,
             IRepository<ActivityTemplateReferenceTimeSlot, long> activityTemplateReferenceTimeSlotRepository,
             IActivityTemplateManager activityTemplateManager,
             ILocationManager locationManager,
-            IRepository<Rating, long> ratingRepository
+            IRepository<Rating, long> ratingRepository,
+            ITagManager tagManager
         )
         {
             _abstractActivityRepository = abstractActivityRepository;
             _descriptionRepository = descriptionRepository;
-            _tagRepository = tagRepository;
             _activityTemplateReferenceTimeSlotRepository = activityTemplateReferenceTimeSlotRepository;
             _activityTemplateManager = activityTemplateManager;
             _locationManager = locationManager;
             _ratingRepository = ratingRepository;
+            _tagManager = tagManager;
         }
 
         public async Task<GetActivityTemplateOutput> GetActivityTemplate(EntityDto<Guid> input)
@@ -96,6 +97,7 @@ namespace UniTime.AbstractActivities
 
             if (dbGeography != null)
                 activityTemplateListDtosQueryable = activityTemplateListDtosQueryable
+                    .Where(activityTemplate => activityTemplate.LocationId.HasValue)
                     .OrderBy(activityTemplate => activityTemplate.Location.Coordinate.Distance(dbGeography))
                     .ThenBy(activityTemplate => activityTemplate.ReferenceTimeSlots.FirstOrDefault().StartTime);
             else
@@ -109,6 +111,7 @@ namespace UniTime.AbstractActivities
                 .ToListAsync();
 
             await InjectCoverDescriptionAsync(activityTemplateListDtos);
+            await InjectLikesAsync(activityTemplateListDtos);
             await InjectMyRatingStatusAsync(activityTemplateListDtos);
             await InjectStartTime(activityTemplateListDtos);
 
@@ -125,10 +128,13 @@ namespace UniTime.AbstractActivities
 
             var location = input.LocationId.HasValue ? await _locationManager.GetLocationAsync(input.LocationId.Value) : null;
 
+            var tags = await _tagManager.GetTags(input.TagTexts);
+
             var activityTemplate = await _activityTemplateManager.CreateAsync(ActivityTemplate.Create(
                 input.Name,
                 location,
                 input.ReferenceTimeSlots.Select(timeSlot => ActivityTemplateReferenceTimeSlot.Create(timeSlot.StartTime, timeSlot.EndTime)).ToList(),
+                tags,
                 currentUser,
                 input.ReferenceId
             ));
@@ -142,7 +148,7 @@ namespace UniTime.AbstractActivities
             var currentUserId = GetCurrentUserId();
             var activityTemplate = await _activityTemplateManager.GetAsync(input.Id);
             var location = input.LocationId.HasValue ? await _locationManager.GetLocationAsync(input.LocationId.Value) : null;
-            var tags = await _tagRepository.GetAllListAsync(tag => input.TagIds.Contains(tag.Id));
+            var tags = await _tagManager.GetTags(input.TagTexts);
 
             _activityTemplateManager.EditActivityTemplate(
                 activityTemplate,
@@ -171,15 +177,36 @@ namespace UniTime.AbstractActivities
                 var activityRatingStatusDictionary = await _ratingRepository.GetAll()
                     .Where(rating => rating.OwnerId == currentUserId.Value && rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
                     .GroupBy(rating => rating.AbstractActivityId.Value)
-                    .ToDictionaryAsync(rating => rating.Key, ratings => ratings.FirstOrDefault());
+                    .Where(ratingGroup => ratingGroup.Any())
+                    .Select(ratingGroup => new {ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus})
+                    .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
 
                 foreach (var activityTemplateListDto in activityTemplateListDtos)
                 {
                     var activityTemplateId = activityTemplateListDto.Id;
 
                     if (activityRatingStatusDictionary.ContainsKey(activityTemplateId))
-                        activityTemplateListDto.MyRatingStatus = activityRatingStatusDictionary[activityTemplateId]?.RatingStatus;
+                        activityTemplateListDto.MyRatingStatus = activityRatingStatusDictionary[activityTemplateId];
                 }
+            }
+        }
+
+        private async Task InjectLikesAsync(ICollection<ActivityTemplateListDto> activityTemplateListDtos)
+        {
+            var activityTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
+
+            var likesDictionary = await _ratingRepository.GetAll()
+                .Where(rating => rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
+                .GroupBy(rating => rating.AbstractActivityId)
+                .Select(ratingGroup => new {ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like)})
+                .ToDictionaryAsync(rating => rating.Key, ratings => ratings.Count);
+
+            foreach (var activityTemplateListDto in activityTemplateListDtos)
+            {
+                var activityTemplateId = activityTemplateListDto.Id;
+
+                if (likesDictionary.ContainsKey(activityTemplateId))
+                    activityTemplateListDto.Likes = likesDictionary[activityTemplateId];
             }
         }
 
@@ -191,13 +218,17 @@ namespace UniTime.AbstractActivities
                 .Where(d => d is ExternalImageDescription || d is InternalImageDescription)
                 .Where(description => description.AbstractActivityId != null && acitivtyTemplateIds.Contains(description.AbstractActivityId.Value))
                 .GroupBy(description => description.AbstractActivityId.Value)
-                .ToDictionaryAsync(a => a.Key, a => a.FirstOrDefault());
+                .Where(descriptionGroup => descriptionGroup.Any())
+                .Select(descriptionGroup => new {descriptionGroup.Key, description = descriptionGroup.FirstOrDefault()})
+                .ToDictionaryAsync(a => a.Key, a => a.description);
 
             var activityTextDescriptionDictionary = await _descriptionRepository.GetAll()
                 .Where(d => d is TextDescription)
                 .Where(description => description.AbstractActivityId != null && acitivtyTemplateIds.Contains(description.AbstractActivityId.Value))
                 .GroupBy(description => description.AbstractActivityId.Value)
-                .ToDictionaryAsync(a => a.Key, a => a.FirstOrDefault());
+                .Where(descriptionGroup => descriptionGroup.Any())
+                .Select(descriptionGroup => new {descriptionGroup.Key, description = descriptionGroup.FirstOrDefault()})
+                .ToDictionaryAsync(a => a.Key, a => a.description);
 
             foreach (var activityTemplateListDto in activityTemplateListDtos)
             {
@@ -217,15 +248,18 @@ namespace UniTime.AbstractActivities
 
             var activityTemplateStartTimeMap = await _activityTemplateReferenceTimeSlotRepository.GetAll()
                 .Where(timeSlot => activityTemplateIds.Contains(timeSlot.ActivityTemplateId))
+                .Select(timeSlot => new {timeSlot.ActivityTemplateId, timeSlot.StartTime})
                 .GroupBy(timeSlot => timeSlot.ActivityTemplateId)
-                .ToDictionaryAsync(timeSlot => timeSlot.Key, timeSlots => timeSlots.FirstOrDefault());
+                .Where(timeSlotGroup => timeSlotGroup.Any(timeSlot => timeSlot.StartTime.HasValue))
+                .Select(timeSlotGroup => new {timeSlotGroup.Key, timeSlotGroup.FirstOrDefault().StartTime})
+                .ToDictionaryAsync(timeSlotGroup => timeSlotGroup.Key, timeSlotGroup => timeSlotGroup.StartTime);
 
             foreach (var activityTemplateListDto in activityTemplateListDtos)
             {
                 var activityTemplateId = activityTemplateListDto.Id;
 
                 if (activityTemplateStartTimeMap.ContainsKey(activityTemplateId))
-                    activityTemplateListDto.StartTime = activityTemplateStartTimeMap[activityTemplateId]?.StartTime;
+                    activityTemplateListDto.StartTime = activityTemplateStartTimeMap[activityTemplateId];
             }
         }
     }
