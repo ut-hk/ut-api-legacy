@@ -15,7 +15,7 @@ namespace UniTime.Descriptions
 
         public override DescriptionType Type => DescriptionType.InternalImage;
 
-        public override string Content => ImageId.ToString();
+        public override string Content => $"https://images.weserv.nl/?url=unitime-dev-api.azurewebsites.net/api/File/GetFile/{ImageId}&output=jpg";
 
         [ForeignKey(nameof(ImageId))]
         public virtual Image Image { get; protected set; }

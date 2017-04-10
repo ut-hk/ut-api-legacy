@@ -7,5 +7,7 @@
         public int NumberOfFriends { get; set; }
 
         public bool IsFriend { get; set; }
+
+        public bool HasInvited { get; set; }
     }
 }

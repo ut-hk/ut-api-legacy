@@ -51,16 +51,24 @@ namespace UniTime.Users
             var numberOfFriends = await _cacheManager
                 .GetCache("NumberOfFriendsCache")
                 .GetAsync(input.Id, () => GetNumberOfFriendsFromDatabase(input.Id));
-            var isFriend = currentUserId.HasValue && _friendPairRepository.GetAll()
-                               .Any(fp =>
+            var isFriend = currentUserId.HasValue && currentUserId != input.Id &&
+                           await _friendPairRepository.GetAll()
+                               .AnyAsync(fp =>
                                    (fp.LeftId == user.Id || fp.LeftId == currentUserId) &&
                                    (fp.RightId == user.Id || fp.RightId == currentUserId));
+            var hasInvited = currentUserId.HasValue && currentUserId != input.Id &&
+                             await _invitationRepository.GetAll()
+                                 .OfType<FriendInvitation>()
+                                 .AnyAsync(fi =>
+                                     fi.OwnerId == currentUserId.Value && fi.InviteeId == input.Id &&
+                                     fi.Status == InvitationStatus.Pending);
 
             return new GetUserOutput
             {
                 User = user,
                 NumberOfFriends = numberOfFriends,
-                IsFriend = isFriend
+                IsFriend = isFriend,
+                HasInvited = hasInvited
             };
         }
 
