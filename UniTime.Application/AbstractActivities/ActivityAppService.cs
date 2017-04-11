@@ -170,50 +170,6 @@ namespace UniTime.AbstractActivities
             _activityManager.EditDescriptions(activity, input.DescriptionIds, currentUserId);
         }
 
-        private async Task InjectMyRatingStatusAsync(ICollection<ActivityListDto> activityTemplateListDtos)
-        {
-            var currentUserId = AbpSession.UserId;
-
-            if (currentUserId.HasValue)
-            {
-                var activityTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
-
-                var activityRatingStatusDictionary = await _ratingRepository.GetAll()
-                    .Where(rating => rating.OwnerId == currentUserId.Value && rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
-                    .GroupBy(rating => rating.AbstractActivityId.Value)
-                    .Where(ratingGroup => ratingGroup.Any())
-                    .Select(ratingGroup => new {ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus})
-                    .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
-
-                foreach (var activityTemplateListDto in activityTemplateListDtos)
-                {
-                    var activityTemplateId = activityTemplateListDto.Id;
-
-                    if (activityRatingStatusDictionary.ContainsKey(activityTemplateId))
-                        activityTemplateListDto.MyRatingStatus = activityRatingStatusDictionary[activityTemplateId];
-                }
-            }
-        }
-
-        private async Task InjectLikesAsync(ICollection<ActivityListDto> activityTemplateListDtos)
-        {
-            var activityTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
-
-            var likesDictionary = await _ratingRepository.GetAll()
-                .Where(rating => rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
-                .GroupBy(rating => rating.AbstractActivityId)
-                .Select(ratingGroup => new {ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like)})
-                .ToDictionaryAsync(rating => rating.Key, ratings => ratings.Count);
-
-            foreach (var activityTemplateListDto in activityTemplateListDtos)
-            {
-                var activityTemplateId = activityTemplateListDto.Id;
-
-                if (likesDictionary.ContainsKey(activityTemplateId))
-                    activityTemplateListDto.Likes = likesDictionary[activityTemplateId];
-            }
-        }
-
         private async Task InjectCoverDescriptionAsync(ICollection<ActivityListDto> activityTemplateListDtos)
         {
             var acitivtyTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
@@ -243,6 +199,50 @@ namespace UniTime.AbstractActivities
 
                 if (activityTextDescriptionDictionary.ContainsKey(activityTemplateId))
                     activityTemplateListDto.CoverTextDescription = activityTextDescriptionDictionary[activityTemplateId].MapTo<DescriptionDto>();
+            }
+        }
+
+        private async Task InjectLikesAsync(ICollection<ActivityListDto> activityTemplateListDtos)
+        {
+            var activityTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
+
+            var likesDictionary = await _ratingRepository.GetAll()
+                .Where(rating => rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
+                .GroupBy(rating => rating.AbstractActivityId)
+                .Select(ratingGroup => new { ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like) })
+                .ToDictionaryAsync(rating => rating.Key, ratings => ratings.Count);
+
+            foreach (var activityTemplateListDto in activityTemplateListDtos)
+            {
+                var activityTemplateId = activityTemplateListDto.Id;
+
+                if (likesDictionary.ContainsKey(activityTemplateId))
+                    activityTemplateListDto.Likes = likesDictionary[activityTemplateId];
+            }
+        }
+
+        private async Task InjectMyRatingStatusAsync(ICollection<ActivityListDto> activityTemplateListDtos)
+        {
+            var currentUserId = AbpSession.UserId;
+
+            if (currentUserId.HasValue)
+            {
+                var activityTemplateIds = activityTemplateListDtos.Select(activity => activity.Id);
+
+                var activityRatingStatusDictionary = await _ratingRepository.GetAll()
+                    .Where(rating => rating.OwnerId == currentUserId.Value && rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
+                    .GroupBy(rating => rating.AbstractActivityId.Value)
+                    .Where(ratingGroup => ratingGroup.Any())
+                    .Select(ratingGroup => new { ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus })
+                    .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
+
+                foreach (var activityTemplateListDto in activityTemplateListDtos)
+                {
+                    var activityTemplateId = activityTemplateListDto.Id;
+
+                    if (activityRatingStatusDictionary.ContainsKey(activityTemplateId))
+                        activityTemplateListDto.MyRatingStatus = activityRatingStatusDictionary[activityTemplateId];
+                }
             }
         }
     }

@@ -136,6 +136,7 @@
     <Compile Include="AbstractActivities\Dtos\ActivityParticipantDto.cs" />
     <Compile Include="AbstractActivities\Dtos\ActivityTemplateReferenceTimeSlotDto.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateAbstractActivityInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\ActivityPlanListDto.cs" />
     <Compile Include="ActivityPlans\Dtos\CreateActivityPlanTimeSlotInput.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateActivityInput.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateActivityTemplateInput.cs" />

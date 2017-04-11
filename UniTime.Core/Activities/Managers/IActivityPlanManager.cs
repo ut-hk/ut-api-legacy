@@ -8,6 +8,8 @@ namespace UniTime.Activities.Managers
 {
     public interface IActivityPlanManager : IDomainService
     {
+        string DoesNotExistMessage { get; }
+
         Task<ActivityPlan> GetAsync(Guid id);
 
         Task<ActivityPlan> CreateAsync(ActivityPlan activityPlan);

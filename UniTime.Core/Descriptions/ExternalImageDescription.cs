@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net;
 using Abp.UI;
 using UniTime.Activities;
 using UniTime.Descriptions.Enums;
@@ -13,7 +15,7 @@ namespace UniTime.Descriptions
 
         public override DescriptionType Type => DescriptionType.ExternalImage;
 
-        public override string Content => $"https://images.weserv.nl/?url={Path}&output=jpg";
+        public override string Content => $"https://images.weserv.nl/?url={WebUtility.UrlEncode(Path)}&output=jpg";
 
         public virtual string Path { get; protected set; }
 

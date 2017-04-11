@@ -17,12 +17,14 @@ namespace UniTime.Activities.Managers
             _activityPlanRepository = activityPlanRepository;
         }
 
+        public string DoesNotExistMessage => "The activity plan does not exist.";
+
         public async Task<ActivityPlan> GetAsync(Guid id)
         {
             var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(id);
 
             if (activityPlan == null)
-                throw new UserFriendlyException("The activity plan with id = " + id + " does not exist.");
+                throw new UserFriendlyException(this.DoesNotExistMessage);
 
             return activityPlan;
         }

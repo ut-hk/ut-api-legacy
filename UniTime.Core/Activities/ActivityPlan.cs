@@ -12,7 +12,7 @@ using UniTime.Users;
 
 namespace UniTime.Activities
 {
-    public class ActivityPlan : AuditedEntity<Guid>, IHasOwner
+    public class ActivityPlan : FullAuditedEntity<Guid>, IHasOwner
     {
         protected ActivityPlan()
         {
