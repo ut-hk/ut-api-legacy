@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Abp.Domain.Repositories;
+using Abp.UI;
 using UniTime.Locations;
 using UniTime.Tags;
 using UniTime.Users;
@@ -45,6 +49,14 @@ namespace UniTime.Activities
             ReferenceTimeSlots.Clear();
             foreach (var referenceTimeSlot in referenceTimeSlots)
                 ReferenceTimeSlots.Add(referenceTimeSlot);
+        }
+
+        internal virtual async Task RemoveAsync(IRepository<AbstractActivity, Guid> abstractActivityRepository, long deleteUserId)
+        {
+            if (OwnerId != deleteUserId)
+                throw new UserFriendlyException($"You are not allowed to remove this Activity Template with id = {Id}");
+
+            await abstractActivityRepository.DeleteAsync(this);
         }
     }
 }

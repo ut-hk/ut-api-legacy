@@ -60,5 +60,10 @@ namespace UniTime.Activities.Managers
                     if (descriptionIds[i] == activityTemplateDescription.Id)
                         activityTemplateDescription.EditPriority(i, editUserId);
         }
+
+        public async Task RemoveAsync(ActivityTemplate activityTemplate, long deleteUserId)
+        {
+            await activityTemplate.RemoveAsync(_abstractActivityRepository, deleteUserId);
+        }
     }
 }

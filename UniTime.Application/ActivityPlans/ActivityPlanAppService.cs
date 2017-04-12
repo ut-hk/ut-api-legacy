@@ -137,6 +137,15 @@ namespace UniTime.ActivityPlans
             _activityPlanManager.EditDescriptions(activityPlan, input.DescriptionIds, currentUserId);
         }
 
+        [AbpAuthorize]
+        public async Task RemoveActivityPlan(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activityPlan = await _activityPlanManager.GetAsync(input.Id);
+
+            await _activityPlanManager.RemoveAsync(activityPlan, currentUserId);
+        }
+
         private async Task InjectCoverDescriptionAsync(ICollection<ActivityPlanListDto> activityPlanListDtos)
         {
             var acitivtyTemplateIds = activityPlanListDtos.Select(activity => activity.Id);
@@ -176,7 +185,7 @@ namespace UniTime.ActivityPlans
             var likesDictionary = await _ratingRepository.GetAll()
                 .Where(rating => rating.ActivityPlanId != null && activityTemplateIds.Contains(rating.ActivityPlanId.Value))
                 .GroupBy(rating => rating.ActivityPlanId)
-                .Select(ratingGroup => new { ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like) })
+                .Select(ratingGroup => new {ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like)})
                 .ToDictionaryAsync(rating => rating.Key, ratings => ratings.Count);
 
             foreach (var activityTemplateListDto in activityPlanListDtos)
@@ -200,7 +209,7 @@ namespace UniTime.ActivityPlans
                     .Where(rating => rating.OwnerId == currentUserId.Value && rating.ActivityPlanId != null && activityTemplateIds.Contains(rating.ActivityPlanId.Value))
                     .GroupBy(rating => rating.ActivityPlanId.Value)
                     .Where(ratingGroup => ratingGroup.Any())
-                    .Select(ratingGroup => new { ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus })
+                    .Select(ratingGroup => new {ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus})
                     .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
 
                 foreach (var activityTemplateListDto in activityPlanListDtos)

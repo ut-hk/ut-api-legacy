@@ -16,5 +16,7 @@ namespace UniTime.Activities.Managers
 
         void EditActivityPlan(ActivityPlan activityPlan, string name, ICollection<Tag> tags, long editUserId);
         void EditDescriptions(ActivityPlan activityPlan, long[] descriptionIds, long editUserId);
+
+        Task RemoveAsync(ActivityPlan activityPlan, long deleteUserId);
     }
 }

@@ -14,6 +14,8 @@ using UniTime.Activities;
 using UniTime.Activities.Managers;
 using UniTime.Descriptions;
 using UniTime.Descriptions.Dtos;
+using UniTime.Descriptions.Enums;
+using UniTime.Descriptions.Managers;
 using UniTime.Locations.Managers;
 using UniTime.Ratings;
 using UniTime.Ratings.Enums;
@@ -26,6 +28,7 @@ namespace UniTime.AbstractActivities
         private readonly IRepository<AbstractActivity, Guid> _abstractActivityRepository;
         private readonly IActivityManager _activityManager;
         private readonly IActivityTemplateManager _activityTemplateManager;
+        private readonly IDescriptionManager _descriptionManager;
         private readonly IRepository<Description, long> _descriptionRepository;
         private readonly ILocationManager _locationManager;
         private readonly IRepository<Rating, long> _ratingRepository;
@@ -35,6 +38,7 @@ namespace UniTime.AbstractActivities
             IRepository<AbstractActivity, Guid> abstractActivityRepository,
             IRepository<Rating, long>ratingRepository,
             IRepository<Description, long> descriptionRepository,
+            IDescriptionManager descriptionManager,
             ITagManager tagManager,
             IActivityManager activityManager,
             IActivityTemplateManager activityTemplateManager,
@@ -43,6 +47,7 @@ namespace UniTime.AbstractActivities
             _abstractActivityRepository = abstractActivityRepository;
             _ratingRepository = ratingRepository;
             _descriptionRepository = descriptionRepository;
+            _descriptionManager = descriptionManager;
             _tagManager = tagManager;
             _activityManager = activityManager;
             _activityTemplateManager = activityTemplateManager;
@@ -155,6 +160,25 @@ namespace UniTime.AbstractActivities
                 currentUser
             ));
 
+            foreach (var activityTemplateDescription in activityTemplate.Descriptions)
+                switch (activityTemplateDescription.Type)
+                {
+                    case DescriptionType.Text:
+                        await _descriptionManager.CreateAsync(TextDescription.Create(((TextDescription) activityTemplateDescription).Text, activityTemplate, currentUser.Id));
+                        break;
+                    case DescriptionType.ExternalImage:
+                        await _descriptionManager.CreateAsync(ExternalImageDescription.Create(((ExternalImageDescription) activityTemplateDescription).Path, activityTemplate, currentUser.Id));
+                        break;
+                    case DescriptionType.InternalImage:
+                        await _descriptionManager.CreateAsync(InternalImageDescription.Create(((InternalImageDescription) activityTemplateDescription).Image, activityTemplate, currentUser.Id));
+                        break;
+                    case DescriptionType.Youtube:
+                        await _descriptionManager.CreateAsync(YoutubeDescription.Create(((YoutubeDescription) activityTemplateDescription).YoutubeId, activityTemplate, currentUser.Id));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
             return new EntityDto<Guid>(activity.Id);
         }
 
@@ -168,6 +192,15 @@ namespace UniTime.AbstractActivities
 
             _activityManager.EditActivity(activity, input.Name, input.StartTime, input.EndTime, location, tags, currentUserId);
             _activityManager.EditDescriptions(activity, input.DescriptionIds, currentUserId);
+        }
+
+        [AbpAuthorize]
+        public async Task RemoveActivity(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activity = await _activityManager.GetAsync(input.Id);
+
+            await _activityManager.RemoveAsync(activity, currentUserId);
         }
 
         private async Task InjectCoverDescriptionAsync(ICollection<ActivityListDto> activityTemplateListDtos)
@@ -209,7 +242,7 @@ namespace UniTime.AbstractActivities
             var likesDictionary = await _ratingRepository.GetAll()
                 .Where(rating => rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
                 .GroupBy(rating => rating.AbstractActivityId)
-                .Select(ratingGroup => new { ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like) })
+                .Select(ratingGroup => new {ratingGroup.Key, Count = ratingGroup.LongCount(r => r.RatingStatus == RatingStatus.Like)})
                 .ToDictionaryAsync(rating => rating.Key, ratings => ratings.Count);
 
             foreach (var activityTemplateListDto in activityTemplateListDtos)
@@ -233,7 +266,7 @@ namespace UniTime.AbstractActivities
                     .Where(rating => rating.OwnerId == currentUserId.Value && rating.AbstractActivityId != null && activityTemplateIds.Contains(rating.AbstractActivityId.Value))
                     .GroupBy(rating => rating.AbstractActivityId.Value)
                     .Where(ratingGroup => ratingGroup.Any())
-                    .Select(ratingGroup => new { ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus })
+                    .Select(ratingGroup => new {ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus})
                     .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
 
                 foreach (var activityTemplateListDto in activityTemplateListDtos)

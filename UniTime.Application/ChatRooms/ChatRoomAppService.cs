@@ -51,14 +51,12 @@ namespace UniTime.ChatRooms
                 .ToDictionaryAsync(mg => mg.Key, mg => mg.LastOrDefault());
 
             foreach (var chatRoomDto in chatRoomDtos)
-            {
                 if (latestMessageGroups.ContainsKey(chatRoomDto.Id))
                     chatRoomDto.LatestMessage = latestMessageGroups[chatRoomDto.Id]?.MapTo<ChatRoomMessageDto>();
-            }
 
             return new GetMyChatRoomsOutput
             {
-                ChatRooms = chatRoomDtos
+                ChatRooms = chatRoomDtos.OrderByDescending(cr => cr.LatestMessage == null).ThenBy(cr => cr.LatestMessage?.CreationTime).ToArray()
             };
         }
 

@@ -21,7 +21,8 @@ namespace UniTime.AbstractActivities
         Task<EntityDto<Guid>> CreateActivity(CreateActivityInput input);
         Task<EntityDto<Guid>> CreateActivityFromActivityTemplate(CreateActivityFromActivityTemplateInput input);
 
-
         Task UpdateActivity(UpdateActivityInput input);
+
+        Task RemoveActivity(EntityDto<Guid> input);
     }
 }

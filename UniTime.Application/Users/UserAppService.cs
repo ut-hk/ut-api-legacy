@@ -72,13 +72,16 @@ namespace UniTime.Users
             };
         }
 
+
         [AbpAuthorize]
         [DisableAuditing]
         public async Task<GetMyUserOutput> GetMyUser()
         {
             var currentUserId = GetCurrentUserId();
 
-            var currentUser = await GetUserDtoFromDatabase(currentUserId);
+            var currentUser = await _userRepository.GetAll()
+                .ProjectTo<MyUserDto>()
+                .FirstAsync(u => u.Id == currentUserId);
             var guestId = await _cacheManager
                 .GetCache("GuestIdCache")
                 .GetAsync(currentUserId, () => GetGuestIdFromDatabase(currentUserId));
@@ -121,7 +124,6 @@ namespace UniTime.Users
 
             UserManager.EditUser(currentUser, input.Name, input.Surname, input.PhoneNumber, input.Gender, input.Birthday, icon, cover);
         }
-
 
         private async Task<UserDto> GetUserDtoFromDatabase(long id)
         {

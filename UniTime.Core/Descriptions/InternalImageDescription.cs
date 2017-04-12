@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 using Abp.UI;
 using UniTime.Activities;
 using UniTime.Descriptions.Enums;
@@ -15,7 +16,7 @@ namespace UniTime.Descriptions
 
         public override DescriptionType Type => DescriptionType.InternalImage;
 
-        public override string Content => $"https://images.weserv.nl/?url=unitime-dev-api.azurewebsites.net/api/File/GetFile/{ImageId}&output=jpg";
+        public override string Content => $"https://images.weserv.nl/?url=" + WebUtility.UrlEncode("unitime-dev-api.azurewebsites.net/api/File/GetFile/" + ImageId) + "&output=jpg";
 
         [ForeignKey(nameof(ImageId))]
         public virtual Image Image { get; protected set; }

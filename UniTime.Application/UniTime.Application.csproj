@@ -166,8 +166,11 @@
     <Compile Include="Analysis\Dtos\GetAnalysisInsightsOutput.cs" />
     <Compile Include="Analysis\Dtos\GetGuestInput.cs" />
     <Compile Include="Analysis\Dtos\LocationHistoryDto.cs" />
+    <Compile Include="Analysis\Dtos\FriendPairDto.cs" />
+    <Compile Include="Analysis\Dtos\GeSocialGraphOutput.cs" />
     <Compile Include="Analysis\IAnalysisAppService.cs" />
     <Compile Include="Analysis\Dtos\RouteHistoryDto.cs" />
+    <Compile Include="ApplicationModuleAuthorizationModule.cs" />
     <Compile Include="ChatRooms\ChatRoomAppService.cs" />
     <Compile Include="ChatRooms\ChatRoomMessageAppService.cs" />
     <Compile Include="ChatRooms\Dtos\CreateTextChatRoomMessageInput.cs" />
@@ -206,8 +209,9 @@
     <Compile Include="Files\Dtos\GetMyImagesOutput.cs" />
     <Compile Include="Files\IFileAppService.cs" />
     <Compile Include="Invitations\ActivityInvitationAppService.cs" />
+    <Compile Include="Invitations\Dtos\CreateActivityInvitationsOutput.cs" />
     <Compile Include="Invitations\Dtos\ActivityInvitationDto.cs" />
-    <Compile Include="Invitations\Dtos\CreateActivityInvitationInput.cs" />
+    <Compile Include="Invitations\Dtos\CreateActivityInvitationsInput.cs" />
     <Compile Include="Invitations\Dtos\CreateFriendInvitationInput.cs" />
     <Compile Include="Invitations\FriendInvitationAppService.cs" />
     <Compile Include="Invitations\Dtos\FriendInvitationDto.cs" />
@@ -222,6 +226,11 @@
     <Compile Include="Locations\Dtos\GetLocationsInput.cs" />
     <Compile Include="Locations\ILocationAppService.cs" />
     <Compile Include="Locations\LocationAppService.cs" />
+    <Compile Include="Managements\Dtos\GetUsersInput.cs" />
+    <Compile Include="Managements\Dtos\GetUsersOutput.cs" />
+    <Compile Include="Managements\IManagementAppService.cs" />
+    <Compile Include="Managements\ManagementAppService.cs" />
+    <Compile Include="Managements\Dtos\UpdateRolePermissionsInput.cs" />
     <Compile Include="Ratings\Dtos\RatingDto.cs" />
     <Compile Include="Comments\Dtos\ReplyDto.cs" />
     <Compile Include="Tags\Dtos\GetTagInput.cs" />
@@ -249,6 +258,7 @@
     <Compile Include="Sessions\Dtos\UserLoginInfoDto.cs" />
     <Compile Include="Sessions\ISessionAppService.cs" />
     <Compile Include="Sessions\SessionAppService.cs" />
+    <Compile Include="Users\Dtos\MyUserDto.cs" />
     <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Users\Dtos\UserListDto.cs" />
     <Compile Include="Users\Dtos\GetMyUserOutput.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Auditing;
@@ -8,26 +9,34 @@ using Abp.Domain.Repositories;
 using AutoMapper.QueryableExtensions;
 using UniTime.Analysis.Dtos;
 using UniTime.Analysis.Managers;
+using UniTime.Users;
+using UniTime.Users.Dtos;
 
 namespace UniTime.Analysis
 {
     public class AnalysisAppService : UniTimeAppServiceBase, IAnalysisAppService
     {
+        private readonly IRepository<FriendPair, long> _friendPairRepository;
         private readonly IGuestManager _guestManager;
         private readonly ILocationHistoryManager _locationHistoryManager;
         private readonly IRepository<LocationHistory, long> _locationHistoryRepository;
         private readonly IRouteHistoryManager _routeHistoryManager;
         private readonly IRepository<RouteHistory, long> _routeHistoryRepository;
+        private readonly IRepository<User, long> _userRepository;
 
         public AnalysisAppService(
             IRepository<RouteHistory, long> routeHistoryRepository,
             IRepository<LocationHistory, long> locationHistoryRepository,
+            IRepository<FriendPair, long> friendPairRepository,
+            IRepository<User, long> userRepository,
             IGuestManager guestManager,
             IRouteHistoryManager routeHistoryManager,
             ILocationHistoryManager locationHistoryManager)
         {
             _routeHistoryRepository = routeHistoryRepository;
             _locationHistoryRepository = locationHistoryRepository;
+            _friendPairRepository = friendPairRepository;
+            _userRepository = userRepository;
             _guestManager = guestManager;
             _routeHistoryManager = routeHistoryManager;
             _locationHistoryManager = locationHistoryManager;
@@ -69,6 +78,25 @@ namespace UniTime.Analysis
             {
                 RouteHistories = routeHistories,
                 LocationHistories = locationHistories
+            };
+        }
+
+        public async Task<GeSocialGraphOutput> GetSocialGraph()
+        {
+            var friendPairs = await _friendPairRepository.GetAll()
+                .ProjectTo<FriendPairDto>()
+                .ToListAsync();
+
+            // There are only roles for admin. We can use is there any role to detect whether is admin.
+            var users = await _userRepository.GetAll()
+                .Where(f => f.Roles.Any())
+                .ProjectTo<UserListDto>()
+                .ToListAsync();
+
+            return new GeSocialGraphOutput
+            {
+                Edges = friendPairs,
+                Nodes = users
             };
         }
 

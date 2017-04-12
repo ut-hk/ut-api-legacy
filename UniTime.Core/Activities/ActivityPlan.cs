@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
+using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Comments;
 using UniTime.Descriptions;
@@ -56,6 +58,14 @@ namespace UniTime.Activities
             Tags.Clear();
             foreach (var tag in tags)
                 Tags.Add(tag);
+        }
+
+        internal virtual async Task RemoveAsync(IRepository<ActivityPlan, Guid> activityPlanRepository, long deleteUserId)
+        {
+            if (OwnerId != deleteUserId)
+                throw new UserFriendlyException($"You are not allowed to remove this Activity Plan with id = {Id}");
+
+            await activityPlanRepository.DeleteAsync(this);
         }
     }
 }

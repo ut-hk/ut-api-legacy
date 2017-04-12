@@ -161,6 +161,15 @@ namespace UniTime.AbstractActivities
             _activityTemplateManager.EditDescriptions(activityTemplate, input.DescriptionIds, currentUserId);
         }
 
+        [AbpAuthorize]
+        public async Task RemoveActivityTemplate(EntityDto<Guid> input)
+        {
+            var currentUserId = GetCurrentUserId();
+            var activityTemplate = await _activityTemplateManager.GetAsync(input.Id);
+
+            await _activityTemplateManager.RemoveAsync(activityTemplate, currentUserId);
+        }
+
         public static DbGeography CreatePoint(double latitude, double longitude, int srid = 4326)
         {
             return DbGeography.PointFromText($"POINT({longitude} {latitude})", srid);

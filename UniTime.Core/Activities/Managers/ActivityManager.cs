@@ -25,7 +25,7 @@ namespace UniTime.Activities.Managers
             var activity = await _abstractActivityRepository.FirstOrDefaultAsync(id) as Activity;
 
             if (activity == null)
-                throw new UserFriendlyException(this.DoesNotExistMessage);
+                throw new UserFriendlyException(DoesNotExistMessage);
 
             return activity;
         }
@@ -51,6 +51,11 @@ namespace UniTime.Activities.Managers
                 for (var i = 0; i < descriptionIds.Length; i++)
                     if (descriptionIds[i] == activityDescription.Id)
                         activityDescription.EditPriority(i, editUserId);
+        }
+
+        public async Task RemoveAsync(Activity activity, long deleteUserId)
+        {
+            await activity.RemoveAsync(_abstractActivityRepository, deleteUserId);
         }
     }
 }

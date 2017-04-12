@@ -14,5 +14,7 @@ namespace UniTime.ActivityPlans
         Task<EntityDto<Guid>> CreateActivityPlan(CreateActivityPlanInput input);
 
         Task UpdateActivityPlan(UpdateActivityPlanInput input);
+
+        Task RemoveActivityPlan(EntityDto<Guid> input);
     }
 }
