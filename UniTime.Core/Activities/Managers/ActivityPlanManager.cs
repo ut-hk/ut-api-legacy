@@ -17,12 +17,14 @@ namespace UniTime.Activities.Managers
             _activityPlanRepository = activityPlanRepository;
         }
 
+        public string DoesNotExistMessage => "The activity plan does not exist.";
+
         public async Task<ActivityPlan> GetAsync(Guid id)
         {
             var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(id);
 
             if (activityPlan == null)
-                throw new UserFriendlyException("The activity plan with id = " + id + " does not exist.");
+                throw new UserFriendlyException(this.DoesNotExistMessage);
 
             return activityPlan;
         }
@@ -47,6 +49,11 @@ namespace UniTime.Activities.Managers
                 for (var i = 0; i < descriptionIds.Length; i++)
                     if (descriptionIds[i] == activityPlanDescription.Id)
                         activityPlanDescription.EditPriority(i, editUserId);
+        }
+
+        public async Task RemoveAsync(ActivityPlan activityPlan, long deleteUserId)
+        {
+            await activityPlan.RemoveAsync(_activityPlanRepository, deleteUserId);
         }
     }
 }

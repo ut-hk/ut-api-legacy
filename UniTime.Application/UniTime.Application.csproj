@@ -87,7 +87,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.4.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractActivities\ActivityAppService.cs" />
+    <Compile Include="AbstractActivities\Dtos\CreateActivityFromActivityTemplateInput.cs" />
     <Compile Include="AbstractActivities\Dtos\ActivityListDto.cs" />
     <Compile Include="AbstractActivities\Dtos\ActivityTemplateListDto.cs" />
     <Compile Include="ActivityPlans\ActivityPlanAppService.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="AbstractActivities\Dtos\ActivityParticipantDto.cs" />
     <Compile Include="AbstractActivities\Dtos\ActivityTemplateReferenceTimeSlotDto.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateAbstractActivityInput.cs" />
+    <Compile Include="ActivityPlans\Dtos\ActivityPlanListDto.cs" />
     <Compile Include="ActivityPlans\Dtos\CreateActivityPlanTimeSlotInput.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateActivityInput.cs" />
     <Compile Include="AbstractActivities\Dtos\CreateActivityTemplateInput.cs" />
@@ -164,8 +166,11 @@
     <Compile Include="Analysis\Dtos\GetAnalysisInsightsOutput.cs" />
     <Compile Include="Analysis\Dtos\GetGuestInput.cs" />
     <Compile Include="Analysis\Dtos\LocationHistoryDto.cs" />
+    <Compile Include="Analysis\Dtos\FriendPairDto.cs" />
+    <Compile Include="Analysis\Dtos\GeSocialGraphOutput.cs" />
     <Compile Include="Analysis\IAnalysisAppService.cs" />
     <Compile Include="Analysis\Dtos\RouteHistoryDto.cs" />
+    <Compile Include="ApplicationModuleAuthorizationModule.cs" />
     <Compile Include="ChatRooms\ChatRoomAppService.cs" />
     <Compile Include="ChatRooms\ChatRoomMessageAppService.cs" />
     <Compile Include="ChatRooms\Dtos\CreateTextChatRoomMessageInput.cs" />
@@ -204,8 +209,9 @@
     <Compile Include="Files\Dtos\GetMyImagesOutput.cs" />
     <Compile Include="Files\IFileAppService.cs" />
     <Compile Include="Invitations\ActivityInvitationAppService.cs" />
+    <Compile Include="Invitations\Dtos\CreateActivityInvitationsOutput.cs" />
     <Compile Include="Invitations\Dtos\ActivityInvitationDto.cs" />
-    <Compile Include="Invitations\Dtos\CreateActivityInvitationInput.cs" />
+    <Compile Include="Invitations\Dtos\CreateActivityInvitationsInput.cs" />
     <Compile Include="Invitations\Dtos\CreateFriendInvitationInput.cs" />
     <Compile Include="Invitations\FriendInvitationAppService.cs" />
     <Compile Include="Invitations\Dtos\FriendInvitationDto.cs" />
@@ -220,6 +226,11 @@
     <Compile Include="Locations\Dtos\GetLocationsInput.cs" />
     <Compile Include="Locations\ILocationAppService.cs" />
     <Compile Include="Locations\LocationAppService.cs" />
+    <Compile Include="Managements\Dtos\GetUsersInput.cs" />
+    <Compile Include="Managements\Dtos\GetUsersOutput.cs" />
+    <Compile Include="Managements\IManagementAppService.cs" />
+    <Compile Include="Managements\ManagementAppService.cs" />
+    <Compile Include="Managements\Dtos\UpdateRolePermissionsInput.cs" />
     <Compile Include="Ratings\Dtos\RatingDto.cs" />
     <Compile Include="Comments\Dtos\ReplyDto.cs" />
     <Compile Include="Tags\Dtos\GetTagInput.cs" />
@@ -247,6 +258,7 @@
     <Compile Include="Sessions\Dtos\UserLoginInfoDto.cs" />
     <Compile Include="Sessions\ISessionAppService.cs" />
     <Compile Include="Sessions\SessionAppService.cs" />
+    <Compile Include="Users\Dtos\MyUserDto.cs" />
     <Compile Include="Users\Dtos\UserDto.cs" />
     <Compile Include="Users\Dtos\UserListDto.cs" />
     <Compile Include="Users\Dtos\GetMyUserOutput.cs" />

@@ -11,6 +11,7 @@ using AutoMapper.QueryableExtensions;
 using UniTime.ChatRooms.Dtos;
 using UniTime.ChatRooms.Managers;
 using UniTime.Users;
+using UniTime.Users.Dtos;
 
 namespace UniTime.ChatRooms
 {
@@ -44,21 +45,18 @@ namespace UniTime.ChatRooms
                 .ToListAsync();
 
             var chatRoomIds = chatRoomDtos.Select(chatRoom => chatRoom.Id);
-            var chatRoomMessages = await _chatRoomMessageRepository.GetAll()
+            var latestMessageGroups = await _chatRoomMessageRepository.GetAll()
                 .Where(message => chatRoomIds.Contains(message.ChatRoomId))
-                .OrderByDescending(message => message.CreationTime)
                 .GroupBy(message => message.ChatRoomId)
-                .ToDictionaryAsync(chatRoom => chatRoom.Key, messages => messages.FirstOrDefault());
+                .ToDictionaryAsync(mg => mg.Key, mg => mg.LastOrDefault());
 
             foreach (var chatRoomDto in chatRoomDtos)
-            {
-                if (chatRoomMessages.ContainsKey(chatRoomDto.Id))
-                    chatRoomDto.LatestMessage = chatRoomMessages[chatRoomDto.Id]?.MapTo<ChatRoomMessageDto>();
-            }
+                if (latestMessageGroups.ContainsKey(chatRoomDto.Id))
+                    chatRoomDto.LatestMessage = latestMessageGroups[chatRoomDto.Id]?.MapTo<ChatRoomMessageDto>();
 
             return new GetMyChatRoomsOutput
             {
-                ChatRooms = chatRoomDtos
+                ChatRooms = chatRoomDtos.OrderByDescending(cr => cr.LatestMessage == null).ThenBy(cr => cr.LatestMessage?.CreationTime).ToArray()
             };
         }
 
@@ -80,6 +78,19 @@ namespace UniTime.ChatRooms
 
             _chatRoomManager.EditChatRoom(chatRoom, input.Name, currentUserId);
             _chatRoomManager.EditParticipants(chatRoom, participants, currentUserId);
+        }
+
+        private class UserListDtoComparer : IEqualityComparer<UserListDto>
+        {
+            public bool Equals(UserListDto x, UserListDto y)
+            {
+                return x.Id.Equals(y.Id);
+            }
+
+            public int GetHashCode(UserListDto obj)
+            {
+                return obj.Id.GetHashCode();
+            }
         }
     }
 }

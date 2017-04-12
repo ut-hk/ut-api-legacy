@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
+using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Comments;
 using UniTime.Descriptions;
@@ -13,7 +15,7 @@ using UniTime.Users;
 
 namespace UniTime.Activities
 {
-    public abstract class AbstractActivity : AuditedEntity<Guid>, IHasOwner
+    public abstract class AbstractActivity : FullAuditedEntity<Guid>, IHasOwner
     {
         public virtual string Name { get; protected set; }
 
@@ -51,6 +53,11 @@ namespace UniTime.Activities
             Tags.Clear();
             foreach (var tag in tags)
                 Tags.Add(tag);
+        }
+
+        protected virtual async Task RemoveAsync(IRepository<AbstractActivity, Guid> abstractActivityRepository)
+        {
+            await abstractActivityRepository.DeleteAsync(this);
         }
     }
 }

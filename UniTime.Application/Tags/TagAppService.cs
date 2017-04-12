@@ -22,7 +22,6 @@ namespace UniTime.Tags
             _tagRepository = tagRepository;
         }
 
-        [AbpAuthorize]
         public async Task<EntityDto<long>> GetTag(GetTagInput input)
         {
             var tag = await _tagManager.GetAsync(input.Text.Replace(" ", string.Empty));

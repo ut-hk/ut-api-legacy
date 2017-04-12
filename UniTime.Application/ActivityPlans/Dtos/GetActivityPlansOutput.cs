@@ -4,6 +4,6 @@ namespace UniTime.ActivityPlans.Dtos
 {
     public class GetActivityPlansOutput
     {
-        public ICollection<ActivityPlanDto> ActivityPlans { get; set; }
+        public ICollection<ActivityPlanListDto> ActivityPlans { get; set; }
     }
 }

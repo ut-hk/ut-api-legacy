@@ -17,5 +17,7 @@ namespace UniTime.Activities.Managers
 
         void EditActivity(Activity activity, string name, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, long editUserId);
         void EditDescriptions(Activity activity, long[] descriptionIds, long editUserId);
+
+        Task RemoveAsync(Activity activity, long deleteUserId);
     }
 }

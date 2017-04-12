@@ -10,6 +10,7 @@ namespace UniTime.Analysis
     {
         Task<EntityDto<Guid>> GetGuest(GetGuestInput input);
         Task<GetAnalysisInsightsOutput> GetAnaylsisInsights();
+        Task<GeSocialGraphOutput> GetSocialGraph();
 
         Task<EntityDto<long>> CreateRouteHistory(CreateRouteHistoryInput input);
         Task CreateLocationHistory(CreateLocationHistoryInput input);

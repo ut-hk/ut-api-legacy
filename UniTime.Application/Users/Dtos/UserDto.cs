@@ -7,8 +7,6 @@ namespace UniTime.Users.Dtos
     [AutoMapFrom(typeof(User))]
     public class UserDto : UserListDto
     {
-        public string FullName { get; set; }
-
         public string EmailAddress { get; set; }
 
         public bool IsEmailConfirmed { get; set; }

@@ -29,7 +29,7 @@ namespace UniTime
         {
             var userId = AbpSession.UserId;
 
-            if (!userId.HasValue) throw new UserFriendlyException("Please log in again.");
+            if (!userId.HasValue) throw new UserFriendlyException(L("CurrentUserDidNotLoginToTheApplication"));
 
             return userId.Value;
         }
@@ -38,7 +38,7 @@ namespace UniTime
         {
             var user = UserManager.FindByIdAsync(AbpSession.GetUserId());
 
-            if (user == null) throw new UserFriendlyException("Please log in again.");
+            if (user == null) throw new UserFriendlyException(L("CurrentUserDidNotLoginToTheApplication"));
 
             return user;
         }

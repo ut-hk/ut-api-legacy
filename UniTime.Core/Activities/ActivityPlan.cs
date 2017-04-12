@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
+using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Comments;
 using UniTime.Descriptions;
@@ -12,7 +14,7 @@ using UniTime.Users;
 
 namespace UniTime.Activities
 {
-    public class ActivityPlan : AuditedEntity<Guid>, IHasOwner
+    public class ActivityPlan : FullAuditedEntity<Guid>, IHasOwner
     {
         protected ActivityPlan()
         {
@@ -35,11 +37,12 @@ namespace UniTime.Activities
 
         public virtual long OwnerId { get; protected set; }
 
-        public static ActivityPlan Create(string name, User owner)
+        public static ActivityPlan Create(string name, ICollection<Tag> tags, User owner)
         {
             return new ActivityPlan
             {
                 Name = name,
+                Tags = tags,
                 Owner = owner,
                 OwnerId = owner.Id
             };
@@ -55,6 +58,14 @@ namespace UniTime.Activities
             Tags.Clear();
             foreach (var tag in tags)
                 Tags.Add(tag);
+        }
+
+        internal virtual async Task RemoveAsync(IRepository<ActivityPlan, Guid> activityPlanRepository, long deleteUserId)
+        {
+            if (OwnerId != deleteUserId)
+                throw new UserFriendlyException($"You are not allowed to remove this Activity Plan with id = {Id}");
+
+            await activityPlanRepository.DeleteAsync(this);
         }
     }
 }

@@ -2,11 +2,11 @@
 
 namespace UniTime.Invitations.Dtos
 {
-    public class CreateActivityInvitationInput
+    public class CreateActivityInvitationsInput
     {
         public string Content { get; set; }
 
-        public long InviteeId { get; set; }
+        public long[] InviteeIds { get; set; }
 
         public Guid ActivityId { get; set; }
     }
