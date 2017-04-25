@@ -9,7 +9,7 @@ namespace UniTime.ActivityPlans.Dtos
     [AutoMapFrom(typeof(ActivityPlanTimeSlot))]
     public class ActivityPlanTimeSlotDto : EntityDto<long>
     {
-        public ActivityTemplateDto ActivityTemplate { get; set; }
+        public ActivityTemplateListDto ActivityTemplate { get; set; }
 
         public DateTime? StartTime { get; set; }
 

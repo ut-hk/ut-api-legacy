@@ -164,16 +164,16 @@ namespace UniTime.AbstractActivities
                 switch (activityTemplateDescription.Type)
                 {
                     case DescriptionType.Text:
-                        await _descriptionManager.CreateAsync(TextDescription.Create(((TextDescription) activityTemplateDescription).Text, activityTemplate, currentUser.Id));
+                        await _descriptionManager.CreateAsync(TextDescription.Create(((TextDescription) activityTemplateDescription).Text, activity, currentUser.Id));
                         break;
                     case DescriptionType.ExternalImage:
-                        await _descriptionManager.CreateAsync(ExternalImageDescription.Create(((ExternalImageDescription) activityTemplateDescription).Path, activityTemplate, currentUser.Id));
+                        await _descriptionManager.CreateAsync(ExternalImageDescription.Create(((ExternalImageDescription) activityTemplateDescription).Path, activity, currentUser.Id));
                         break;
                     case DescriptionType.InternalImage:
-                        await _descriptionManager.CreateAsync(InternalImageDescription.Create(((InternalImageDescription) activityTemplateDescription).Image, activityTemplate, currentUser.Id));
+                        await _descriptionManager.CreateAsync(InternalImageDescription.Create(((InternalImageDescription) activityTemplateDescription).Image, activity, currentUser.Id));
                         break;
                     case DescriptionType.Youtube:
-                        await _descriptionManager.CreateAsync(YoutubeDescription.Create(((YoutubeDescription) activityTemplateDescription).YoutubeId, activityTemplate, currentUser.Id));
+                        await _descriptionManager.CreateAsync(YoutubeDescription.Create(((YoutubeDescription) activityTemplateDescription).YoutubeId, activity, currentUser.Id));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

@@ -46,9 +46,9 @@ namespace UniTime.Activities
 
         internal void Edit(ICollection<ActivityTemplateReferenceTimeSlot> referenceTimeSlots, long editUserId)
         {
-            ReferenceTimeSlots.Clear();
-            foreach (var referenceTimeSlot in referenceTimeSlots)
-                ReferenceTimeSlots.Add(referenceTimeSlot);
+//            ReferenceTimeSlots.Clear();
+//            foreach (var referenceTimeSlot in referenceTimeSlots)
+//                ReferenceTimeSlots.Add(referenceTimeSlot);
         }
 
         internal virtual async Task RemoveAsync(IRepository<AbstractActivity, Guid> abstractActivityRepository, long deleteUserId)
