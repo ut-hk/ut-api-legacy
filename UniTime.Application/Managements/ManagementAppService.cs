@@ -65,13 +65,13 @@ namespace UniTime.Managements
         {
             throw new AbpAuthorizationException("You are not authorized to update role permissions.");
 
-            var role = await _roleManager.GetRoleByIdAsync(input.RoleId);
-            var grantedPermissions = _permissionManager
-                .GetAllPermissions()
-                .Where(p => input.GrantedPermissionNames.Contains(p.Name))
-                .ToList();
-
-            await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
+//            var role = await _roleManager.GetRoleByIdAsync(input.RoleId);
+//            var grantedPermissions = _permissionManager
+//                .GetAllPermissions()
+//                .Where(p => input.GrantedPermissionNames.Contains(p.Name))
+//                .ToList();
+//
+//            await _roleManager.SetGrantedPermissionsAsync(role, grantedPermissions);
         }
 
     }

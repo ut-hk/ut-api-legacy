@@ -9,6 +9,7 @@ using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using AutoMapper.QueryableExtensions;
 using UniTime.AbstractActivities.Dtos;
 using UniTime.Activities;
@@ -63,6 +64,9 @@ namespace UniTime.AbstractActivities
                 .Include(at => at.Owner)
                 .Include(at => at.ReferenceTimeSlots)
                 .FirstOrDefaultAsync(at => at.Id == input.Id);
+
+            if (activityTemplate == null)
+                throw new UserFriendlyException(_activityTemplateManager.DoesNotExistMessage);
 
             return new GetActivityTemplateOutput
             {

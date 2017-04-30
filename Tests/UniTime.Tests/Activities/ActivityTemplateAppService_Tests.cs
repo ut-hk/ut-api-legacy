@@ -29,21 +29,9 @@ namespace UniTime.Tests.Activities
         }
 
         [Fact]
-        public async Task Should_Get_No_Results()
-        {
-            // Act
-            var getActivityTemplatesOutput = await _activityTemplateAppService.GetActivityTemplates(new GetActivityTemplatesInput());
-
-            // Assert
-            getActivityTemplatesOutput.ShouldNotBe(null);
-            getActivityTemplatesOutput.ActivityTemplates.Count.ShouldBe(0);
-        }
-
-        [Fact]
         public async Task Should_Create_Activity_Template()
         {
             const string name = "Hello World";
-            const string description = "Happy";
             var startTime = new DateTime(2017, 3, 12, 2, 10, 0);
             var endTime = new DateTime(2017, 3, 12, 2, 10, 0);
 

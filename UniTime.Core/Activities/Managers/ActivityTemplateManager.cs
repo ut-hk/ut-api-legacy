@@ -20,12 +20,14 @@ namespace UniTime.Activities.Managers
             _abstractActivityRepository = abstractActivityRepository;
         }
 
+        public string DoesNotExistMessage => "The activity template does not exist.";
+
         public async Task<ActivityTemplate> GetAsync(Guid id)
         {
             var activityTemplate = await _abstractActivityRepository.FirstOrDefaultAsync(id) as ActivityTemplate;
 
             if (activityTemplate == null)
-                throw new UserFriendlyException("The activity template with id = " + id + " does not exist.");
+                throw new UserFriendlyException(DoesNotExistMessage);
 
             return activityTemplate;
         }
