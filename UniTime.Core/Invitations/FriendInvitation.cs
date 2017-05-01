@@ -1,6 +1,4 @@
-using Abp.UI;
 using UniTime.Invitations.Enums;
-using UniTime.Invitations.Managers;
 using UniTime.Invitations.Policies;
 using UniTime.Users;
 
@@ -29,7 +27,7 @@ namespace UniTime.Invitations
 
         internal void Accept(long editUserId, IFriendInvitationPolicy friendInvitationPolicy)
         {
-            friendInvitationPolicy.AcceptAttempt(this,editUserId);
+            friendInvitationPolicy.AcceptAttempt(this, editUserId);
 
             Status = InvitationStatus.Accepted;
         }

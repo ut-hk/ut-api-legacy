@@ -61,7 +61,7 @@ namespace UniTime.Managements
             await _userRepository.DeleteAsync(user);
         }
 
-        public async Task UpdateRolePermissions(UpdateRolePermissionsInput input)
+        public Task UpdateRolePermissions(UpdateRolePermissionsInput input)
         {
             throw new AbpAuthorizationException("You are not authorized to update role permissions.");
 

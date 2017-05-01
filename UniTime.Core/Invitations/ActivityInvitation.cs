@@ -20,7 +20,7 @@ namespace UniTime.Invitations
 
         public static ActivityInvitation Create(User invitee, User owner, Activity activity, string content, IActivityInvitationPolicy activityInvitationPolicy)
         {
-            activityInvitationPolicy.CreateAttempt(invitee, activity,owner);
+            activityInvitationPolicy.CreateAttempt(invitee, activity, owner);
 
             return new ActivityInvitation
             {
@@ -45,14 +45,14 @@ namespace UniTime.Invitations
         internal void Reject(long editUserId, IActivityInvitationPolicy activityInvitationPolicy)
         {
             activityInvitationPolicy.RejectAttempt(this, editUserId);
-           
+
             Status = InvitationStatus.Rejected;
         }
 
         internal void Ignore(long editUserId, IActivityInvitationPolicy activityInvitationPolicy)
         {
             activityInvitationPolicy.IgnoreAttempt(this, editUserId);
-            
+
             Status = InvitationStatus.Ignored;
         }
     }

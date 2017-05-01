@@ -60,7 +60,7 @@ namespace UniTime.Ratings.Managers
                 rating.EditRating(ratingStatus, owner.Id);
             else
                 rating = await CreateAsync(Rating.Create(ratingStatus, activityPlan, owner));
-            
+
             return rating;
         }
 

@@ -24,7 +24,7 @@ namespace UniTime.Activities.Managers
             var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(id);
 
             if (activityPlan == null)
-                throw new UserFriendlyException(this.DoesNotExistMessage);
+                throw new UserFriendlyException(DoesNotExistMessage);
 
             return activityPlan;
         }
