@@ -2,7 +2,6 @@
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
 using Abp.Modules;
-using Abp.MultiTenancy;
 using Abp.Zero;
 using Abp.Zero.Configuration;
 using UniTime.Authorization;
@@ -23,7 +22,7 @@ namespace UniTime
             Configuration.Modules.Zero().EntityTypes.Tenant = typeof(Tenant);
             Configuration.Modules.Zero().EntityTypes.Role = typeof(Role);
             Configuration.Modules.Zero().EntityTypes.User = typeof(User);
-            
+
             // Remove the following line to disable multi-tenancy.
             Configuration.MultiTenancy.IsEnabled = false;
 
@@ -34,9 +33,9 @@ namespace UniTime
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
                         Assembly.GetExecutingAssembly(),
                         "UniTime.Localization.Source"
-                        )
                     )
-                );
+                )
+            );
 
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
 

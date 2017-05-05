@@ -5,7 +5,6 @@ using Abp.UI;
 using Shouldly;
 using UniTime.AbstractActivities;
 using UniTime.AbstractActivities.Dtos;
-using UniTime.Activities;
 using Xunit;
 
 namespace UniTime.Tests.Activities
@@ -27,27 +26,16 @@ namespace UniTime.Tests.Activities
         }
 
         [Fact]
-        public async Task Should_Get_No_Results()
-        {
-            // Act
-            var output = await _activityAppService.GetMyActivities();
-
-            // Assert
-            output.ShouldNotBe(null);
-            output.MyActivities.Count.ShouldBe(0);
-        }
-
-        [Fact]
         public async Task Should_Create_Activity()
         {
             const string name = "Hello World";
-            const string description = "Happy";
 
             // Act
             var createActivityTemplateOutput = await _activityAppService.CreateActivity(new CreateActivityInput
             {
                 Name = name,
                 LocationId = null,
+                TagTexts = new[] {"Happy", "Hello"},
                 StartTime = new DateTime(2017, 3, 12, 2, 10, 0),
                 EndTime = new DateTime(2017, 3, 12, 3, 10, 0)
             });

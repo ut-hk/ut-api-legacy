@@ -89,7 +89,7 @@ namespace UniTime.Analysis
 
             // There are only roles for admin. We can use is there any role to detect whether is admin.
             var users = await _userRepository.GetAll()
-                .Where(f => f.Roles.Any())
+                .Where(f => !f.Roles.Any())
                 .ProjectTo<UserListDto>()
                 .ToListAsync();
 

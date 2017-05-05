@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abp.Domain.Services;
-using UniTime.Users;
 
 namespace UniTime.Invitations.Managers
 {

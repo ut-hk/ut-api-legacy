@@ -9,6 +9,8 @@ namespace UniTime.Activities.Managers
 {
     public interface IActivityTemplateManager : IDomainService
     {
+        string DoesNotExistMessage { get; }
+
         Task<ActivityTemplate> GetAsync(Guid id);
 
         Task<ActivityTemplate> CreateAsync(ActivityTemplate activityTemplate);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using Abp.UI;
 using UniTime.Activities;
@@ -39,7 +38,12 @@ namespace UniTime.Descriptions
             if (createUserId != abstractActivity.OwnerId)
                 throw new UserFriendlyException($"You are not allowed to create a external image description in this activity with id = {abstractActivity.Id}.");
 
-            var uri = new Uri(path);
+            Uri uri;
+
+            if (path.StartsWith("http://") || path.StartsWith("https://"))
+                uri = new Uri(path, UriKind.Absolute);
+            else
+                uri = new Uri("http://" + path, UriKind.Absolute);
 
             return new ExternalImageDescription
             {

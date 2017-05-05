@@ -66,9 +66,7 @@ namespace UniTime.Activities
             };
 
             if (activityTemplate.Location != null)
-            {
                 activity.LocationId = activityTemplate.LocationId;
-            }
 
             return activity;
         }

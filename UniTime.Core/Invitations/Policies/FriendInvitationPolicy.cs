@@ -19,7 +19,7 @@ namespace UniTime.Invitations.Policies
             _friendPairRepository = friendPairRepository;
             _invitationRepository = invitationRepository;
         }
-        
+
         public void CreateAttempt(User invitee, User owner)
         {
             CheckNoPendingInvitation(invitee, owner);

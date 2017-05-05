@@ -56,7 +56,7 @@ namespace UniTime.ChatRooms
 
             return new GetMyChatRoomsOutput
             {
-                ChatRooms = chatRoomDtos.OrderByDescending(cr => cr.LatestMessage == null).ThenBy(cr => cr.LatestMessage?.CreationTime).ToArray()
+                ChatRooms = chatRoomDtos.OrderByDescending(cr => cr.LatestMessage == null).ThenByDescending(cr => cr.LatestMessage?.CreationTime).ToArray()
             };
         }
 

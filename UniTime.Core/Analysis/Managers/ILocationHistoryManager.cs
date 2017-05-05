@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Abp.Domain.Services;
-using UniTime.Locations;
 
 namespace UniTime.Analysis.Managers
 {

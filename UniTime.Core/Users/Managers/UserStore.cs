@@ -16,13 +16,13 @@ namespace UniTime.Users.Managers
             IUnitOfWorkManager unitOfWorkManager,
             IRepository<UserClaim, long> userClaimStore)
             : base(
-              userRepository,
-              userLoginRepository,
-              userRoleRepository,
-              roleRepository,
-              userPermissionSettingRepository,
-              unitOfWorkManager,
-              userClaimStore)
+                userRepository,
+                userLoginRepository,
+                userRoleRepository,
+                roleRepository,
+                userPermissionSettingRepository,
+                unitOfWorkManager,
+                userClaimStore)
         {
         }
     }

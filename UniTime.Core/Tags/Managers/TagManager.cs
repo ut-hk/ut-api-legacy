@@ -41,9 +41,7 @@ namespace UniTime.Tags.Managers
             var newTags = texts.Except(existingTags.Select(tag => tag.Text)).Select(Tag.Create).ToArray();
 
             foreach (var newTag in newTags)
-            {
                 newTag.Id = await _tagRepository.InsertAndGetIdAsync(newTag);
-            }
 
             return existingTags.Union(newTags).ToArray();
         }

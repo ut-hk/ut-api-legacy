@@ -73,6 +73,10 @@ namespace UniTime.ActivityPlans
                 activtyPlanDto.MyRatingStatus = null;
             }
 
+            await InjectActivityTemplatesCoverDescriptionAsync(activtyPlanDto);
+
+            activtyPlanDto.TimeSlots = activtyPlanDto.TimeSlots.OrderBy(ts => ts.StartTime).ToArray();
+
             return new GetActivityPlanOutput
             {
                 ActivityPlan = activtyPlanDto
@@ -146,35 +150,68 @@ namespace UniTime.ActivityPlans
             await _activityPlanManager.RemoveAsync(activityPlan, currentUserId);
         }
 
-        private async Task InjectCoverDescriptionAsync(ICollection<ActivityPlanListDto> activityPlanListDtos)
+        private async Task InjectActivityTemplatesCoverDescriptionAsync(ActivityPlanDto activityPlanListDto)
         {
-            var acitivtyTemplateIds = activityPlanListDtos.Select(activity => activity.Id);
+            var activityTemplateIds = activityPlanListDto.TimeSlots.Select(timeSlot=>timeSlot.ActivityTemplate.Id);
 
             var activityImageDescriptionDictionary = await _descriptionRepository.GetAll()
                 .Where(d => d is ExternalImageDescription || d is InternalImageDescription)
-                .Where(description => description.ActivityPlan != null && acitivtyTemplateIds.Contains(description.ActivityPlanId.Value))
-                .GroupBy(description => description.ActivityPlanId.Value)
+                .Where(description => description.AbstractActivityId != null && activityTemplateIds.Contains(description.AbstractActivityId.Value))
+                .GroupBy(description => description.AbstractActivityId.Value)
                 .Where(descriptionGroup => descriptionGroup.Any())
-                .Select(descriptionGroup => new {descriptionGroup.Key, description = descriptionGroup.FirstOrDefault()})
+                .Select(descriptionGroup => new { descriptionGroup.Key, description = descriptionGroup.FirstOrDefault() })
                 .ToDictionaryAsync(a => a.Key, a => a.description);
 
             var activityTextDescriptionDictionary = await _descriptionRepository.GetAll()
                 .Where(d => d is TextDescription)
-                .Where(description => description.ActivityPlanId != null && acitivtyTemplateIds.Contains(description.ActivityPlanId.Value))
-                .GroupBy(description => description.ActivityPlanId.Value)
+                .Where(description => description.AbstractActivityId != null && activityTemplateIds.Contains(description.AbstractActivityId.Value))
+                .GroupBy(description => description.AbstractActivityId.Value)
                 .Where(descriptionGroup => descriptionGroup.Any())
-                .Select(descriptionGroup => new {descriptionGroup.Key, description = descriptionGroup.FirstOrDefault()})
+                .Select(descriptionGroup => new { descriptionGroup.Key, description = descriptionGroup.FirstOrDefault() })
                 .ToDictionaryAsync(a => a.Key, a => a.description);
 
-            foreach (var activityTemplateListDto in activityPlanListDtos)
+            foreach (var activityPlanTimeSlotDto in activityPlanListDto.TimeSlots)
             {
-                var activityTemplateId = activityTemplateListDto.Id;
+                var activityTemplateId = activityPlanTimeSlotDto.ActivityTemplate.Id;
 
                 if (activityImageDescriptionDictionary.ContainsKey(activityTemplateId))
-                    activityTemplateListDto.CoverImageDescription = activityImageDescriptionDictionary[activityTemplateId].MapTo<DescriptionDto>();
+                    activityPlanTimeSlotDto.ActivityTemplate.CoverImageDescription = activityImageDescriptionDictionary[activityTemplateId].MapTo<DescriptionDto>();
 
                 if (activityTextDescriptionDictionary.ContainsKey(activityTemplateId))
-                    activityTemplateListDto.CoverTextDescription = activityTextDescriptionDictionary[activityTemplateId].MapTo<DescriptionDto>();
+                    activityPlanTimeSlotDto.ActivityTemplate.CoverTextDescription = activityTextDescriptionDictionary[activityTemplateId].MapTo<DescriptionDto>();
+            }
+
+        }
+
+        private async Task InjectCoverDescriptionAsync(ICollection<ActivityPlanListDto> activityPlanListDtos)
+        {
+            var activityPlanIds = activityPlanListDtos.Select(activityPlan => activityPlan.Id);
+
+            var imageDescriptionDictionary = await _descriptionRepository.GetAll()
+                .Where(d => d is ExternalImageDescription || d is InternalImageDescription)
+                .Where(d => d.ActivityPlan != null && activityPlanIds.Contains(d.ActivityPlanId.Value))
+                .GroupBy(d => d.ActivityPlanId.Value)
+                .Where(dg => dg.Any())
+                .Select(dg => new {dg.Key, description = dg.FirstOrDefault()})
+                .ToDictionaryAsync(dg => dg.Key, dg => dg.description);
+
+            var textDescriptionDictionary = await _descriptionRepository.GetAll()
+                .Where(d => d is TextDescription)
+                .Where(d => d.ActivityPlanId != null && activityPlanIds.Contains(d.ActivityPlanId.Value))
+                .GroupBy(d => d.ActivityPlanId.Value)
+                .Where(dg => dg.Any())
+                .Select(dg => new {dg.Key, description = dg.FirstOrDefault()})
+                .ToDictionaryAsync(dg => dg.Key, dg => dg.description);
+
+            foreach (var activityPlanListDto in activityPlanListDtos)
+            {
+                var activityPlanId = activityPlanListDto.Id;
+
+                if (imageDescriptionDictionary.ContainsKey(activityPlanId))
+                    activityPlanListDto.CoverImageDescription = imageDescriptionDictionary[activityPlanId].MapTo<DescriptionDto>();
+
+                if (textDescriptionDictionary.ContainsKey(activityPlanId))
+                    activityPlanListDto.CoverTextDescription = textDescriptionDictionary[activityPlanId].MapTo<DescriptionDto>();
             }
         }
 
@@ -203,21 +240,21 @@ namespace UniTime.ActivityPlans
 
             if (currentUserId.HasValue)
             {
-                var activityTemplateIds = activityPlanListDtos.Select(activity => activity.Id);
+                var activityPlanIds = activityPlanListDtos.Select(ap => ap.Id);
 
-                var activityRatingStatusDictionary = await _ratingRepository.GetAll()
-                    .Where(rating => rating.OwnerId == currentUserId.Value && rating.ActivityPlanId != null && activityTemplateIds.Contains(rating.ActivityPlanId.Value))
-                    .GroupBy(rating => rating.ActivityPlanId.Value)
-                    .Where(ratingGroup => ratingGroup.Any())
-                    .Select(ratingGroup => new {ratingGroup.Key, ratingGroup.FirstOrDefault().RatingStatus})
-                    .ToDictionaryAsync(ratingGroup => ratingGroup.Key, ratingGroup => ratingGroup.RatingStatus);
+                var ratingStatusDictionary = await _ratingRepository.GetAll()
+                    .Where(r => r.OwnerId == currentUserId.Value && r.ActivityPlanId != null && activityPlanIds.Contains(r.ActivityPlanId.Value))
+                    .GroupBy(r => r.ActivityPlanId.Value)
+                    .Where(rg => rg.Any())
+                    .Select(rg => new {rg.Key, rg.FirstOrDefault().RatingStatus})
+                    .ToDictionaryAsync(rg => rg.Key, ratingGroup => ratingGroup.RatingStatus);
 
-                foreach (var activityTemplateListDto in activityPlanListDtos)
+                foreach (var activityPlanListDto in activityPlanListDtos)
                 {
-                    var activityTemplateId = activityTemplateListDto.Id;
+                    var activityPlanId = activityPlanListDto.Id;
 
-                    if (activityRatingStatusDictionary.ContainsKey(activityTemplateId))
-                        activityTemplateListDto.MyRatingStatus = activityRatingStatusDictionary[activityTemplateId];
+                    if (ratingStatusDictionary.ContainsKey(activityPlanId))
+                        activityPlanListDto.MyRatingStatus = ratingStatusDictionary[activityPlanId];
                 }
             }
         }
