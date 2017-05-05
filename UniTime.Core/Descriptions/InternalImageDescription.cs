@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 using Abp.UI;
 using UniTime.Activities;
 using UniTime.Descriptions.Enums;
@@ -15,7 +16,7 @@ namespace UniTime.Descriptions
 
         public override DescriptionType Type => DescriptionType.InternalImage;
 
-        public override string Content => ImageId.ToString();
+        public override string Content => $"https://images.weserv.nl/?url=" + WebUtility.UrlEncode("unitime-dev-api.azurewebsites.net/api/File/GetFile/" + ImageId) + "&output=jpg";
 
         [ForeignKey(nameof(ImageId))]
         public virtual Image Image { get; protected set; }
@@ -33,6 +34,20 @@ namespace UniTime.Descriptions
                 ImageId = image.Id,
                 ActivityPlan = activityPlan,
                 ActivityPlanId = activityPlan.Id
+            };
+        }
+
+        public static InternalImageDescription Create(Image image, AbstractActivity abstractActivity, long createUserId)
+        {
+            if (createUserId != abstractActivity.OwnerId)
+                throw new UserFriendlyException($"You are not allowed to create a internal description in this activity with id = {abstractActivity.Id}.");
+
+            return new InternalImageDescription
+            {
+                Image = image,
+                ImageId = image.Id,
+                AbstractActivity = abstractActivity,
+                AbstractActivityId = abstractActivity.Id
             };
         }
     }

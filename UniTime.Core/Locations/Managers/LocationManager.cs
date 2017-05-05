@@ -27,7 +27,12 @@ namespace UniTime.Locations.Managers
 
         public async Task<Location> CreateLocationAsync(Location location)
         {
-            location.Id = await _locationRepository.InsertAndGetIdAsync(location);
+            var existingLocation = await _locationRepository.FirstOrDefaultAsync(l => l.Name == location.Name && l.Coordinate.SpatialEquals(location.Coordinate));
+
+            if (existingLocation == null)
+                location.Id = await _locationRepository.InsertAndGetIdAsync(location);
+            else
+                location.Id = existingLocation.Id;
 
             return location;
         }

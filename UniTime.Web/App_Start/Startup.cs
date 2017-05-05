@@ -27,25 +27,8 @@ namespace UniTime.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login")
+                LoginPath = new PathString("/Account/LogIn")
             });
-
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-            if (IsTrue("ExternalAuth.Facebook.IsEnabled"))
-            {
-                app.UseFacebookAuthentication(CreateFacebookAuthOptions());
-            }
-
-            if (IsTrue("ExternalAuth.Twitter.IsEnabled"))
-            {
-                app.UseTwitterAuthentication(CreateTwitterAuthOptions());
-            }
-
-            if (IsTrue("ExternalAuth.Google.IsEnabled"))
-            {
-                app.UseGoogleAuthentication(CreateGoogleAuthOptions());
-            }
 
             app.MapSignalR();
 
@@ -69,39 +52,7 @@ namespace UniTime.Web
 
             Clock.Provider = ClockProviders.Utc;
         }
-
-        private static FacebookAuthenticationOptions CreateFacebookAuthOptions()
-        {
-            var options = new FacebookAuthenticationOptions
-            {
-                AppId = ConfigurationManager.AppSettings["ExternalAuth.Facebook.AppId"],
-                AppSecret = ConfigurationManager.AppSettings["ExternalAuth.Facebook.AppSecret"]
-            };
-
-            options.Scope.Add("email");
-            options.Scope.Add("public_profile");
-
-            return options;
-        }
-
-        private static TwitterAuthenticationOptions CreateTwitterAuthOptions()
-        {
-            return new TwitterAuthenticationOptions
-            {
-                ConsumerKey = ConfigurationManager.AppSettings["ExternalAuth.Twitter.ConsumerKey"],
-                ConsumerSecret = ConfigurationManager.AppSettings["ExternalAuth.Twitter.ConsumerSecret"]
-            };
-        }
-
-        private static GoogleOAuth2AuthenticationOptions CreateGoogleAuthOptions()
-        {
-            return new GoogleOAuth2AuthenticationOptions
-            {
-                ClientId = ConfigurationManager.AppSettings["ExternalAuth.Google.ClientId"],
-                ClientSecret = ConfigurationManager.AppSettings["ExternalAuth.Google.ClientSecret"]
-            };
-        }
-
+        
         private static bool IsTrue(string appSettingName)
         {
             return string.Equals(

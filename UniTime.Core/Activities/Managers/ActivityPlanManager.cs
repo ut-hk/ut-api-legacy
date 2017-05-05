@@ -17,12 +17,14 @@ namespace UniTime.Activities.Managers
             _activityPlanRepository = activityPlanRepository;
         }
 
+        public string DoesNotExistMessage => "The activity plan does not exist.";
+
         public async Task<ActivityPlan> GetAsync(Guid id)
         {
             var activityPlan = await _activityPlanRepository.FirstOrDefaultAsync(id);
 
             if (activityPlan == null)
-                throw new UserFriendlyException("The activity plan with id = " + id + " does not exist.");
+                throw new UserFriendlyException(DoesNotExistMessage);
 
             return activityPlan;
         }
@@ -34,22 +36,24 @@ namespace UniTime.Activities.Managers
             return activityPlan;
         }
 
+        public void EditActivityPlan(ActivityPlan activityPlan, string name, ICollection<Tag> tags, long editUserId)
+        {
+            activityPlan.Edit(name, tags, editUserId);
+        }
+
         public void EditDescriptions(ActivityPlan activityPlan, long[] descriptionIds, long editUserId)
         {
-            if (activityPlan.OwnerId != editUserId)
-                throw new UserFriendlyException($"You are not allowed to update this activity plan with id = {activityPlan.Id}.");
-
             var activityPlanDescriptions = activityPlan.Descriptions;
 
             foreach (var activityPlanDescription in activityPlanDescriptions)
                 for (var i = 0; i < descriptionIds.Length; i++)
                     if (descriptionIds[i] == activityPlanDescription.Id)
-                        activityPlanDescription.EditPriority(i);
+                        activityPlanDescription.EditPriority(i, editUserId);
         }
 
-        public void EditActivityPlan(ActivityPlan activityPlan, string name, ICollection<Tag> tags, long editUserId)
+        public async Task RemoveAsync(ActivityPlan activityPlan, long deleteUserId)
         {
-            activityPlan.Edit(name, tags, editUserId);
+            await activityPlan.RemoveAsync(_activityPlanRepository, deleteUserId);
         }
     }
 }

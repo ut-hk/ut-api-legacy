@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Abp.Collections.Extensions;
 using Abp.Domain.Entities;
+using Abp.UI;
 using UniTime.Activities;
 using UniTime.Descriptions.Enums;
 
@@ -25,13 +26,34 @@ namespace UniTime.Descriptions
 
         public virtual Guid? ActivityPlanId { get; protected set; }
 
-        public virtual void EditPriority(int priority)
+        [ForeignKey(nameof(AbstractActivityId))]
+        public virtual AbstractActivity AbstractActivity { get; protected set; }
+
+        public virtual Guid? AbstractActivityId { get; protected set; }
+
+        public virtual void EditPriority(int priority, long editUserId)
         {
+            if (AbstractActivityId.HasValue)
+                if (editUserId != AbstractActivity.OwnerId)
+                    throw new UserFriendlyException($"You are not allowed to update this description with id = {Id}.");
+
+            if (ActivityPlanId.HasValue)
+                if (editUserId != ActivityPlan.OwnerId)
+                    throw new UserFriendlyException($"You are not allowed to update this description with id = {Id}.");
+
             Priority = priority;
         }
 
         public virtual void EditHTMLClasses(string[] htmlClasses, long editUserId)
         {
+            if (AbstractActivityId.HasValue)
+                if (editUserId != AbstractActivity.OwnerId)
+                    throw new UserFriendlyException($"You are not allowed to update this description with id = {Id}.");
+
+            if (ActivityPlanId.HasValue)
+                if (editUserId != ActivityPlan.OwnerId)
+                    throw new UserFriendlyException($"You are not allowed to update this description with id = {Id}.");
+
             HTMLClasses = htmlClasses
                 .Select(htmlClass => htmlClass.Trim())
                 .Where(htmlClass => !htmlClass.Contains(" "))

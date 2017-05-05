@@ -15,11 +15,12 @@ namespace UniTime.Analysis.Managers
             _guestRepository = guestRepository;
         }
 
-        public async Task<Guest> GetAsync(Guid id)
+        public async Task<Guest> GetAnonymousGuestAsync(Guid id)
         {
             var guest = await _guestRepository.FirstOrDefaultAsync(id);
 
             if (guest == null) throw new UserFriendlyException($"The guest with id = {id} does not exist.");
+            if (guest.OwnerId != null) throw new UserFriendlyException($"The guest with id = {id} is not anonymous.");
 
             return guest;
         }
@@ -31,13 +32,21 @@ namespace UniTime.Analysis.Managers
             return guest;
         }
 
-        public async Task<Guest> CreateAsync(long? userId = null)
+        public async Task<Guest> CreateAsync(long? ownerId = null)
         {
-            var guest = Guest.Create(userId);
+            var guest = Guest.Create(ownerId);
 
             guest.Id = await _guestRepository.InsertAndGetIdAsync(guest);
 
             return guest;
+        }
+
+        public void MergeGuests(Guest guest, Guest anonymousGuest)
+        {
+            if (!guest.OwnerId.HasValue) throw new UserFriendlyException($"The guest with id = {guest.OwnerId} does not exist.");
+            if (anonymousGuest.OwnerId.HasValue) throw new UserFriendlyException($"The guest with id = {anonymousGuest.OwnerId} is not anonymous.");
+
+            anonymousGuest.EditOwner(guest.OwnerId.Value);
         }
     }
 }

@@ -11,7 +11,6 @@ namespace UniTime.Authorization.Managers
         public PermissionChecker(UserManager userManager)
             : base(userManager)
         {
-
         }
     }
 }

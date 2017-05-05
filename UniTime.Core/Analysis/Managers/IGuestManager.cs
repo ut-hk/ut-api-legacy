@@ -6,9 +6,11 @@ namespace UniTime.Analysis.Managers
 {
     public interface IGuestManager : IDomainService
     {
-        Task<Guest> GetAsync(Guid id);
+        Task<Guest> GetAnonymousGuestAsync(Guid id);
         Task<Guest> GetByUserIdAsync(long userId);
 
-        Task<Guest> CreateAsync(long? userId = null);
+        Task<Guest> CreateAsync(long? ownerId = null);
+
+        void MergeGuests(Guest guest, Guest anonymousGuest);
     }
 }

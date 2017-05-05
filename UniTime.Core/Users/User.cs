@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using Abp.UI;
 using Microsoft.AspNet.Identity;
 using UniTime.Activities;
 using UniTime.Analysis;
@@ -70,6 +71,22 @@ namespace UniTime.Users
             Name = name;
             Surname = surname;
             PhoneNumber = phoneNumber;
+        }
+
+        public void EditPassword(string oldPassword, string password)
+        {
+            var passwordHasher = new PasswordHasher();
+
+            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(Password, oldPassword);
+
+            switch (passwordVerificationResult)
+            {
+                case PasswordVerificationResult.Success:
+                    Password = passwordHasher.HashPassword(password);
+                    break;
+                default:
+                    throw new UserFriendlyException("Please validate your password.");
+            }
         }
     }
 }

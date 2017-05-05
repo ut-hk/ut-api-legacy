@@ -1,6 +1,6 @@
 ﻿@using Abp.Web.Mvc.Extensions
 @using Microsoft.Owin.Security
-@model UniTime.Web.Models.Account.LoginFormViewModel
+@model UniTime.Web.Models.Account.LogInFormViewModel
 @section Styles
 {
     @Html.IncludeStyle("~/Views/Account/Login.css")
@@ -13,7 +13,7 @@
     <div id="LoginArea" class="row">
         <div class="col-lg-12">
             <div class="well bs-component">
-                <form id="LoginForm" class="form-horizontal" action="@(Url.Action("Login", "Account"))?returnUrl=@(Model.ReturnUrl)" method="POST">
+                <form id="LoginForm" class="form-horizontal" action="@Url.Action("LogIn", "Account")?returnUrl=@(Model.ReturnUrl)" method="POST">
                     <fieldset>
                         <legend>@L("LogIn")</legend>
 
@@ -55,38 +55,10 @@
                         <div class="form-group">
                             <div class="col-lg-12">
                                 <button id="LoginButton" type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> @L("LogIn")</button>
-                                <a class="btn btn-success" href="@Url.Action("Register")"><i class="fa fa-sign-in"></i> @L("Register")</a>
                             </div>
                         </div>
                     </fieldset>
                 </form>
-
-                @{
-                    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes().ToList();
-                }
-
-                @if (loginProviders.Count > 0)
-                {
-                    <p>@L("OrLoginWith"):</p>
-                    
-
-                    using (Html.BeginForm("ExternalLogin", "Account", method: FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                        <input type="hidden" name="provider" value="" />
-
-                        foreach (var provider in loginProviders)
-                        {
-                            <a class="btn btn-default btn-sm social-login-link" title="@provider.AuthenticationType"
-                               data-provider="@provider.AuthenticationType"
-                               href="javascript:;">
-                                <i class="fa fa-@(provider.AuthenticationType.ToLower())"></i> @provider.AuthenticationType
-                            </a>
-                        }
-                    }
-                }
 
             </div>
         </div>

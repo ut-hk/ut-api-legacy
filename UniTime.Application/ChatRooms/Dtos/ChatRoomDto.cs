@@ -11,6 +11,8 @@ namespace UniTime.ChatRooms.Dtos
     {
         public string Name { get; set; }
 
-        public IReadOnlyList<UserDto> Participants { get; set; }
+        public ICollection<UserListDto> Participants { get; set; }
+
+        public ChatRoomMessageDto LatestMessage { get; set; }
     }
 }

@@ -9,14 +9,17 @@ using Swashbuckle.Application;
 
 namespace UniTime.Api
 {
-    [DependsOn(typeof(AbpWebApiModule), typeof(UniTimeApplicationModule))]
+    [DependsOn(
+        typeof(AbpWebApiModule),
+        typeof(UniTimeApplicationModule))]
     public class UniTimeWebApiModule : AbpModule
     {
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
 
-            Configuration.Modules.AbpWebApi().DynamicApiControllerBuilder
+            Configuration.Modules.AbpWebApi()
+                .DynamicApiControllerBuilder
                 .ForAll<IApplicationService>(typeof(UniTimeApplicationModule).Assembly, "app")
                 .Build();
 
@@ -27,7 +30,8 @@ namespace UniTime.Api
 
         private void ConfigureSwaggerUi()
         {
-            Configuration.Modules.AbpWebApi().HttpConfiguration
+            Configuration.Modules.AbpWebApi()
+                .HttpConfiguration
                 .EnableSwagger(c =>
                 {
                     c.SingleApiVersion("v1", "UniTime.WebApi");

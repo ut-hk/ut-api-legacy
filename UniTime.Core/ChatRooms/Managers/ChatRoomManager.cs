@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using UniTime.Users;
 
 namespace UniTime.ChatRooms.Managers
 {
@@ -30,6 +32,16 @@ namespace UniTime.ChatRooms.Managers
             chatRoom.Id = await _chatRoomRepository.InsertAndGetIdAsync(chatRoom);
 
             return chatRoom;
+        }
+
+        public void EditChatRoom(ChatRoom chatRoom, string name, long editUserId)
+        {
+            chatRoom.Edit(name, editUserId);
+        }
+
+        public void EditParticipants(ChatRoom chatRoom, List<User> participants, long editUserId)
+        {
+            chatRoom.EditParticipants(participants, editUserId);
         }
     }
 }

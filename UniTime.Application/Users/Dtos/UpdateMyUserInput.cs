@@ -20,6 +20,8 @@ namespace UniTime.Users.Dtos
 
         public DateTime? Birthday { get; set; }
 
+        public Guid? IconId { get; set; }
+
         public Guid? CoverId { get; set; }
     }
 }

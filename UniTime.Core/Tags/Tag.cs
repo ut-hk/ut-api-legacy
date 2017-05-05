@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
 using Abp.UI;
 using UniTime.Activities;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniTime.Tags
 {
     public class Tag : FullAuditedEntity<long>
     {
         public const int MaxTextLength = 256;
-        public const int MinTextLength = 2;
+        public const int MinTextLength = 1;
 
         protected Tag()
         {

@@ -25,15 +25,15 @@ namespace UniTime.Authorization.Managers
             IUserManagementConfig userManagementConfig, IIocResolver iocResolver,
             RoleManager roleManager)
             : base(
-                  userManager,
-                  multiTenancyConfig,
-                  tenantRepository,
-                  unitOfWorkManager,
-                  settingManager,
-                  userLoginAttemptRepository,
-                  userManagementConfig,
-                  iocResolver,
-                  roleManager)
+                userManager,
+                multiTenancyConfig,
+                tenantRepository,
+                unitOfWorkManager,
+                settingManager,
+                userLoginAttemptRepository,
+                userManagementConfig,
+                iocResolver,
+                roleManager)
         {
         }
     }

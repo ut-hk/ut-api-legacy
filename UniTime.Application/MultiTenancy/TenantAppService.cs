@@ -9,7 +9,6 @@ using Abp.MultiTenancy;
 using Abp.Runtime.Security;
 using UniTime.Authorization;
 using UniTime.Authorization.Roles;
-using UniTime.Editions;
 using UniTime.Editions.Managers;
 using UniTime.MultiTenancy.Dtos;
 using UniTime.MultiTenancy.Managers;
@@ -20,15 +19,15 @@ namespace UniTime.MultiTenancy
     [AbpAuthorize(PermissionNames.Pages_Tenants)]
     public class TenantAppService : UniTimeAppServiceBase, ITenantAppService
     {
-        private readonly TenantManager _tenantManager;
-        private readonly RoleManager _roleManager;
-        private readonly EditionManager _editionManager;
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
+        private readonly EditionManager _editionManager;
+        private readonly RoleManager _roleManager;
+        private readonly TenantManager _tenantManager;
 
         public TenantAppService(
-            TenantManager tenantManager, 
-            RoleManager roleManager, 
-            EditionManager editionManager, 
+            TenantManager tenantManager,
+            RoleManager roleManager,
+            EditionManager editionManager,
             IAbpZeroDbMigrator abpZeroDbMigrator)
         {
             _tenantManager = tenantManager;
@@ -44,7 +43,7 @@ namespace UniTime.MultiTenancy
                     .OrderBy(t => t.TenancyName)
                     .ToList()
                     .MapTo<List<TenantListDto>>()
-                );
+            );
         }
 
         public async Task CreateTenant(CreateTenantInput input)
@@ -57,11 +56,9 @@ namespace UniTime.MultiTenancy
 
             var defaultEdition = await _editionManager.FindByNameAsync(EditionManager.DefaultEditionName);
             if (defaultEdition != null)
-            {
                 tenant.EditionId = defaultEdition.Id;
-            }
 
-            CheckErrors(await TenantManager.CreateAsync(tenant));
+            await TenantManager.CreateAsync(tenant);
             await CurrentUnitOfWork.SaveChangesAsync(); // To get new tenant's id.
 
             // Create tenant database

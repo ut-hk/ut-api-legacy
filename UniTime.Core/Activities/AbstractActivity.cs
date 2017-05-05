@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 using Abp.Domain.Entities.Auditing;
+using Abp.Domain.Repositories;
 using Abp.UI;
 using UniTime.Comments;
-using UniTime.Files;
+using UniTime.Descriptions;
 using UniTime.Interfaces;
 using UniTime.Locations;
 using UniTime.Ratings;
@@ -13,11 +15,11 @@ using UniTime.Users;
 
 namespace UniTime.Activities
 {
-    public abstract class AbstractActivity : AuditedEntity<Guid>, IHasOwner
+    public abstract class AbstractActivity : FullAuditedEntity<Guid>, IHasOwner
     {
         public virtual string Name { get; protected set; }
 
-        public virtual string Description { get; protected set; }
+        public virtual ICollection<Description> Descriptions { get; protected set; }
 
         [ForeignKey(nameof(LocationId))]
         public virtual Location Location { get; protected set; }
@@ -25,8 +27,6 @@ namespace UniTime.Activities
         public virtual Guid? LocationId { get; protected set; }
 
         public virtual ICollection<Tag> Tags { get; protected set; }
-
-        public virtual ICollection<Image> Images { get; protected set; }
 
         public virtual ICollection<Rating> Ratings { get; protected set; }
 
@@ -37,13 +37,27 @@ namespace UniTime.Activities
 
         public virtual long OwnerId { get; protected set; }
 
-        public virtual void Edit(string name, string description, long editUserId)
+        internal virtual void Edit(string name, Location location, ICollection<Tag> tags, long editUserId)
         {
             if (OwnerId != editUserId)
                 throw new UserFriendlyException($"You are not allowed to update this activity with id = {Id}.");
 
             if (!string.IsNullOrWhiteSpace(name)) Name = name;
-            if (description != null) Description = description;
+
+            if (location != null)
+            {
+                Location = location;
+                LocationId = location.Id;
+            }
+
+            Tags.Clear();
+            foreach (var tag in tags)
+                Tags.Add(tag);
+        }
+
+        protected virtual async Task RemoveAsync(IRepository<AbstractActivity, Guid> abstractActivityRepository)
+        {
+            await abstractActivityRepository.DeleteAsync(this);
         }
     }
 }

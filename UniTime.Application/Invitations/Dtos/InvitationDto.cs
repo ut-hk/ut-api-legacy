@@ -13,8 +13,8 @@ namespace UniTime.Invitations.Dtos
 
         public InvitationStatus Status { get; set; }
 
-        public UserDto Invitee { get; set; }
+        public UserListDto Invitee { get; set; }
 
-        public UserDto Owner { get; set; }
+        public UserListDto Owner { get; set; }
     }
 }

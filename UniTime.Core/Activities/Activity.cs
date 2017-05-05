@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
+using Abp.Domain.Repositories;
+using Abp.UI;
 using UniTime.Invitations;
+using UniTime.Locations;
+using UniTime.Tags;
 using UniTime.Users;
 
 namespace UniTime.Activities
@@ -25,17 +30,59 @@ namespace UniTime.Activities
 
         public virtual Guid? ActivityTemplateId { get; protected set; }
 
-        public static Activity Create(string name, string description, DateTime? startTime, DateTime? endTime, User owner)
+        public static Activity Create(string name, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, User owner)
         {
-            return new Activity
+            var activity = new Activity
             {
                 Name = name,
-                Description = description,
+                Tags = tags,
+                Owner = owner,
+                OwnerId = owner.Id,
+                StartTime = startTime,
+                EndTime = endTime
+            };
+
+            if (location != null)
+            {
+                activity.Location = location;
+                activity.LocationId = location.Id;
+            }
+
+            return activity;
+        }
+
+        public static Activity Create(DateTime? startTime, DateTime? endTime, ActivityTemplate activityTemplate, User owner)
+        {
+            var activity = new Activity
+            {
+                Name = activityTemplate.Name,
+                Tags = activityTemplate.Tags,
+                Owner = owner,
+                OwnerId = owner.Id,
                 StartTime = startTime,
                 EndTime = endTime,
-                Owner = owner,
-                OwnerId = owner.Id
+                ActivityTemplate = activityTemplate,
+                ActivityTemplateId = activityTemplate.Id
             };
+
+            if (activityTemplate.Location != null)
+                activity.LocationId = activityTemplate.LocationId;
+
+            return activity;
+        }
+
+        internal void Edit(DateTime? startTime, DateTime? endTime, long editUserId)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+
+        internal virtual async Task RemoveAsync(IRepository<AbstractActivity, Guid> abstractActivityRepository, long deleteUserId)
+        {
+            if (OwnerId != deleteUserId)
+                throw new UserFriendlyException($"You are not allowed to remove this Activity with id = {Id}");
+
+            await abstractActivityRepository.DeleteAsync(this);
         }
     }
 }

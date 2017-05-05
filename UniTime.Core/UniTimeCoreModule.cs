@@ -16,7 +16,7 @@ namespace UniTime
     {
         public override void PreInitialize()
         {
-            Configuration.Auditing.IsEnabledForAnonymousUsers = true;
+            Configuration.Auditing.IsEnabledForAnonymousUsers = false;
 
             // Declare entity types
             Configuration.Modules.Zero().EntityTypes.Tenant = typeof(Tenant);
@@ -33,9 +33,9 @@ namespace UniTime
                     new XmlEmbeddedFileLocalizationDictionaryProvider(
                         Assembly.GetExecutingAssembly(),
                         "UniTime.Localization.Source"
-                        )
                     )
-                );
+                )
+            );
 
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
 

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using UniTime.Locations;
+using UniTime.Tags;
 
 namespace UniTime.Activities.Managers
 {
@@ -15,12 +18,14 @@ namespace UniTime.Activities.Managers
             _abstractActivityRepository = abstractActivityRepository;
         }
 
+        public string DoesNotExistMessage => "The activity does not exist.";
+
         public async Task<Activity> GetAsync(Guid id)
         {
             var activity = await _abstractActivityRepository.FirstOrDefaultAsync(id) as Activity;
 
             if (activity == null)
-                throw new UserFriendlyException("The activity with id = " + id + " does not exist.");
+                throw new UserFriendlyException(DoesNotExistMessage);
 
             return activity;
         }
@@ -32,9 +37,25 @@ namespace UniTime.Activities.Managers
             return activity;
         }
 
-        public void EditActivity(Activity activity, string name, string description, long editUserId)
+        public void EditActivity(Activity activity, string name, DateTime? startTime, DateTime? endTime, Location location, ICollection<Tag> tags, long editUserId)
         {
-            activity.Edit(name, description, editUserId);
+            activity.Edit(name, location, tags, editUserId);
+            activity.Edit(startTime, endTime, editUserId);
+        }
+
+        public void EditDescriptions(Activity activity, long[] descriptionIds, long editUserId)
+        {
+            var activityDescriptions = activity.Descriptions;
+
+            foreach (var activityDescription in activityDescriptions)
+                for (var i = 0; i < descriptionIds.Length; i++)
+                    if (descriptionIds[i] == activityDescription.Id)
+                        activityDescription.EditPriority(i, editUserId);
+        }
+
+        public async Task RemoveAsync(Activity activity, long deleteUserId)
+        {
+            await activity.RemoveAsync(_abstractActivityRepository, deleteUserId);
         }
     }
 }

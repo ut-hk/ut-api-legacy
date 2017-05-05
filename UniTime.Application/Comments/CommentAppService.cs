@@ -46,17 +46,17 @@ namespace UniTime.Comments
 
                 textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activity, currentUser));
             }
-            else if (input.ActivityPlanId.HasValue)
-            {
-                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
-
-                textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activityPlan, currentUser));
-            }
             else if (input.ActivityTemplateId.HasValue)
             {
                 var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
 
                 textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activityTemplate, currentUser));
+            }
+            else if (input.ActivityPlanId.HasValue)
+            {
+                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
+
+                textComment = await _commentManager.CreateAsync(TextComment.Create(input.Content, activityPlan, currentUser));
             }
             else
             {
@@ -79,17 +79,17 @@ namespace UniTime.Comments
 
                 internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activity, currentUser));
             }
-            else if (input.ActivityPlanId.HasValue)
-            {
-                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
-
-                internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activityPlan, currentUser));
-            }
             else if (input.ActivityTemplateId.HasValue)
             {
                 var activityTemplate = await _activityTemplateManager.GetAsync(input.ActivityTemplateId.Value);
 
                 internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activityTemplate, currentUser));
+            }
+            else if (input.ActivityPlanId.HasValue)
+            {
+                var activityPlan = await _activityPlanManager.GetAsync(input.ActivityPlanId.Value);
+
+                internalImageComment = await _commentManager.CreateAsync(InternalImageComment.Create(image, activityPlan, currentUser));
             }
             else
             {
